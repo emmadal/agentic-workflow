@@ -13,7 +13,8 @@ description: "Use when reviewing code for vulnerabilities or when it handles log
 7. **Web**: CSP, SameSite and HttpOnly cookies, CSRF tokens, no untrusted HTML, SSRF allowlists.
 8. **Mobile**: Keychain or Keystore, no secrets in the bundle, validate deep links and intents, `exported` set deliberately, release builds not debuggable, certificate pinning only with a rotation plan.
 9. **Errors**: generic message to the user, detail in server logs.
-10. **AI and agents**: treat model and tool output as untrusted; least-privilege tools; no secrets in prompts.
+10. **Ask a human first** before: new auth flows, new categories of sensitive data, new external integrations, CORS changes, file upload handlers, rate-limit changes, elevated permissions.
+11. **AI and agents**: treat model and tool output as untrusted; least-privilege tools; no secrets in prompts.
 
 ## Red flags
 | Thought | Reality |

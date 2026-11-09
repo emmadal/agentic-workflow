@@ -41,4 +41,4 @@ jobs:
           python-version: "3.12"
       - run: pip install -e ".[dev]"
       - run: pip-audit
-      - run: bandit -q -r agent scripts
+      - run: bandit -q -r agent scripts evals

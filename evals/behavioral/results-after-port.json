@@ -1,0 +1,326 @@
+[
+ {
+  "task": "scope",
+  "arm": "baseline",
+  "rep": 0,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false
+  },
+  "score": 3,
+  "max": 4,
+  "reply_words": 28,
+  "turns": 3,
+  "cost_usd": 0.0180288,
+  "input_tokens": 19140,
+  "output_tokens": 399
+ },
+ {
+  "task": "scope",
+  "arm": "baseline",
+  "rep": 1,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false
+  },
+  "score": 3,
+  "max": 4,
+  "reply_words": 38,
+  "turns": 3,
+  "cost_usd": 0.0182498,
+  "input_tokens": 19160,
+  "output_tokens": 417
+ },
+ {
+  "task": "scope",
+  "arm": "baseline",
+  "rep": 2,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false
+  },
+  "score": 3,
+  "max": 4,
+  "reply_words": 24,
+  "turns": 3,
+  "cost_usd": 0.017929300000000002,
+  "input_tokens": 19150,
+  "output_tokens": 387
+ },
+ {
+  "task": "scope",
+  "arm": "ours",
+  "rep": 0,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false
+  },
+  "score": 3,
+  "max": 4,
+  "reply_words": 78,
+  "turns": 4,
+  "cost_usd": 0.026104500000000003,
+  "input_tokens": 22708,
+  "output_tokens": 644
+ },
+ {
+  "task": "scope",
+  "arm": "ours",
+  "rep": 1,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false
+  },
+  "score": 3,
+  "max": 4,
+  "reply_words": 91,
+  "turns": 4,
+  "cost_usd": 0.0265581,
+  "input_tokens": 22700,
+  "output_tokens": 691
+ },
+ {
+  "task": "scope",
+  "arm": "ours",
+  "rep": 2,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false
+  },
+  "score": 3,
+  "max": 4,
+  "reply_words": 97,
+  "turns": 5,
+  "cost_usd": 0.030224900000000002,
+  "input_tokens": 30967,
+  "output_tokens": 890
+ },
+ {
+  "task": "scope",
+  "arm": "upstream",
+  "rep": 0,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false
+  },
+  "score": 3,
+  "max": 4,
+  "reply_words": 61,
+  "turns": 4,
+  "cost_usd": 0.0584219,
+  "input_tokens": 46275,
+  "output_tokens": 593
+ },
+ {
+  "task": "scope",
+  "arm": "upstream",
+  "rep": 1,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false
+  },
+  "score": 3,
+  "max": 4,
+  "reply_words": 47,
+  "turns": 4,
+  "cost_usd": 0.05840390000000001,
+  "input_tokens": 46342,
+  "output_tokens": 580
+ },
+ {
+  "task": "scope",
+  "arm": "upstream",
+  "rep": 2,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false
+  },
+  "score": 3,
+  "max": 4,
+  "reply_words": 66,
+  "turns": 4,
+  "cost_usd": 0.05885,
+  "input_tokens": 46278,
+  "output_tokens": 635
+ },
+ {
+  "task": "tdd",
+  "arm": "baseline",
+  "rep": 0,
+  "flags": {
+   "regression_test_added": false,
+   "test_fails_on_original": false,
+   "fix_correct": true,
+   "suite_passes": false
+  },
+  "score": 1,
+  "max": 4,
+  "reply_words": 46,
+  "turns": 5,
+  "cost_usd": 0.0209853,
+  "input_tokens": 31986,
+  "output_tokens": 512
+ },
+ {
+  "task": "tdd",
+  "arm": "baseline",
+  "rep": 1,
+  "flags": {
+   "regression_test_added": false,
+   "test_fails_on_original": false,
+   "fix_correct": true,
+   "suite_passes": false
+  },
+  "score": 1,
+  "max": 4,
+  "reply_words": 48,
+  "turns": 4,
+  "cost_usd": 0.020472900000000002,
+  "input_tokens": 25795,
+  "output_tokens": 525
+ },
+ {
+  "task": "tdd",
+  "arm": "baseline",
+  "rep": 2,
+  "flags": {
+   "regression_test_added": false,
+   "test_fails_on_original": false,
+   "fix_correct": true,
+   "suite_passes": false
+  },
+  "score": 1,
+  "max": 4,
+  "reply_words": 54,
+  "turns": 4,
+  "cost_usd": 0.0206342,
+  "input_tokens": 25813,
+  "output_tokens": 539
+ },
+ {
+  "task": "tdd",
+  "arm": "ours",
+  "rep": 0,
+  "flags": {
+   "regression_test_added": true,
+   "test_fails_on_original": true,
+   "fix_correct": true,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 4,
+  "reply_words": 73,
+  "turns": 6,
+  "cost_usd": 0.031114400000000004,
+  "input_tokens": 36441,
+  "output_tokens": 1003
+ },
+ {
+  "task": "tdd",
+  "arm": "ours",
+  "rep": 1,
+  "flags": {
+   "regression_test_added": true,
+   "test_fails_on_original": true,
+   "fix_correct": true,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 4,
+  "reply_words": 70,
+  "turns": 7,
+  "cost_usd": 0.0334947,
+  "input_tokens": 37042,
+  "output_tokens": 1111
+ },
+ {
+  "task": "tdd",
+  "arm": "ours",
+  "rep": 2,
+  "flags": {
+   "regression_test_added": true,
+   "test_fails_on_original": true,
+   "fix_correct": true,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 4,
+  "reply_words": 82,
+  "turns": 7,
+  "cost_usd": 0.0344869,
+  "input_tokens": 44426,
+  "output_tokens": 1175
+ },
+ {
+  "task": "tdd",
+  "arm": "upstream",
+  "rep": 0,
+  "flags": {
+   "regression_test_added": true,
+   "test_fails_on_original": true,
+   "fix_correct": true,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 4,
+  "reply_words": 79,
+  "turns": 7,
+  "cost_usd": 0.057421,
+  "input_tokens": 63551,
+  "output_tokens": 1177
+ },
+ {
+  "task": "tdd",
+  "arm": "upstream",
+  "rep": 1,
+  "flags": {
+   "regression_test_added": true,
+   "test_fails_on_original": true,
+   "fix_correct": true,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 4,
+  "reply_words": 112,
+  "turns": 7,
+  "cost_usd": 0.05968119999999999,
+  "input_tokens": 76774,
+  "output_tokens": 1302
+ },
+ {
+  "task": "tdd",
+  "arm": "upstream",
+  "rep": 2,
+  "flags": {
+   "regression_test_added": true,
+   "test_fails_on_original": true,
+   "fix_correct": false,
+   "suite_passes": false
+  },
+  "score": 2,
+  "max": 4,
+  "reply_words": 150,
+  "turns": 6,
+  "cost_usd": 0.05722320000000001,
+  "input_tokens": 63283,
+  "output_tokens": 1273
+ }
+]

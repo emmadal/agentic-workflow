@@ -8,7 +8,7 @@ Loop per slice: **implement the smallest working piece, verify, commit, next.** 
 
 1. Restate the task and its acceptance criteria. Read neighboring code and match its conventions.
 2. Slice vertically (one thin path through UI, logic, data) not horizontally (all models first).
-3. Write the test first (`test-driven-development`), then the minimum code.
+3. Every slice ships with a test for its new behavior, written first (`test-driven-development`), then the minimum code.
 4. Run the project's real test, lint and type commands. Read their output.
 5. Commit the slice with a conventional message (`git-workflow`).
 6. Risky or user-visible: ship behind a flag, default off.

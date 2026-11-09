@@ -12,7 +12,7 @@ description: "Use when implementing logic, fixing a bug or changing behavior wit
 4. Bug: reproduce it in a test first, then fix, then keep the test.
 5. Find the repo's real test command (`AGENTS.md`, CI config). Do not assume `npm test`.
 6. Test behavior through the public interface. Name tests by behavior. Inject clocks, randomness and network; no sleeps.
-7. Prefer fakes over mocks. Mock only at system boundaries.
+7. Prefer real implementations over fakes, fakes over stubs, stubs over mocks. Mock only at slow or nondeterministic boundaries. Review every snapshot; never bulk-update them.
 
 ## Pitfalls
 | Excuse | Reality |

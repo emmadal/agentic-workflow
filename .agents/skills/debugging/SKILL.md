@@ -4,6 +4,7 @@ description: "Use when something fails, crashes, regresses or misbehaves and you
 ---
 # Debugging
 
+0. **Stop the line**: stop building. Do not push past a failing test or broken build; errors compound. Preserve the evidence (error, logs, repro steps) before changing anything.
 1. **Reproduce** deterministically (test, command, device recipe). Cannot reproduce? Collect versions, inputs, environment and logs first.
 2. **Read the evidence**: full error and stack, recent changes (`git log`, `git bisect`), logs around the failure. Quote the decisive line.
 3. **Hypothesize**: rank causes. Each must predict something you can check.

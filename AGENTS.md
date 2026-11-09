@@ -19,7 +19,7 @@ Agents: `planner` `explorer` `architect` (read-only), `reviewer` `security-audit
 ## Commands
 - Test: `pytest -q --cov=agent --cov=scripts --cov-fail-under=80`
 - Lint: `ruff check .` and `ruff format --check .`
-- Security: `bandit -q -r agent scripts` and `pip-audit`
+- Security: `bandit -q -r agent scripts evals` and `pip-audit`
 - Skills: `python -m scripts.validate_skills`, `python -m scripts.route_eval`, `python -m scripts.token_report`
 - After editing `.agents/`: `python -m scripts.sync_agents` (CI checks `--check`)
 
