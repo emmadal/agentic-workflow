@@ -14,7 +14,8 @@ Goal: answer "what broke, for whom, since when, why" without a redeploy.
 6. **Alerts** must be actionable: each links a runbook and has an owner. Delete noisy ones.
 7. **Mobile**: crash and ANR reporting with symbols or mapping files, startup and screen-load timings, network error rate, release health by version.
 8. **Dashboards** per service: golden signals, recent deploys, dependency health.
-9. **Release markers**: tag deploys so regressions line up with changes.
+9. More logs is not more observability: a few queryable fields beat paragraphs. Two or more services means traces.
+10. **Release markers**: tag deploys so regressions line up with changes.
 
 ## Red flags
 `catch` that logs nothing · `console.log` debugging left in · alert with no runbook · metric labeled by user id · logging full request bodies.

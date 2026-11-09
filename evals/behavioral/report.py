@@ -79,12 +79,58 @@ def misses(results: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def fisher_two_sided(a: int, b: int, c: int, d: int) -> float:
+    """Two-sided Fisher exact test p-value for the 2x2 table [[a, b], [c, d]]."""
+    from math import comb
+
+    n1, n2, k = a + b, c + d, a + c
+    total = comb(n1 + n2, k)
+
+    def prob(x: int) -> float:
+        return comb(n1, x) * comb(n2, k - x) / total
+
+    observed = prob(a)
+    lo, hi = max(0, k - n2), min(n1, k)
+    return min(1.0, sum(prob(x) for x in range(lo, hi + 1) if prob(x) <= observed + 1e-12))
+
+
+def significance(results: list[dict]) -> str:
+    """Perfect-run rate per arm (every check passed), with Fisher exact p-values."""
+    lines = [
+        "| Task | Arm | Perfect runs | ours vs baseline p | ours vs upstream p |",
+        "|---|---|---:|---:|---:|",
+    ]
+    tasks = sorted({r["task"] for r in results} | {"ALL"})
+    for task in tasks:
+        sel = [r for r in results if task == "ALL" or r["task"] == task]
+        counts = {}
+        for arm in ARMS:
+            rs = [r for r in sel if r["arm"] == arm]
+            counts[arm] = (sum(r["score"] == r["max"] for r in rs), len(rs))
+        if not all(counts[a][1] for a in ARMS):
+            continue
+        ok, n = counts["ours"]
+        pb = fisher_two_sided(
+            ok, n - ok, counts["baseline"][0], counts["baseline"][1] - counts["baseline"][0]
+        )
+        pu = fisher_two_sided(
+            ok, n - ok, counts["upstream"][0], counts["upstream"][1] - counts["upstream"][0]
+        )
+        for arm in ARMS:
+            k, m = counts[arm]
+            tail = f" {pb:.3f} | {pu:.3f} |" if arm == "ours" else " | |"
+            lines.append(f"| {task} | {arm} | {k}/{m} |{tail}")
+    return "\n".join(lines)
+
+
 def main() -> int:
     path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).with_name("results.json")
     results = load(path)
     print(table(results))
     print("\nChecks passed per arm (only checks where some arm missed):\n")
     print(misses(results))
+    print("\nPerfect-run rate (all checks passed) and Fisher exact p-values:\n")
+    print(significance(results))
     return 0
 
 

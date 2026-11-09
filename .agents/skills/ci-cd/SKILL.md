@@ -12,7 +12,8 @@ description: "Use when creating or fixing CI/CD pipelines, quality gates, cachin
 6. **Determinism**: pinned toolchains, lockfiles, hermetic tests. Quarantine flaky tests and fix them.
 7. **Deploy**: build once, promote the same artifact through environments. Staged rollout, health check, automatic rollback on failure. Production deploy needs approval.
 8. **Mobile**: macOS runners for iOS, signing via secrets or `fastlane match`, upload symbols, Gradle Managed Devices or a device farm for tests, store upload as a manual gate.
-9. **Fix flaky builds** by finding the nondeterminism, not by rerunning.
+9. Gate exceptions (skipped check, lint ignore) carry an owner and an expiry date.
+10. **Fix flaky builds** by finding the nondeterminism, not by rerunning.
 
 ## Red flags
 `continue-on-error` on a gate · secrets printed in logs · `latest` tags · deploy from a developer laptop · pipeline longer than 10 minutes with no caching.

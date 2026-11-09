@@ -10,7 +10,8 @@ description: "Use when reviewing a diff or pull request before merge, or checkin
 4. Check: **correctness** (edges, null, concurrency, cleanup), **tests** (new behavior covered, none weakened), **security** (validation, authz, secrets, injection), **design** (right layer, no needless abstraction), **performance** (N+1, unbounded work, main thread), **scope** (unrelated changes, new dependencies). Mobile: lifecycle, threading, permissions, old-version compatibility.
 5. Size: about 100 changed lines is good, 300 acceptable for one logical change, 1000 means ask to split. Check new dependencies: needed, maintained, licensed, audited.
 6. Be honest: no rubber-stamp LGTM, do not soften real bugs, quantify impact ("N+1 adds ~50 ms per row"). Defer to an author who has context you lack.
-7. Self-doubt pass: for each "looks fine", name how it could fail in production.
+7. AI-generated code needs more scrutiny, not less: it is confident and plausible. For a second opinion give the reviewer the artifact and the requirement, never your conclusion; a framed claim biases toward agreement.
+8. Self-doubt pass: for each "looks fine", name how it could fail in production.
 
 ## Output
 `path:line: blocker|major|minor: problem. fix.` One line each. No praise, no style nits unless they hide bugs.

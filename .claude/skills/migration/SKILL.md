@@ -13,8 +13,9 @@ Code is a liability. Remove what you no longer need, safely.
 5. **Dual-run** when risk is high: compare old and new outputs in shadow mode.
 6. **Contract**: when metrics show zero use for a full release cycle, delete the old path, its tests and docs.
 7. **Data**: backfill in batches, idempotent and resumable, verify counts and checksums, keep a rollback until verified.
-8. **Communicate**: deprecation notice with date and migration guide. Mobile apps need a long window and a force-upgrade plan.
-9. **Dependency or platform upgrade**: read the changelog for breaking changes, upgrade one major at a time, run the full suite, watch for behavior changes with no compile error.
+8. **Enforce**: advisory deprecation with no removal date never ends. Set the date, provide tooling, hold it.
+9. **Communicate**: deprecation notice with date and migration guide. Mobile apps need a long window and a force-upgrade plan.
+10. **Dependency or platform upgrade**: read the changelog for breaking changes, upgrade one major at a time, run the full suite, watch for behavior changes with no compile error.
 
 ## Red flags
 | Thought | Reality |

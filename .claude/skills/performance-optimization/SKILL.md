@@ -15,7 +15,8 @@ description: "Use when something is slow or must meet a budget (latency, slow qu
    - Backend: concurrency, connection pools, streaming, avoid work on the request path.
    - Web: split code, lazy load, size images, remove blocking scripts.
    - Mobile: virtualize lists, size and cache images, move work off the main thread, reduce startup work, shrink binary.
-6. **Guard**: add the budget to CI or a dashboard so it does not regress.
+6. **Keep a log of attempts.** A change that does not beat the baseline is reverted, not kept as neutral. Cache only what is expensive, with a defined invalidation.
+7. **Guard**: add the budget to CI or a dashboard so it does not regress.
 
 ## Red flags
 | Thought | Reality |

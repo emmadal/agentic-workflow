@@ -11,6 +11,12 @@ temp directory, with the skill text appended to the system prompt. Graders are o
 
 This spends tokens, so it is not part of CI.
 
+SECURITY: this harness executes model-written code (pytest, python cli.py) as the current user.
+Environment scrubbing and narrow tool grants reduce risk but are NOT isolation. Run it only on a
+disposable machine, VM or container. Prefer `--isolated-home`, which runs with a throwaway HOME
+and requires a dedicated low-budget ANTHROPIC_API_KEY instead of your normal login. Treat the
+upstream skill text as untrusted input: pin and review the checkout before running.
+
 Usage:
   python evals/behavioral/run.py --upstream <agent-skills checkout or plugin dir>
          [--reps 2] [--model sonnet] [--tasks tdd,security] [--workers 4] [--out results.json]
@@ -31,7 +37,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
-# Narrow grants: the model may run tests and the fixture script, nothing else.
+# Narrow grants. Note: pytest and `python cli.py` execute model-written code, so this limits
+# which commands run, not what that code can do. See the SECURITY note in the module docstring.
 ALLOWED_BASH = [
     "Bash(pytest:*)",
     "Bash(python -m pytest:*)",
@@ -44,8 +51,13 @@ ALLOWED_BASH = [
 SAFE_ENV = ("HOME", "USER", "LANG", "LC_ALL", "TERM", "TMPDIR", "ANTHROPIC_API_KEY")
 
 
+ISOLATED_HOME: str | None = None  # set by --isolated-home
+
+
 def safe_env() -> dict[str, str]:
     env = {k: os.environ[k] for k in SAFE_ENV if k in os.environ}
+    if ISOLATED_HOME:
+        env["HOME"] = ISOLATED_HOME
     claude_dir = str(Path(shutil.which("claude") or "/usr/local/bin/claude").parent)
     env["PATH"] = (
         f"{ROOT / '.venv' / 'bin'}:{claude_dir}:/usr/bin:/bin:/usr/local/bin:/opt/homebrew/bin"
@@ -54,7 +66,10 @@ def safe_env() -> dict[str, str]:
 
 
 def grading_env() -> dict[str, str]:
-    """Environment for running model-written code during grading: no credentials."""
+    """Environment for grading runs: drops credentials from the environment only.
+
+    This is not isolation. Model-written code still runs with this user's file access.
+    """
     return {"PATH": "/usr/bin:/bin", "PYTHONDONTWRITEBYTECODE": "1"}
 
 
@@ -127,6 +142,26 @@ if __name__ == "__main__":
     Run(sys.argv)
 """
 
+CLI_TEST = """import subprocess
+import sys
+from pathlib import Path
+
+CLI = Path(__file__).resolve().parents[1] / "cli.py"
+
+
+def run(*args):
+    out = subprocess.run([sys.executable, str(CLI), *args], capture_output=True, text=True)
+    return out.stdout.strip()
+
+
+def test_default_greeting():
+    assert run() == "Hello, world!"
+
+
+def test_named_greeting():
+    assert run("--name=ann") == "Hello, ann!"
+"""
+
 COMPOSE = """@Composable
 fun TaskListScreen(viewModel: TaskViewModel) {
     val tasks by viewModel.tasks.collectAsState()
@@ -193,6 +228,10 @@ SKILLS = {
         "ours": ["incremental-implementation", "test-driven-development"],
         "upstream": ["incremental-implementation", "test-driven-development"],
     },
+    "scope_tests": {
+        "ours": ["incremental-implementation", "test-driven-development"],
+        "upstream": ["incremental-implementation", "test-driven-development"],
+    },
     "compose": {
         "ours": ["android-compose", "code-review"],
         "upstream": ["frontend-ui-engineering", "code-review-and-quality"],
@@ -219,6 +258,12 @@ TASKS = {
         "files": {"cli.py": CLI},
         "tools": "Read,Write,Edit,Bash",
         "turns": 12,
+    },
+    "scope_tests": {
+        "prompt": "Add a --shout flag to cli.py that prints the greeting in upper case.",
+        "files": {"cli.py": CLI, "tests/test_cli.py": CLI_TEST},
+        "tools": "Read,Write,Edit,Bash",
+        "turns": 14,
     },
     "vague": {
         "prompt": "Build me a food delivery app.",
@@ -333,9 +378,26 @@ def grade_scope(workdir: Path) -> dict:
     }
 
 
+def grade_scope_tests(workdir: Path) -> dict:
+    flags = grade_scope(workdir)
+    tests = [p for p in workdir.rglob("test*.py") if p.name != "cli.py"]
+    flags["test_added"] = any("shout" in p.read_text().lower() for p in tests)
+    proc = subprocess.run(  # nosec B603
+        [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", str(workdir)],
+        capture_output=True,
+        text=True,
+        timeout=120,
+        env=grading_env(),
+    )
+    flags["suite_passes"] = proc.returncode == 0
+    return flags
+
+
 def grade(task: str, workdir: Path, reply: str) -> dict:
     if task == "tdd":
         return grade_tdd(workdir)
+    if task == "scope_tests":
+        return grade_scope_tests(workdir)
     if task == "scope":
         return grade_scope(workdir)
     if task == "security":
@@ -352,7 +414,9 @@ def run_one(args: tuple) -> dict:
     workdir = Path(tempfile.mkdtemp(prefix=f"beh-{task}-{arm}-{rep}-"))
     try:
         for name, content in spec["files"].items():
-            (workdir / name).write_text(content)
+            target = workdir / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content)
         cmd = [
             "claude",
             "-p",
@@ -447,8 +511,18 @@ def main() -> int:
     ap.add_argument("--model", default="sonnet")
     ap.add_argument("--tasks", default=",".join(TASKS))
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument(
+        "--isolated-home",
+        action="store_true",
+        help="run with a throwaway HOME; needs a dedicated ANTHROPIC_API_KEY in the environment",
+    )
     ap.add_argument("--out", type=Path, default=Path(__file__).with_name("results.json"))
     ns = ap.parse_args()
+    if ns.isolated_home:
+        if not os.environ.get("ANTHROPIC_API_KEY"):
+            ap.error("--isolated-home needs ANTHROPIC_API_KEY (use a dedicated, low-budget key)")
+        global ISOLATED_HOME
+        ISOLATED_HOME = tempfile.mkdtemp(prefix="beh-home-")
     upstream = ns.upstream / "skills" if (ns.upstream / "skills").is_dir() else ns.upstream
     ours = ROOT / ".agents" / "skills"
     jobs = [

@@ -11,7 +11,8 @@ description: "Use when building or reviewing web UI: components, state, forms, r
 5. **Performance**: budgets for LCP, INP, CLS. Split by route, lazy load below the fold, size and format images, preload critical fonts, virtualize long lists. Memoize only with profiler evidence.
 6. **Security**: never insert untrusted HTML; escape or sanitize. CSP, SameSite cookies, CSRF protection. Keep tokens out of `localStorage` where possible.
 7. **Structure**: small components with clear props, colocated tests, shared primitives, TypeScript `strict`.
-8. Responsive from 320px with no layout shift.
+8. Avoid the generic AI look (purple gradients, oversized cards, stock layouts); use the project's design system.
+9. Responsive from 320px with no layout shift.
 
 ## Test
 Component tests assert user-visible behavior (Testing Library). Playwright E2E for critical journeys (`browser-testing`). axe in CI. Visual regression for shared components.

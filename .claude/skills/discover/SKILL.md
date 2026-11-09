@@ -7,7 +7,8 @@ description: "Use when the request is vague or you have only a rough idea, are n
 Cheapest time to find a wrong requirement is before any code.
 
 1. Read the repo and docs first. Ask only what they cannot answer.
-2. Ask at most 5 questions, one decision each, ordered by how much the answer changes the work. Offer a default per question.
+2. Ask what the user wants, not what is "best practice". "Whatever you think is best" is not an answer: propose a default and ask them to react.
+3. Ask at most 5 questions, one decision each, ordered by how much the answer changes the work. Offer a default per question.
 3. State assumptions as a list and ask for correction before proceeding:
    `ASSUMPTIONS: 1. ... 2. ...  Reply to correct, or I proceed.`
 4. When the user lacks a concrete idea, give 2-3 variants with trade-offs (scope, cost, risk) and a recommendation.
