@@ -39,7 +39,9 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 pytest
 export ANTHROPIC_API_KEY=...
-python -m agent.cli "add a --verbose flag to the CLI" --workdir .
+python -m agent.cli "explain the repo layout" --workdir .
+# write_file + run_tests are code execution; enable only in a sandbox
+python -m agent.cli "add a --verbose flag" --workdir . --allow-write
 ```
 
 Use with Claude Code: open the repo, then run `/spec`, `/plan`, implement slice by slice, `/ship`.

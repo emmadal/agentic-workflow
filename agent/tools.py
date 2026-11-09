@@ -1,7 +1,11 @@
-"""Sandboxed tools for the agent loop. All paths are confined to a workdir."""
+"""Sandboxed tools for the agent loop. All paths are confined to a workdir.
+
+Write access and test execution are code execution. They are opt-in at the CLI.
+"""
 
 from __future__ import annotations
 
+import os
 import subprocess
 from collections.abc import Callable
 from pathlib import Path
@@ -9,6 +13,26 @@ from pathlib import Path
 ToolFn = Callable[..., str]
 
 MAX_OUTPUT = 20_000
+MAX_ENTRIES = 500
+
+# Paths the model may never read or write (checked on every path component).
+BLOCKED_NAMES = {
+    ".git",
+    ".claude",
+    ".env",
+    "conftest.py",
+    "pyproject.toml",
+    "setup.cfg",
+    "setup.py",
+    "pytest.ini",
+    "tox.ini",
+    "id_rsa",
+    "id_ed25519",
+}
+BLOCKED_PREFIXES = (".env",)
+BLOCKED_SUFFIXES = (".pem", ".key", ".p12")
+
+SAFE_ENV_KEYS = ("PATH", "HOME", "LANG", "LC_ALL", "VIRTUAL_ENV")
 
 
 class ToolError(Exception):
@@ -16,19 +40,36 @@ class ToolError(Exception):
 
 
 def _resolve(workdir: Path, rel: str) -> Path:
-    path = (workdir / rel).resolve()
-    if not path.is_relative_to(workdir.resolve()):
+    root = workdir.resolve()
+    path = (root / rel).resolve()
+    if not path.is_relative_to(root):
         raise ToolError(f"path escapes workdir: {rel}")
+    for part in path.relative_to(root).parts:
+        lower = part.lower()
+        if (
+            lower in BLOCKED_NAMES
+            or lower.startswith(BLOCKED_PREFIXES)
+            or lower.endswith(BLOCKED_SUFFIXES)
+        ):
+            raise ToolError(f"path not allowed: {rel}")
     return path
 
 
 def read_file(workdir: Path, path: str) -> str:
-    return _resolve(workdir, path).read_text()[:MAX_OUTPUT]
+    target = _resolve(workdir, path)
+    if not target.is_file():
+        raise ToolError(f"not a regular file: {path}")
+    with target.open(errors="replace") as f:
+        return f.read(MAX_OUTPUT)
 
 
 def list_dir(workdir: Path, path: str = ".") -> str:
     target = _resolve(workdir, path)
-    return "\n".join(sorted(p.name + ("/" if p.is_dir() else "") for p in target.iterdir()))
+    if not target.is_dir():
+        raise ToolError(f"not a directory: {path}")
+    names = sorted(p.name + ("/" if p.is_dir() else "") for p in target.iterdir())
+    visible = [n for n in names if n.rstrip("/").lower() not in BLOCKED_NAMES]
+    return "\n".join(visible[:MAX_ENTRIES])
 
 
 def write_file(workdir: Path, path: str, content: str) -> str:
@@ -39,9 +80,11 @@ def write_file(workdir: Path, path: str, content: str) -> str:
 
 
 def run_tests(workdir: Path) -> str:
+    env = {k: os.environ[k] for k in SAFE_ENV_KEYS if k in os.environ}
     proc = subprocess.run(
         ["pytest", "-q", "--maxfail=5"],
         cwd=workdir,
+        env=env,
         capture_output=True,
         text=True,
         timeout=300,

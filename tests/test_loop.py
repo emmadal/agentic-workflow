@@ -71,3 +71,25 @@ def test_disallowed_tool_is_rejected(tmp_path):
 def test_path_escape_blocked(tmp_path):
     with pytest.raises(ToolError):
         read_file(Path(tmp_path), "../../etc/passwd")
+
+
+@pytest.mark.parametrize(
+    "name",
+    [
+        ".env",
+        ".env.local",
+        ".git/config",
+        ".claude/settings.json",
+        "conftest.py",
+        "pyproject.toml",
+        "k.pem",
+    ],
+)
+def test_sensitive_paths_blocked(tmp_path, name):
+    with pytest.raises(ToolError):
+        read_file(tmp_path, name)
+
+
+def test_read_is_capped(tmp_path):
+    (tmp_path / "big.txt").write_text("a" * 100_000)
+    assert len(read_file(tmp_path, "big.txt")) == 20_000

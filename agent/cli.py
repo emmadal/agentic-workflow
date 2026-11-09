@@ -17,11 +17,15 @@ def main() -> int:
     parser.add_argument("goal")
     parser.add_argument("--workdir", type=Path, default=Path("."))
     parser.add_argument("--max-steps", type=int, default=20)
-    parser.add_argument("--read-only", action="store_true", help="expose read-only tools")
+    parser.add_argument(
+        "--allow-write",
+        action="store_true",
+        help="enable write_file and run_tests (code execution; use in a sandbox)",
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(message)s")
-    tools = READ_ONLY if args.read_only else tuple(REGISTRY)
+    tools = tuple(REGISTRY) if args.allow_write else READ_ONLY
     result = run_agent(
         anthropic.Anthropic(),
         args.goal,

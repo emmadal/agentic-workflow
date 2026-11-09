@@ -1,18 +1,22 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pytest:*)",
-      "Bash(ruff:*)",
-      "Bash(git status:*)",
-      "Bash(git diff:*)",
-      "Bash(git log:*)"
+      "Bash(pytest -q)",
+      "Bash(ruff check .)",
+      "Bash(ruff format --check .)",
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(git diff --staged)",
+      "Bash(git log --oneline -20)"
     ],
     "deny": [
       "Bash(rm -rf:*)",
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
-      "Read(.env)",
-      "Read(.env.*)"
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)"
     ]
   },
   "hooks": {
