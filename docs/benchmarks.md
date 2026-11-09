@@ -46,6 +46,21 @@ Fisher exact test on perfect runs: this repo vs no skill p < 0.001; this repo vs
 - **Vague requests:** this repo's `discover` skill asks questions 9/10 times. Upstream's `interview-me` made the agent ask less than no skill at all (3/10 vs 7/10).
 - **Cost:** about 40% lower per run than upstream, at 365 tokens per skill vs about 3,300.
 
+### Second model: Haiku, 8 reps per cell (`results-haiku-n8.json`)
+
+| Task | no skill | this repo | upstream |
+|---|---:|---:|---:|
+| tdd, perfect runs | 0/8 | 8/8 | 8/8 |
+| scope_tests, perfect runs | 7/8 | 8/8 | 8/8 |
+| vague | 16 of 24 calls failed (baseline and ours), not interpretable | | 1/8 asked questions |
+
+- **Replicates:** a skill turns "fix the bug" into "write a failing regression test, then fix it" on Haiku too (0/8 to 8/8, p < 0.001). This repo and upstream tie.
+- **Does not replicate:** this repo's lead over upstream on `scope_tests` and `vague`. On Haiku the baseline already adds the test 7/8 times, so there is nothing to improve.
+- **`vague` on Haiku is not valid.** Every failed call was a baseline or this-repo run with an empty reply, most likely the agent hitting the 6-turn limit while building the app instead of asking questions. Dropping failed runs would be survivorship bias, so no pooled score is reported for this model.
+- Tokens: the skill text here costs about 365 tokens, upstream's about 3,300, so cost per run is lower for this repo on both models.
+
+So the supported claim is: skills clearly beat no skill on discipline tasks on two models; this repo matches upstream on the bug-fix task on both models, and beats it on two other tasks on Sonnet only.
+
 ### Earlier 5-task matrix, 3 reps (`results.json`, `results-after-port.json`)
 
 On review tasks (6 planted vulnerabilities, 7 planted Compose issues) Sonnet already finds nearly everything without a skill (5.67/6 and 7/7), and both skill sets match it, so skills add little for capability-bound tasks.
