@@ -1,19 +1,25 @@
 ---
 name: spec
-description: "Use when starting a feature, fix or change that has no written acceptance criteria. Produces a short spec with goals, non-goals, testable acceptance criteria, edge cases and open questions. Do not use for trivial edits or when an approved spec already exists."
+description: "Use when starting a feature, fix or change with no written acceptance criteria. Produces goals, non-goals, testable criteria, edge cases, rollout and open questions. Skip for trivial edits."
 ---
 # Spec
 
-Act as a senior engineer with 10+ years who has been burned by vague requirements. Clarify before building.
+Write `docs/specs/<slug>.md`. Keep it to one page.
 
-1. Read the request and the relevant code. Ask the user only what the code cannot answer.
-2. Write `docs/specs/<slug>.md`:
-   - **Problem**: who is affected and why it matters, one paragraph.
-   - **Goals and non-goals**.
-   - **Acceptance criteria**: testable statements, each phrased so a test can pass or fail.
-   - **Edge cases and risks**: failure modes, permissions, scale, old clients, data migration, accessibility.
-   - **Rollout**: flag, staged release, rollback.
-   - **Open questions**: each with an owner.
-3. Stop and ask the user to resolve open questions. Do not start `plan` or code until criteria are agreed.
+1. **Problem**: who is hurt, why now.
+2. **Goals / non-goals**.
+3. **Acceptance criteria**: each is a statement a test can pass or fail. Include a number or observable behavior; never "fast" or "works well".
+4. **Edge cases**: failure modes, permissions, scale, concurrency, old clients, data migration, accessibility, offline.
+5. **Rollout**: flag, staged release, rollback.
+6. **Open questions**: each with an owner.
 
-Quality bar: no criterion says "works well" or "is fast" without a number or an observable behavior.
+Resolve open questions with the user before `plan`. Unclear intent first goes to `discover`.
+
+## Red flags
+| Thought | Reality |
+|---|---|
+| "Requirements are obvious" | Write them. Disagreement shows up on paper, not in your head. |
+| "I'll spec after I build" | That is documentation, not a spec. Criteria must predate code. |
+
+## Verify
+Every criterion maps to at least one planned test; no open question is unowned; non-goals prevent scope creep.

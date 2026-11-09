@@ -1,38 +1,27 @@
 ---
 name: expo
-description: "Use when working in an Expo project (expo dependency, app.json or app.config, Expo Router, EAS): installing compatible packages with npx expo install, config plugins, development builds, prebuild, EAS Build, Submit and Update, environment variables, SDK upgrades, and testing on Expo Go, simulators, emulators and real devices."
+description: "Use when working in an Expo project (expo dependency, app.json or app.config, Expo Router, EAS): npx expo install, config plugins, dev builds, prebuild, EAS Build, Submit, Update, SDK upgrades, testing on devices."
 ---
 # Expo
 
-Act as a senior Expo engineer with 10+ years of mobile experience. Pair with `react-native` and `mobile-engineering`. Read `package.json` for the Expo SDK version first and check the matching docs; behavior changes between SDKs.
+Read the Expo SDK version in `package.json` and use the matching docs; behavior changes between SDKs. Pair with `react-native`.
 
-## Project
-- Install with `npx expo install <pkg>` so versions match the SDK. Run `npx expo-doctor` and `npx expo install --check` to find mismatches.
-- Config in `app.config.ts` (dynamic, typed) over static `app.json` when values depend on environment. Use `EXPO_PUBLIC_` prefix only for non-secret client values. Secrets live in EAS secrets or the server, never in the bundle.
-- Prefer Continuous Native Generation: do not hand-edit `ios/` and `android/`; express native changes through config plugins (`app.config` `plugins`), then `npx expo prebuild --clean` to regenerate.
+## Rules
+1. Install with `npx expo install <pkg>`. Check with `npx expo-doctor` and `npx expo install --check`.
+2. Config in `app.config.ts` when values depend on environment. `EXPO_PUBLIC_` vars are public. Secrets go in EAS secrets or a server.
+3. Continuous Native Generation: never hand-edit `ios/` or `android/`. Use config plugins, then `npx expo prebuild --clean`.
+4. Expo Router: `app/`, `_layout.tsx`, groups `(tabs)`, dynamic `[id]`, typed routes. Configure `scheme`, associated domains and Android intent filters for links.
+5. Expo Go is for prototypes. Real work uses a development build (`expo-dev-client`): `npx expo run:ios|android` or EAS Build profile `development`.
+6. `eas.json` profiles: `development`, `preview` (internal, release mode), `production`. `eas build -p ios|android --profile <p>`, then `eas submit`.
+7. EAS Update ships JS and assets only, to a matching `runtimeVersion` (policy `appVersion` or `fingerprint`). Native change means a new build. Channel per environment, gradual rollout, rollback update ready.
+8. Prefer Expo SDK modules; declare permissions in config and request in context. Sentry with source maps.
 
-## Routing
-- Expo Router (file-based, built on React Navigation): `app/` directory, `_layout.tsx`, route groups `(tabs)`, dynamic `[id]`, typed routes (`experiments.typedRoutes`), `+not-found`. Handle deep links via `scheme`; configure `associatedDomains` and Android `intentFilters` for universal and app links.
-
-## Running and building
-- Expo Go is for quick prototypes only; it cannot load custom native code. Use a **development build** (`expo-dev-client`) for real work: `npx expo run:ios` / `npx expo run:android`, or EAS Build with the `development` profile.
-- `eas.json` profiles: `development` (dev client, internal), `preview` (internal distribution, release mode), `production` (store). `eas build -p ios|android --profile <p>`, `eas submit`.
-- Credentials managed by EAS; use `appVersionSource: remote` with `autoIncrement` for build numbers.
-
-## Updates
-- EAS Update delivers JS and asset changes OTA to a matching `runtimeVersion` (use `policy: appVersion` or `fingerprint`). Native changes require a new build. Use channels per environment; roll out gradually and keep a rollback update ready.
-
-## Quality
-- TypeScript strict, ESLint (`eslint-config-expo`), `npx expo-doctor` clean. Prefer Expo SDK modules (`expo-secure-store`, `expo-image`, `expo-notifications`, `expo-camera`) with permissions declared in config and requested in context.
-- Observability: Sentry via `@sentry/react-native` with source maps; EAS Observe/analytics as available.
-
-## Testing
-- Unit and component: `jest-expo` preset with React Native Testing Library.
-- E2E: Maestro flows against a development or preview build on a simulator, emulator or device; `eas build --profile preview` for shareable test builds; EAS Workflows or GitHub Actions for CI. See `mobile-device-testing`.
-- Check on a real device before release for push notifications, camera, biometrics, background tasks and performance.
+## Test
+- `jest-expo` + React Native Testing Library.
+- Maestro against a dev or preview build on simulator, emulator, device. `eas build --profile preview` for shareable builds.
 
 ## Pitfalls
-- Mixing package versions outside `expo install`; editing generated native folders; using Expo Go for features needing native modules; shipping an OTA that depends on new native code.
+Mixed package versions; editing generated native folders; OTA update depending on new native code; Expo Go for native-module features.
 
-## Done when
-`expo-doctor` clean, typecheck and tests green, preview build run on simulator and emulator, push or hardware features verified on a real device, update channel and runtime version correct.
+## Verify
+`expo-doctor` clean, typecheck and tests green, preview build on simulator and emulator, push or hardware verified on a real device, correct channel and runtime version. Depth: `references/guide.md`.

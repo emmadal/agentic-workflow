@@ -1,46 +1,30 @@
 ---
 name: swift-ios
-description: "Use when writing, reviewing or testing iOS, iPadOS or macOS app code in Swift, SwiftUI or UIKit: Swift concurrency, state management, navigation, networking, persistence with SwiftData or Core Data, Keychain, and XCTest, Swift Testing and XCUITest. Applies senior Apple-platform practices."
+description: "Use when writing, reviewing or testing Swift, SwiftUI or UIKit code for iOS/iPadOS: concurrency, state ownership, navigation, SwiftData or Core Data, Keychain, Swift Testing, XCTest, XCUITest."
 ---
 # Swift and iOS
 
-Act as a senior iOS engineer with 10+ years on Apple platforms. Read `mobile-engineering` for cross-platform rules. Check the project's deployment target and Swift version before using newer APIs; availability-gate with `#available`.
+Read the deployment target and Swift version first. Gate newer APIs with `#available`.
 
-## Swift language
-- Prefer value types (`struct`, `enum`) and immutability (`let`). Use `final class` for reference types by default.
-- Model state with enums and associated values so illegal states cannot exist.
-- No force unwraps (`!`) or `try!` outside tests; use `guard let`, `if let`, typed errors.
-- Swift concurrency: `async/await`, structured concurrency (`async let`, `TaskGroup`), actors for shared mutable state. Annotate UI types `@MainActor`. Make types `Sendable`. Enable strict concurrency (Swift 6 language mode) for new code. Cancel tasks; check `Task.isCancelled`.
-- Avoid retain cycles: `[weak self]` in escaping closures that outlive the owner. Prefer `async` APIs over completion handlers.
+## Rules
+1. `struct` and `let` by default; `final class` otherwise. Enums with payloads for state. No `!` or `try!` outside tests.
+2. Concurrency: `async/await`, actors for shared state, `@MainActor` on UI and view models, `Sendable` across boundaries. Enable Swift 6 strict concurrency on new code. Check `Task.isCancelled`; store and cancel long tasks.
+3. `[weak self]` only in escaping closures that outlive the owner. Prefer async APIs over callbacks.
+4. SwiftUI state: `@State` local, `@Binding` passed down, `@Observable` (iOS 17+) or `ObservableObject` for models, `@Environment` for dependencies. Create owned models with `@State` or `@StateObject`, never inside `body`.
+5. `body` is pure and cheap. Stable `id`s in lists. `.task` for async work tied to view lifetime.
+6. Navigation: `NavigationStack` with a typed path.
+7. `URLSession` async, `Codable`, timeouts, typed errors. Secrets in Keychain, never `UserDefaults`.
+8. Ship `PrivacyInfo.xcprivacy`, usage strings for every permission, ATS on.
+9. Dynamic Type, VoiceOver labels, Dark Mode, Reduce Motion.
 
-## SwiftUI
-- Views are cheap descriptions of state. Keep `body` free of side effects and heavy work.
-- State ownership: `@State` for local value state, `@Binding` for passed-down state, `@Observable` (iOS 17+) or `ObservableObject` for models, `@Environment` for shared dependencies. Own an object with `@State` (or `@StateObject` pre-iOS 17), never recreate it in `body`.
-- Navigation: `NavigationStack` with a typed path and `navigationDestination(for:)`; keep routing state testable.
-- Lists: stable `id`s, `LazyVStack` or `List` for large data, `.task` for async load tied to view lifetime.
-- Accessibility: `accessibilityLabel`, Dynamic Type via system fonts, test with Large text and VoiceOver. Support Dark Mode and Reduce Motion.
-- Drop to UIKit via `UIViewRepresentable` only when SwiftUI lacks the capability.
+## Test
+- Unit: Swift Testing (`@Test`, `#expect`) or XCTest. Inject clock and network behind protocols.
+- UI: XCUITest with accessibility identifiers and launch arguments to stub state.
+- `xcodebuild test -scheme <S> -destination 'platform=iOS Simulator,name=iPhone 16'`
+- Profile on a real device with Instruments: Time Profiler, Allocations, Hangs.
 
-## Architecture
-- MVVM with an `@Observable`/`@MainActor` view model, or TCA for large teams wanting strict reducers. Protocols at boundaries; dependency injection through initializers or `@Environment`.
-- Modularize with Swift Package Manager local packages (feature, domain, data, design system).
+## Pitfalls
+Re-creating an `ObservableObject` on every render; heavy work in `body`; unstructured `Task {}` that outlives the screen; forgetting dSYM upload; testing push or camera on a simulator.
 
-## Data and networking
-- `URLSession` with `async/await`, `Codable`, typed errors, timeouts, and retry with backoff for idempotent calls.
-- Persistence: SwiftData (iOS 17+) or Core Data; migrations versioned. Secrets in Keychain with appropriate `kSecAttrAccessible`. Never in `UserDefaults`.
-- Background work via `BGTaskScheduler`; push via APNs with silent-push limits understood.
-
-## Security and privacy
-- App Transport Security on. Privacy manifest (`PrivacyInfo.xcprivacy`) and required-reason APIs declared. Usage description strings for every permission. Request permissions in context, handle denial.
-
-## Testing
-- Unit: Swift Testing (`@Test`, `#expect`, Xcode 16+) or XCTest. Inject clocks and network via protocols; no real network.
-- UI: XCUITest with accessibility identifiers, `launchArguments` to stub state. Snapshot tests for design-system components.
-- Run: `xcodebuild test -scheme <Scheme> -destination 'platform=iOS Simulator,name=iPhone 16'`. See `mobile-device-testing` for simulators and real devices.
-- Profile with Instruments (Time Profiler, Allocations, Leaks, Hangs) on a real device.
-
-## Release
-- Signing and provisioning via automatic signing or fastlane match. TestFlight internal then external. Phased release. Upload dSYMs to the crash reporter.
-
-## Done when
-Builds without warnings, tests green, VoiceOver and Dynamic Type checked, run on simulator and a real device, privacy declarations updated.
+## Verify
+Zero warnings, tests green, run on simulator plus a real device for hardware, push, performance. `references/guide.md` has depth on data, release and architecture.

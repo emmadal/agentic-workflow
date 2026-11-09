@@ -1,0 +1,464 @@
+[
+ {
+  "skill": "discover",
+  "positive": [
+   "I have a rough idea for an app but I'm not sure what to build, help me figure it out",
+   "The request is vague, ask me the right questions before we start",
+   "Give me a few options for how we could approach this and their trade-offs"
+  ],
+  "negative": [
+   {
+    "prompt": "Write the acceptance criteria for the checkout feature",
+    "owner": "spec"
+   }
+  ]
+ },
+ {
+  "skill": "spec",
+  "positive": [
+   "Write a spec with acceptance criteria for the new export feature",
+   "Before coding, define goals, non-goals and edge cases for this change",
+   "Turn this feature request into testable acceptance criteria"
+  ],
+  "negative": [
+   {
+    "prompt": "Break this approved spec into ordered tasks",
+    "owner": "plan"
+   }
+  ]
+ },
+ {
+  "skill": "plan",
+  "positive": [
+   "Break this approved spec into small ordered tasks with verification steps",
+   "This task feels too big to start, split it up",
+   "Make a task list with dependencies and risks for the migration"
+  ],
+  "negative": [
+   {
+    "prompt": "Write acceptance criteria for this feature",
+    "owner": "spec"
+   }
+  ]
+ },
+ {
+  "skill": "adr",
+  "positive": [
+   "Record why we chose Postgres over DynamoDB as an architecture decision",
+   "Write an ADR for picking a state management library",
+   "Document the reasoning behind this hard to reverse design choice"
+  ],
+  "negative": [
+   {
+    "prompt": "Write the spec for the export feature",
+    "owner": "spec"
+   }
+  ]
+ },
+ {
+  "skill": "context-engineering",
+  "positive": [
+   "The agent keeps forgetting rules and repeating mistakes, the session context is bloated",
+   "How should I load project context and keep the context window small",
+   "Hand off this half-finished task to a fresh session cleanly"
+  ],
+  "negative": [
+   {
+    "prompt": "The app crashes on launch, find the cause",
+    "owner": "debugging"
+   }
+  ]
+ },
+ {
+  "skill": "source-verified-coding",
+  "positive": [
+   "Use the latest official docs for this library version before writing the integration",
+   "Check the current API of this SDK so we don't use deprecated methods",
+   "Verify this framework usage against the documentation for the installed version"
+  ],
+  "negative": [
+   {
+    "prompt": "Upgrade this dependency to the next major version and remove the old API",
+    "owner": "migration"
+   }
+  ]
+ },
+ {
+  "skill": "incremental-implementation",
+  "positive": [
+   "Implement the next task from the plan as a small verifiable slice",
+   "Build this feature step by step, committing after each working increment",
+   "Ship this change behind a feature flag in thin slices"
+  ],
+  "negative": [
+   {
+    "prompt": "What alerts should we page on for the new service",
+    "owner": "observability"
+   }
+  ]
+ },
+ {
+  "skill": "test-driven-development",
+  "positive": [
+   "Write the failing test first, then implement the function",
+   "Fix this bug starting with a reproduction test",
+   "Use red green refactor to add this behavior"
+  ],
+  "negative": [
+   {
+    "prompt": "Design the overall test strategy and release readiness report",
+    "owner": "qa-testing"
+   }
+  ]
+ },
+ {
+  "skill": "api-design",
+  "positive": [
+   "Design the REST endpoints and error model for the orders service",
+   "How should I version this API and handle pagination and idempotency",
+   "Review this OpenAPI contract for backward compatibility"
+  ],
+  "negative": [
+   {
+    "prompt": "Add an index to speed up this SQL query",
+    "owner": "performance-optimization"
+   }
+  ]
+ },
+ {
+  "skill": "code-simplification",
+  "positive": [
+   "This function is too nested and hard to read, simplify it without changing behavior",
+   "Remove duplication and needless abstraction from this module",
+   "Clean up this working code to make it easier to maintain"
+  ],
+  "negative": [
+   {
+    "prompt": "Review this pull request for bugs",
+    "owner": "code-review"
+   }
+  ]
+ },
+ {
+  "skill": "backend-engineering",
+  "positive": [
+   "Implement the service layer and database migration for invoices",
+   "Add background job processing with retries to the server",
+   "Design the schema and authorization checks for the new endpoint handler"
+  ],
+  "negative": [
+   {
+    "prompt": "Build the responsive settings page component",
+    "owner": "frontend-engineering"
+   }
+  ]
+ },
+ {
+  "skill": "frontend-engineering",
+  "positive": [
+   "Build an accessible modal component with keyboard support",
+   "Fix the layout shift and state management in this React page",
+   "Add loading and error states to this web form"
+  ],
+  "negative": [
+   {
+    "prompt": "Write a Playwright test for the checkout flow",
+    "owner": "browser-testing"
+   }
+  ]
+ },
+ {
+  "skill": "security-hardening",
+  "positive": [
+   "Review this login flow for vulnerabilities and add input validation",
+   "Where should I store API secrets and tokens safely",
+   "Threat model the file upload feature before release"
+  ],
+  "negative": [
+   {
+    "prompt": "Make this query faster",
+    "owner": "performance-optimization"
+   }
+  ]
+ },
+ {
+  "skill": "performance-optimization",
+  "positive": [
+   "The page loads slowly, find the bottleneck and measure the improvement",
+   "Reduce app startup time and memory use",
+   "This endpoint p95 latency is too high, profile and optimize it"
+  ],
+  "negative": [
+   {
+    "prompt": "Add logging and alerts to the service",
+    "owner": "observability"
+   }
+  ]
+ },
+ {
+  "skill": "observability",
+  "positive": [
+   "Add structured logging, metrics and tracing to this service",
+   "Set up dashboards, alerts and SLOs for the API",
+   "What health checks and crash reporting should we add before launch"
+  ],
+  "negative": [
+   {
+    "prompt": "The server returns 500 errors, why",
+    "owner": "debugging"
+   }
+  ]
+ },
+ {
+  "skill": "browser-testing",
+  "positive": [
+   "Write a Playwright end to end test for the signup flow",
+   "Check the console and network errors on this page in the browser",
+   "Run an accessibility check with axe and capture screenshots of the web UI"
+  ],
+  "negative": [
+   {
+    "prompt": "Test the iOS app on the simulator",
+    "owner": "mobile-device-testing"
+   }
+  ]
+ },
+ {
+  "skill": "git-workflow",
+  "positive": [
+   "Split this large change into atomic conventional commits",
+   "How should I branch and rebase and resolve this merge conflict",
+   "Write a good commit message for these staged changes"
+  ],
+  "negative": [
+   {
+    "prompt": "Open a pull request after running all checks",
+    "owner": "ship"
+   }
+  ]
+ },
+ {
+  "skill": "ci-cd",
+  "positive": [
+   "Create a GitHub Actions pipeline with caching and a coverage gate",
+   "Our CI builds are flaky and slow, fix the workflow",
+   "Automate deployment with rollback and least privilege secrets"
+  ],
+  "negative": [
+   {
+    "prompt": "Plan the production launch and rollout",
+    "owner": "release"
+   }
+  ]
+ },
+ {
+  "skill": "migration",
+  "positive": [
+   "Deprecate the old API and migrate all consumers safely",
+   "Upgrade the database schema with expand migrate contract",
+   "Remove this legacy module and replace it with the new library"
+  ],
+  "negative": [
+   {
+    "prompt": "Design a new REST API",
+    "owner": "api-design"
+   }
+  ]
+ },
+ {
+  "skill": "release",
+  "positive": [
+   "Prepare the production launch checklist with staged rollout and rollback",
+   "We are about to submit the app to the stores, what must be ready",
+   "Plan monitoring and a post launch review for the deploy"
+  ],
+  "negative": [
+   {
+    "prompt": "Fix the CI workflow cache",
+    "owner": "ci-cd"
+   }
+  ]
+ },
+ {
+  "skill": "ship",
+  "positive": [
+   "The change is ready, run the checks, review it and open a pull request",
+   "Verify, commit, push the branch and create the PR without merging",
+   "Finish this task: run lint and tests then open a short PR"
+  ],
+  "negative": [
+   {
+    "prompt": "Split into atomic commits",
+    "owner": "git-workflow"
+   }
+  ]
+ },
+ {
+  "skill": "code-review",
+  "positive": [
+   "Review this diff for correctness, security and scope before merge",
+   "Do a pull request review and give severity ranked findings",
+   "Check my own changes for bugs before I submit"
+  ],
+  "negative": [
+   {
+    "prompt": "Simplify this function",
+    "owner": "code-simplification"
+   }
+  ]
+ },
+ {
+  "skill": "debugging",
+  "positive": [
+   "The tests are failing with this stack trace, find the root cause",
+   "The app crashes on launch and I don't know why",
+   "This behavior regressed and sometimes fails, reproduce and isolate it"
+  ],
+  "negative": [
+   {
+    "prompt": "Write a new feature test first",
+    "owner": "test-driven-development"
+   }
+  ]
+ },
+ {
+  "skill": "qa-testing",
+  "positive": [
+   "Design a test strategy with the test pyramid and fix flaky tests",
+   "Our tests are flaky, how do we make them deterministic",
+   "Assess release readiness and coverage gaps"
+  ],
+  "negative": [
+   {
+    "prompt": "Write the failing test first",
+    "owner": "test-driven-development"
+   }
+  ]
+ },
+ {
+  "skill": "test-plan",
+  "positive": [
+   "Write a risk based test plan with exit criteria for this release",
+   "Which devices, OS versions and environments should the test plan cover",
+   "Draft a test matrix and rollback verification for this feature"
+  ],
+  "negative": [
+   {
+    "prompt": "Fix this flaky test",
+    "owner": "qa-testing"
+   }
+  ]
+ },
+ {
+  "skill": "mobile-engineering",
+  "positive": [
+   "I'm starting a mobile app, what architecture, offline and security rules should it follow",
+   "Plan an app that works offline and supports old app versions",
+   "Which platform skill applies to this mobile task"
+  ],
+  "negative": [
+   {
+    "prompt": "Write a server endpoint",
+    "owner": "backend-engineering"
+   }
+  ]
+ },
+ {
+  "skill": "swift-ios",
+  "positive": [
+   "Write a SwiftUI view with an Observable view model and async await",
+   "Fix this Swift concurrency Sendable warning in my iOS app",
+   "Store the token in Keychain and add XCTest tests for iOS"
+  ],
+  "negative": [
+   {
+    "prompt": "Write a Jetpack Compose screen",
+    "owner": "android-compose"
+   }
+  ]
+ },
+ {
+  "skill": "kotlin-android",
+  "positive": [
+   "Set up Hilt, Room and a ViewModel with StateFlow for my Android app",
+   "Handle coroutines cancellation and WorkManager background work",
+   "Fix the Android manifest exported components and permissions"
+  ],
+  "negative": [
+   {
+    "prompt": "Build the Compose UI with Material 3",
+    "owner": "android-compose"
+   }
+  ]
+ },
+ {
+  "skill": "android-compose",
+  "positive": [
+   "Build a Jetpack Compose screen with state hoisting and Material 3",
+   "Fix excessive recomposition in this LazyColumn",
+   "Write Compose UI tests with semantics"
+  ],
+  "negative": [
+   {
+    "prompt": "Set up Room and Hilt",
+    "owner": "kotlin-android"
+   }
+  ]
+ },
+ {
+  "skill": "kotlin-multiplatform",
+  "positive": [
+   "Share business logic between Android and iOS with Kotlin Multiplatform",
+   "Set up expect actual and Ktor in a KMP shared module",
+   "Expose a Kotlin Flow to Swift from the shared module"
+  ],
+  "negative": [
+   {
+    "prompt": "Write a SwiftUI screen",
+    "owner": "swift-ios"
+   }
+  ]
+ },
+ {
+  "skill": "react-native",
+  "positive": [
+   "Optimize this FlatList and Reanimated animation in React Native",
+   "Set up Jest and React Native Testing Library for components",
+   "Enable the New Architecture and Hermes in this React Native app"
+  ],
+  "negative": [
+   {
+    "prompt": "Configure EAS Build profiles",
+    "owner": "expo"
+   }
+  ]
+ },
+ {
+  "skill": "expo",
+  "positive": [
+   "Configure EAS Build and EAS Update for the Expo app",
+   "Add a config plugin and run prebuild in Expo",
+   "Set up Expo Router with typed routes and a development build"
+  ],
+  "negative": [
+   {
+    "prompt": "Optimize FlatList rendering",
+    "owner": "react-native"
+   }
+  ]
+ },
+ {
+  "skill": "mobile-device-testing",
+  "positive": [
+   "Boot the iOS simulator and run the app and capture a screenshot",
+   "Run the Android emulator tests with adb and collect crash logs",
+   "Write a Maestro flow and test on a real device"
+  ],
+  "negative": [
+   {
+    "prompt": "Write the unit tests for this Swift function",
+    "owner": "swift-ios"
+   }
+  ]
+ }
+]

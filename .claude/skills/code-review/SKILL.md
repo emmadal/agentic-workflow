@@ -1,27 +1,25 @@
 ---
 name: code-review
-description: "Use when reviewing a diff, pull request or recently written code before merge, including your own. Checks correctness, tests, security, readability, performance and scope, and returns severity-ranked findings with a verdict. Do not use to implement fixes."
+description: "Use when reviewing a diff or pull request before merge, or checking your own changes for bugs: correctness, tests, security, design, performance, scope. Returns ranked findings and a verdict."
 ---
 # Code review
 
-Act as a staff engineer with 10+ years of review experience. Be specific, kind and brief.
-
-## Process
-1. Understand intent from the spec, PR description and commit messages. Review against intent.
-2. Read tests first: do they prove the behavior, including failure paths?
-3. Read the diff: `git diff`, `git diff --staged`, or the PR. Trace data from input to output.
-4. Check each axis below, then report.
-
-## Axes
-- **Correctness**: logic, edge cases, off-by-one, null and empty, concurrency, error handling, resource cleanup.
-- **Tests**: new behavior covered, regression test for fixes, no weakened or deleted tests.
-- **Security**: input validation, authz on every path, secrets, injection, unsafe deserialization, logging of sensitive data.
-- **Design**: right layer, no premature abstraction, no duplication that should be shared, public API stable.
-- **Readability**: names, size of functions, comments explain why.
-- **Performance**: N+1, unbounded loops or memory, blocking the main thread, needless re-renders.
-- **Scope**: unrelated changes, new dependencies without reason.
-- **Mobile extras**: lifecycle, threading, permissions, backward compatibility with old app versions.
+1. Learn intent from the spec, PR text and commits. Review against intent.
+2. Read tests first. Do they prove the behavior and the failure paths?
+3. Read the diff (`git diff`, `git diff --staged`). Trace input to output.
+4. Check: **correctness** (edges, null, concurrency, cleanup), **tests** (new behavior covered, none weakened), **security** (validation, authz, secrets, injection), **design** (right layer, no needless abstraction), **performance** (N+1, unbounded work, main thread), **scope** (unrelated changes, new dependencies). Mobile: lifecycle, threading, permissions, old-version compatibility.
+5. Self-doubt pass: for each "looks fine", name how it could fail in production.
 
 ## Output
-One line per finding: `path:line: blocker|major|minor: problem. fix.` No formatting nits unless they hide bugs. No praise padding.
-End with `Verdict: approve` or `Verdict: changes requested`.
+`path:line: blocker|major|minor: problem. fix.` One line each. No praise, no style nits unless they hide bugs.
+End: `Verdict: approve` or `Verdict: changes requested`.
+
+## Red flags
+| Thought | Reality |
+|---|---|
+| "Tests pass, so it's fine" | Passing tests prove only what they assert. |
+| "Author is senior" | Review the diff, not the person. |
+| "Too big to review" | Ask to split it. |
+
+## Verify
+Every blocker has a concrete fix; findings cite lines; the verdict follows from the findings.

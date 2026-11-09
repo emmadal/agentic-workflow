@@ -29,8 +29,10 @@ Descriptions are written as triggers, single line, 500 characters or fewer, so e
 
 - Skill folder name equals frontmatter `name` (lowercase, hyphens, max 64 chars).
 - Frontmatter has only `name` and `description` (optional `license`, `compatibility`, `metadata`). No tool-specific keys.
-- `description` is quoted, one line, contains "Use when", at most 500 characters.
-- Body at most 500 lines. Put detail in `references/`, helpers in `scripts/`, and link them as `references/x.md`.
+- `description` is quoted, one line, contains "Use when", at most 280 characters. All descriptions together stay under 8,000 characters because they are loaded every session.
+- `SKILL.md` body at most 400 words. Put depth in `references/` (loaded on demand) and helpers in `scripts/`, linked as `references/x.md`.
+- `AGENTS.md` at most 450 words. It is loaded every session.
+- Every skill has routing prompts in `evals/routing.json`; `python -m scripts.route_eval --min-rank1 95` must pass.
 - Agents have `name` (equal to file name), `description`, and `access`:
   - `read-only`: read, search. No shell, no edits.
   - `inspect`: read, search and shell. No edits.
@@ -73,7 +75,7 @@ On Claude Code the `inspect` agents get the full `Bash` tool; project `permissio
 | Gemini tool names (`read_file`, `list_directory`, `glob`, `grep_search`, `write_file`, `replace`, `run_shell_command`) and `.gemini/agents` format | Confirmed in Gemini CLI docs |
 | Codex agent TOML fields and `features.shell_tool` | Confirmed in Codex docs |
 | OpenCode | Run locally: `opencode debug agents` lists all 11 agents with the right `edit`/`shell` permissions; `opencode debug config` shows `anthropic/claude-opus-5-5` |
-| Claude Code | Run locally: `claude -p` sees all 18 skills and 11 agents and rejects decoy names |
+| Claude Code | Run locally: `claude -p` sees the real skills (re-checked after the 33-skill refactor) and rejects decoy names |
 | Cursor, Codex, Gemini CLI skill loading | Not run (tools not installed on the author's machine); paths follow each tool's docs |
 | `android-emu.sh` | Run on a Pixel 9 emulator (Android 17): start, launch, shot, log, crash, stop |
 | `ios-sim.sh`, `run-maestro.sh` | Syntax-checked; iOS runtimes and Maestro are not installed on the author's machine |

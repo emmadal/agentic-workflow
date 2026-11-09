@@ -1,17 +1,18 @@
 ---
 name: ship
-description: "Use when a change is implemented and ready to verify, review and open as a pull request. Runs lint, tests and security checks, runs an independent review, commits, pushes the branch and opens a short PR. Never merges. Do not use for exploratory work or failing builds."
+description: "Use when a change is implemented and ready to verify, review and open as a pull request: runs checks, independent review, commits, pushes the branch, opens a short PR. Never merges."
 ---
 # Ship
 
-Act as a senior engineer who treats a PR as a product for the reviewer.
-
-1. Run the project lint, type check, tests and security scan (commands in `AGENTS.md`). Stop if anything is red; fix the cause, never the check.
-2. Run the `reviewer` agent on the diff. Fix blockers and majors. If sub-agents are unavailable, review the diff yourself against the `code-review` skill.
-3. Run `security-auditor` when the change touches auth, input handling, storage, networking or dependencies.
-4. Confirm the definition of done in `docs/sdlc.md`: tests, docs, flags, rollback.
-5. Commit with a conventional message. Author is the repository owner only; no co-author trailers.
-6. Push the branch (never `main`) and open a PR with exactly three short sections: Summary, Changes, Testing.
+1. Run lint, types, tests and the security scan (commands in `AGENTS.md`). Red means fix the cause, never the check.
+2. Independent review: `reviewer` agent on the diff, or the `code-review` skill inline. Fix blockers and majors.
+3. Touches auth, input, storage, network or dependencies? Run `security-auditor` or `security-hardening`.
+4. Confirm definition of done (`docs/sdlc.md`): tests, docs, flags, rollback.
+5. Conventional commit, author is the repo owner only, no co-author trailers (`git-workflow`).
+6. Push the branch, never `main`. Open a PR with three short sections: Summary, Changes, Testing.
 7. Do not merge. A human approves.
 
 Never force-push, skip hooks or disable checks.
+
+## Verify
+CI green, PR text is short and accurate, nothing outside the task changed.

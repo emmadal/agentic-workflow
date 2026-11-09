@@ -18,8 +18,11 @@ AGENT_KEYS = {"name", "description", "access"}
 ACCESS = {"read-only", "inspect", "write"}
 # Conservative portable limits: the Agent Skills spec allows 1024, some tools enforce less.
 MAX_NAME = 64
-MAX_DESCRIPTION = 500
-MAX_BODY_LINES = 500
+MAX_DESCRIPTION = 280
+MAX_BODY_WORDS = 400
+# Always-loaded cost: every description is in context every session. Keep the catalog lean.
+TOTAL_DESCRIPTION_BUDGET = 8000
+MAX_AGENTS_MD_WORDS = 450
 REF_RE = re.compile(r"`((?:scripts|references|assets)/[A-Za-z0-9._/-]+)`")
 
 
@@ -49,6 +52,25 @@ def validate_skills(root: Path) -> list[str]:
             errors.append(f"{label}: {exc}")
             continue
         errors += _check_skill(label, skill_dir, doc.meta, doc.body, seen)
+    errors += _check_budgets(root, skills_dir)
+    return errors
+
+
+def _check_budgets(root: Path, skills_dir: Path) -> list[str]:
+    errors: list[str] = []
+    total = 0
+    for path in skills_dir.glob("*/SKILL.md"):
+        try:
+            total += len(parse(path.read_text()).meta.get("description", ""))
+        except FrontmatterError:
+            continue
+    if total > TOTAL_DESCRIPTION_BUDGET:
+        errors.append(
+            f"catalog: descriptions total {total} chars, budget {TOTAL_DESCRIPTION_BUDGET}"
+        )
+    agents_md = root / "AGENTS.md"
+    if agents_md.is_file() and len(agents_md.read_text().split()) > MAX_AGENTS_MD_WORDS:
+        errors.append(f"AGENTS.md exceeds {MAX_AGENTS_MD_WORDS} words (loaded every session)")
     return errors
 
 
@@ -73,8 +95,11 @@ def _check_skill(label: str, skill_dir: Path, meta: dict, body: str, seen: set[s
         errors.append(f"{label}: description must be a single line")
     if "use when" not in desc.lower():
         errors.append(f"{label}: description must say when to use it ('Use when ...')")
-    if len(body.splitlines()) > MAX_BODY_LINES:
-        errors.append(f"{label}: body exceeds {MAX_BODY_LINES} lines; move detail to references/")
+    words = len(body.split())
+    if words > MAX_BODY_WORDS:
+        errors.append(
+            f"{label}: body is {words} words, max {MAX_BODY_WORDS}; move detail to references/"
+        )
     for ref in sorted(set(REF_RE.findall(body))):
         if not (skill_dir / ref).exists() and ref.rstrip("/") not in {
             "scripts",

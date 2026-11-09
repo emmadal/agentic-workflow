@@ -27,6 +27,8 @@ jobs:
       - run: ruff format --check .
       - run: python -m scripts.validate_skills
       - run: python -m scripts.sync_agents --check
+      - run: python -m scripts.route_eval --min-rank1 95
+      - run: python -m scripts.token_report
       - run: pytest -q --cov=agent --cov=scripts --cov-fail-under=80
 
   security:

@@ -74,16 +74,23 @@ def test_mobile_skills_exist():
     assert MOBILE_SKILLS <= names
 
 
-def test_agents_md_mentions_every_skill():
+def test_agents_md_only_references_real_skills():
+    skills = {p.name for p in (ROOT / ".agents/skills").iterdir() if p.is_dir()}
+    agents = {p.stem for p in (ROOT / ".agents/agents").glob("*.md")}
     text = (ROOT / "AGENTS.md").read_text()
-    for skill in (ROOT / ".agents/skills").iterdir():
-        assert f"`{skill.name}`" in text, f"AGENTS.md does not list skill {skill.name}"
+    routing = [line for line in text.splitlines() if line.startswith(("Flow:", "Mobile:"))]
+    names = {n for line in routing for n in re.findall(r"`([a-z][a-z0-9-]+)`", line)}
+    assert names and names <= skills
+    listed = re.findall(
+        r"`([a-z][a-z0-9-]+)`", next(ln for ln in text.splitlines() if ln.startswith("Agents:"))
+    )
+    assert set(listed) == agents
 
 
-def test_skills_declare_senior_persona():
-    for skill in (ROOT / ".agents/skills").iterdir():
-        body = (skill / "SKILL.md").read_text()
-        assert re.search(r"\b(senior|staff|principal)\b", body, re.I), skill.name
+def test_senior_persona_is_declared_once_not_per_skill():
+    assert "senior engineer (10+ years)" in (ROOT / "AGENTS.md").read_text()
+    for path in (ROOT / ".agents/agents").glob("*.md"):
+        assert re.search(r"\b(senior|staff|principal)\b", path.read_text(), re.I), path.name
 
 
 def test_helper_scripts_are_executable():
@@ -155,7 +162,7 @@ def test_description_needs_trigger(tmp_path):
 def test_description_length_limit(tmp_path):
     long = "Use when " + "x" * 600
     errs = errors_for(tmp_path, "bad-skill", f'name: bad-skill\ndescription: "{long}"')
-    assert any("max 500" in e for e in errs)
+    assert any("max 280" in e for e in errs)
 
 
 def test_unquoted_colon_description_rejected(tmp_path):
@@ -257,3 +264,75 @@ def test_inspect_permissions_use_exact_git_commands():
     assert "*" not in rendered.replace('"*": ask', "")
     assert '"git diff": allow' in rendered
     assert "git diff*" not in rendered
+
+
+# --- token budgets and routing eval ---
+
+from scripts import route_eval, token_report  # noqa: E402
+
+
+def test_repo_meets_routing_floor():
+    result = route_eval.evaluate(ROOT, max_overlap=0.55)
+    assert result["problems"] == []
+    assert result["rank1"] / result["positives"] >= 0.95
+    assert result["negatives_ok"] == result["negatives"]
+
+
+def test_repo_stays_within_token_budgets():
+    cat = token_report.measure("t", ROOT / ".agents/skills", ROOT / "AGENTS.md")
+    assert cat.skills >= 30
+    assert cat.always_on < 3000
+    assert cat.body_avg < 450
+    assert cat.body_max < 800
+
+
+def test_stemmer_folds_silent_e():
+    assert route_eval.stem("replace") == route_eval.stem("replacing")
+    assert route_eval.tokenize("The tests are failing") == ["test", "fail"]
+
+
+def test_route_eval_flags_unknown_and_uncovered_skills(tmp_path):
+    repo = make_repo(tmp_path)
+    (repo / "evals").mkdir()
+    cases = [
+        {"skill": "ghost", "positive": ["x"], "negative": []},
+        {"skill": "spec", "positive": ["write a spec with acceptance criteria"], "negative": []},
+    ]
+    import json
+
+    (repo / "evals/routing.json").write_text(json.dumps(cases))
+    problems = route_eval.evaluate(repo, 0.55)["problems"]
+    assert any("unknown skill: ghost" in p for p in problems)
+    assert any("no routing cases for skill: debugging" in p for p in problems)
+
+
+def test_route_eval_main_exit_codes(tmp_path):
+    assert route_eval.main(["r", "--min-rank1", "95", str(ROOT)]) == 0
+    repo = make_repo(tmp_path)
+    (repo / "evals").mkdir()
+    (repo / "evals/routing.json").write_text("[]")
+    assert route_eval.main(["r", str(repo)]) == 1
+
+
+def test_token_report_compares_two_catalogs(capsys):
+    assert token_report.main(["t", "--compare", str(ROOT / ".agents"), str(ROOT)]) == 0
+    out = capsys.readouterr().out
+    assert "this repo" in out and "Always-loaded tokens" in out
+
+
+def test_validator_enforces_budgets(tmp_path):
+    repo = make_repo(tmp_path)
+    (repo / "AGENTS.md").write_text("word " * 500)
+    body = "# t\n" + "word " * 450
+    write_skill(repo, "fat-skill", 'name: fat-skill\ndescription: "Use when x."', body)
+    errs = validate_skills.validate_skills(repo)
+    assert any("AGENTS.md exceeds" in e for e in errs)
+    assert any("body is" in e and "max 400" in e for e in errs)
+
+
+def test_validator_enforces_total_description_budget(tmp_path):
+    repo = make_repo(tmp_path)
+    desc = "Use when " + "y" * 250
+    for i in range(30):
+        write_skill(repo, f"extra-{i}", f'name: extra-{i}\ndescription: "{desc}"')
+    assert any("descriptions total" in e for e in validate_skills.validate_skills(repo))

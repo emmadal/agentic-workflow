@@ -1,42 +1,29 @@
 ---
 name: kotlin-android
-description: "Use when writing, reviewing or testing Android app code in Kotlin outside of pure UI: coroutines and Flow, ViewModel, Hilt or Koin dependency injection, Room, DataStore, WorkManager, networking with Retrofit or Ktor, permissions, R8, and JUnit, Espresso and instrumented tests. For Jetpack Compose UI also load android-compose."
+description: "Use when writing, reviewing or testing Android code in Kotlin outside pure UI: coroutines, Flow, ViewModel, Hilt, Room, DataStore, WorkManager, permissions, R8, JUnit, Espresso. For Compose UI also load android-compose."
 ---
 # Kotlin and Android
 
-Act as a senior Android engineer with 10+ years. Read `mobile-engineering` for cross-platform rules. Check `minSdk`, `targetSdk` and library versions in the Gradle version catalog before using APIs.
+Check `minSdk`, `targetSdk` and versions in `libs.versions.toml` before using an API.
 
-## Kotlin language
-- `val` over `var`; immutable data classes; sealed interfaces for state and results; `when` exhaustive on sealed types.
-- Null safety: avoid `!!`; use `?.`, `?:`, `requireNotNull` with a message at boundaries.
-- Coroutines: structured concurrency, `viewModelScope` / `lifecycleScope`, never `GlobalScope`. Inject dispatchers; do blocking IO on `Dispatchers.IO`. Rethrow `CancellationException`. Prefer `Flow` for streams, `StateFlow` for UI state, `SharedFlow`/`Channel` for one-off events.
-- Collect lifecycle-aware: `collectAsStateWithLifecycle()` in Compose, `repeatOnLifecycle(STARTED)` in Views.
+## Rules
+1. `val`, immutable data classes, sealed interfaces for state and results. No `!!`.
+2. Coroutines: `viewModelScope`/`lifecycleScope`, never `GlobalScope`. Inject dispatchers. Rethrow `CancellationException`. `StateFlow` for UI state, `Channel` or `SharedFlow` for one-off events.
+3. Collect with lifecycle awareness: `collectAsStateWithLifecycle()` or `repeatOnLifecycle(STARTED)`.
+4. Architecture: UI (screen + ViewModel exposing one `UiState`), optional domain use cases, data (repositories). Room is the single source of truth. Hilt constructor injection. `SavedStateHandle` for process-death state.
+5. Room: `exportSchema = true`, tested migrations, DAOs return `Flow`. DataStore, not SharedPreferences. Secrets via Keystore.
+6. WorkManager for deferrable guaranteed work. Foreground services need a declared type and notification.
+7. Manifest: explicit `android:exported`, minimal permissions, validated deep links, cleartext off, deliberate `allowBackup`.
+8. Runtime permissions in context with rationale and denial path. Photo Picker over broad storage.
+9. Edge-to-edge insets, predictive back, config change, Doze.
 
-## Architecture (Google recommended)
-- UI layer (screen + ViewModel exposing a single `UiState`), domain layer for reusable use cases when needed, data layer (repositories, data sources). Unidirectional data flow. Single source of truth in Room.
-- DI with Hilt (or Koin). ViewModels get dependencies by constructor injection. Use `SavedStateHandle` for process-death-safe state.
-- Multi-module by feature and layer for build speed and boundaries. Convention plugins and a version catalog (`libs.versions.toml`).
+## Test
+- Unit: `runTest`, Turbine for Flow, fakes over mocks. `./gradlew testDebugUnitTest`
+- Instrumented: `./gradlew connectedDebugAndroidTest`; CI with Gradle Managed Devices.
+- Lint, detekt or ktlint, StrictMode in debug, LeakCanary in debug.
 
-## Data and background
-- Room with migrations and `exportSchema = true`; return `Flow` from DAOs; test migrations. DataStore replaces SharedPreferences. Secrets with Android Keystore / EncryptedFile.
-- WorkManager for deferrable guaranteed work with constraints; foreground services only with declared type and notification.
-- Networking: Retrofit + kotlinx.serialization or Ktor, OkHttp timeouts and interceptors, map DTOs to domain models, typed result wrapper for errors.
+## Pitfalls
+Collecting Flow without lifecycle; swallowing `CancellationException`; R8 keep rules untested; blocking the main thread; exported components without permission.
 
-## Platform correctness
-- Runtime permissions requested in context with rationale and denial handling. Scoped storage and Photo Picker instead of broad storage access.
-- Handle configuration change and process death. Edge-to-edge insets. Predictive back. Respect battery and Doze.
-- Manifest hygiene: `exported` set explicitly, minimal permissions, deep links validated, `android:allowBackup` decided deliberately, cleartext traffic off.
-
-## Quality
-- Static analysis: ktlint/detekt, Android Lint, StrictMode in debug. R8 shrinking and obfuscation on for release with tested keep rules.
-- Performance: Baseline Profiles and Macrobenchmark for startup and jank; Android Studio Profiler; LeakCanary in debug.
-
-## Testing
-- Unit: JUnit5/JUnit4, `kotlinx-coroutines-test` (`runTest`, `StandardTestDispatcher`), Turbine for Flow, MockK or fakes.
-- Instrumented/UI: Espresso for Views, Compose test APIs for Compose, Hilt test rules. Run `./gradlew testDebugUnitTest` and `./gradlew connectedDebugAndroidTest`; use Gradle Managed Devices for CI. See `mobile-device-testing`.
-
-## Release
-- App Bundle (AAB), Play App Signing, staged rollout, Android vitals (crash and ANR rate), mapping file uploaded for deobfuscation, data safety form current.
-
-## Done when
-Lint and unit tests green, instrumented tests run on an emulator, checked on a real low-end device, manifest and permissions reviewed.
+## Verify
+Lint and unit tests green; instrumented tests on an emulator; checked on a low-end real device. Depth in `references/guide.md`.

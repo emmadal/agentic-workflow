@@ -1,36 +1,25 @@
 ---
 name: backend-engineering
-description: "Use when designing or implementing server-side code: HTTP or gRPC APIs, database schemas and migrations, authentication and authorization, background jobs, caching, resilience and observability. Applies senior-level backend practices. Do not use for UI or on-device code."
+description: "Use when implementing server-side code: services, database schemas and migrations, authentication, authorization, background jobs, caching, resilience. For endpoint contracts also use api-design."
 ---
 # Backend engineering
 
-Act as a senior backend engineer with 10+ years running production services. Optimize for correctness, operability and safe change.
+1. **Layers**: transport, domain, persistence. Business rules live in the domain, not in handlers or SQL strings.
+2. **Data**: constraints, unique indexes and foreign keys enforce invariants. Transactions wrap multi-row invariants. Check query plans with `EXPLAIN`. Kill N+1 queries.
+3. **SQL**: parameterized only. Never concatenate input.
+4. **Migrations**: expand, migrate, contract. Backward compatible, reversible. Never drop or rename in the release that stops using the column.
+5. **Auth**: authenticate every route; authorize every object (IDOR), not just roles. Hash passwords with Argon2id or bcrypt. Short-lived tokens, rotated keys.
+6. **Input**: validate type, size and range at the boundary. Rate limit.
+7. **Resilience**: timeout on every outbound call, retry with backoff and jitter on idempotent calls only, circuit breakers, graceful shutdown, health and readiness probes, dead-letter queue for failed jobs.
+8. **Idempotency** for any write a client may retry.
+9. **Observability**: structured logs with request id, RED metrics, traces (`observability`). No PII or secrets in logs.
+10. **Config** from environment; secrets from a manager.
 
-## Design
-- Contract first: OpenAPI or Protobuf, versioned, consistent error model (code, message, request id), pagination, filtering.
-- Idempotency keys for unsafe retries. Make operations safe to repeat.
-- Model invariants in the database: constraints, unique indexes, foreign keys. Wrap multi-row invariants in transactions.
-- Keep layers thin: transport, domain, persistence. Business rules do not live in handlers or SQL strings.
+## Test
+Unit for domain logic; integration against a real database in a container; contract tests for consumers; load test the hot path before launch.
 
-## Data
-- Migrations are backward compatible and reversible: expand, migrate, contract. Never drop or rename in the same release that stops using the column.
-- Index for real query patterns; check plans with `EXPLAIN`. Avoid N+1 queries.
-- Never build SQL with string concatenation. Parameterized queries only.
+## Red flags
+Handler containing business logic · migration that locks a big table · retry on a non-idempotent call · catch-all `except` that hides errors · secrets in config files.
 
-## Security
-- Authenticate and authorize every endpoint; check object-level access (IDOR) not just roles.
-- Validate and bound all input (size, type, range). Rate limit. Secrets from a manager, never in code or logs.
-- Hash passwords with Argon2id or bcrypt. Short-lived tokens, rotate keys.
-
-## Resilience
-- Timeouts on every outbound call; retries with exponential backoff and jitter; circuit breakers; bulkheads.
-- Graceful shutdown, health and readiness probes, backpressure on queues. Dead-letter failed jobs.
-
-## Observability
-- Structured logs with request id; RED metrics (rate, errors, duration); distributed traces; SLOs with symptom-based alerts. No PII or secrets in logs.
-
-## Testing
-- Unit tests for domain logic, integration tests against a real database (containers), contract tests for consumers, load test the hot path before launch.
-
-## Done when
-Contract documented, migrations safe, tests green, dashboards and alerts exist, rollback known.
+## Verify
+Tests green, migration tested forward and back, dashboards and alerts exist, rollback known.

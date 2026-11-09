@@ -16,9 +16,11 @@ Each stage has an owner (sub-agent or skill), a defined output and a gate.
 |------|---------|
 | `AGENTS.md` | Shared instructions for Claude Code, OpenCode, Cursor, Codex, Gemini CLI |
 | `CLAUDE.md` | Imports `AGENTS.md` plus Claude-specific notes |
-| `.agents/skills/` | Source of truth: 18 skills (process, backend, frontend, QA, mobile) |
+| `.agents/skills/` | Source of truth: 33 skills (process, backend, frontend, QA, security, delivery, mobile) |
 | `.agents/agents/` | Source of truth: 11 role agents |
 | `scripts/` | `sync_agents` generates per-tool files; `validate_skills` lints skills and agents |
+| `docs/benchmarks.md` | Token and routing benchmark against `addyosmani/agent-skills` |
+| `evals/routing.json` | Deterministic skill-routing cases, run in CI |
 | `docs/compatibility.md` | Where each tool reads skills and agents, and how to invoke them |
 | `.claude/`, `.opencode/`, `.codex/`, `.cursor/`, `.gemini/` | Generated agent and skill files. Do not edit |
 | `.claude/settings.json` | Permissions and hooks (test gate, destructive command block) |
