@@ -1,0 +1,223 @@
+import re
+import shutil
+import tomllib
+from pathlib import Path
+
+import pytest
+
+from scripts import sync_agents, validate_skills
+from scripts.frontmatter import FrontmatterError, parse, quote
+
+ROOT = Path(__file__).resolve().parent.parent
+
+MOBILE_SKILLS = {
+    "mobile-engineering",
+    "swift-ios",
+    "kotlin-android",
+    "android-compose",
+    "kotlin-multiplatform",
+    "react-native",
+    "expo",
+    "mobile-device-testing",
+}
+
+
+def make_repo(tmp_path: Path) -> Path:
+    shutil.copytree(ROOT / ".agents", tmp_path / ".agents")
+    return tmp_path
+
+
+# --- frontmatter ---
+
+
+def test_parse_quoted_and_plain():
+    doc = parse('---\nname: x\ndescription: "a: b"\n---\nbody\n')
+    assert doc.meta == {"name": "x", "description": "a: b"}
+    assert doc.body == "body\n"
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "no frontmatter",
+        "---\nname: x\n",
+        "---\ndescription: Use when: colon\n---\n",
+        "---\nname: a\nname: b\n---\n",
+        "---\ndescription: 'single'\n---\n",
+        "---\nbad line\n---\n",
+    ],
+)
+def test_parse_rejects_invalid(text):
+    with pytest.raises(FrontmatterError):
+        parse(text)
+
+
+def test_quote_roundtrip():
+    value = 'say "hi": ok'
+    assert parse(f"---\ndescription: {quote(value)}\n---\n").meta["description"] == value
+
+
+# --- the real repository ---
+
+
+def test_repo_skills_and_agents_are_valid():
+    assert validate_skills.validate_skills(ROOT) == []
+    assert validate_skills.validate_agents(ROOT) == []
+
+
+def test_generated_files_are_in_sync():
+    assert sync_agents.check(ROOT) == []
+
+
+def test_mobile_skills_exist():
+    names = {p.name for p in (ROOT / ".agents/skills").iterdir() if p.is_dir()}
+    assert MOBILE_SKILLS <= names
+
+
+def test_agents_md_mentions_every_skill():
+    text = (ROOT / "AGENTS.md").read_text()
+    for skill in (ROOT / ".agents/skills").iterdir():
+        assert f"`{skill.name}`" in text, f"AGENTS.md does not list skill {skill.name}"
+
+
+def test_skills_declare_senior_persona():
+    for skill in (ROOT / ".agents/skills").iterdir():
+        body = (skill / "SKILL.md").read_text()
+        assert re.search(r"\b(senior|staff|principal)\b", body, re.I), skill.name
+
+
+def test_helper_scripts_are_executable():
+    for script in (ROOT / ".agents/skills/mobile-device-testing/scripts").glob("*.sh"):
+        assert script.stat().st_mode & 0o111, f"{script.name} is not executable"
+
+
+def test_codex_outputs_are_valid_toml():
+    for path in (ROOT / ".codex/agents").glob("*.toml"):
+        data = tomllib.loads(path.read_text())
+        assert {"name", "description", "developer_instructions"} <= set(data)
+        assert data["name"] == path.stem
+
+
+def test_claude_agents_pin_opus():
+    for path in (ROOT / ".claude/agents").glob("*.md"):
+        assert parse(path.read_text()).meta["model"] == "opus"
+
+
+def test_opencode_config_default_model():
+    import json
+
+    cfg = json.loads((ROOT / "opencode.json").read_text())
+    assert cfg["model"] == "anthropic/claude-opus-5-5"
+
+
+# --- access mapping ---
+
+
+@pytest.mark.parametrize("access", ["read-only", "inspect", "write"])
+def test_access_mapping(access):
+    args = ("n", "d", access, "body\n")
+    claude = sync_agents.render_claude(*args)
+    assert f"tools: {sync_agents.CLAUDE_TOOLS[access]}" in claude
+    has_edit = "Edit" in claude
+    assert has_edit == (access == "write")
+    assert ("edit: allow" in sync_agents.render_opencode(*args)) == (access == "write")
+    assert ("readonly: true" in sync_agents.render_cursor(*args)) == (access != "write")
+    gemini = sync_agents.render_gemini(*args)
+    assert ("write_file" in gemini) == (access == "write")
+    assert ("run_shell_command" in gemini) == (access != "read-only")
+
+
+# --- validator failure modes ---
+
+
+def write_skill(root: Path, name: str, front: str, body: str = "# t\nSenior.\n") -> None:
+    d = root / ".agents/skills" / name
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "SKILL.md").write_text(f"---\n{front}\n---\n{body}")
+
+
+def errors_for(tmp_path, name, front, body="# t\n"):
+    repo = make_repo(tmp_path)
+    write_skill(repo, name, front, body)
+    return validate_skills.validate_skills(repo)
+
+
+def test_name_must_match_directory(tmp_path):
+    errs = errors_for(tmp_path, "bad-skill", 'name: other\ndescription: "Use when x."')
+    assert any("must equal directory name" in e for e in errs)
+
+
+def test_description_needs_trigger(tmp_path):
+    errs = errors_for(tmp_path, "bad-skill", 'name: bad-skill\ndescription: "Does things."')
+    assert any("Use when" in e for e in errs)
+
+
+def test_description_length_limit(tmp_path):
+    long = "Use when " + "x" * 600
+    errs = errors_for(tmp_path, "bad-skill", f'name: bad-skill\ndescription: "{long}"')
+    assert any("max 500" in e for e in errs)
+
+
+def test_unquoted_colon_description_rejected(tmp_path):
+    errs = errors_for(tmp_path, "bad-skill", "name: bad-skill\ndescription: Use when: x")
+    assert any("double quotes" in e for e in errs)
+
+
+def test_unknown_key_rejected(tmp_path):
+    front = 'name: bad-skill\ndescription: "Use when x."\nallowed-tools: Bash'
+    assert any("unsupported" in e for e in errors_for(tmp_path, "bad-skill", front))
+
+
+def test_missing_reference_detected(tmp_path):
+    front = 'name: bad-skill\ndescription: "Use when x."'
+    errs = errors_for(tmp_path, "bad-skill", front, "# t\nSee `references/none.md`.\n")
+    assert any("referenced file not found" in e for e in errs)
+
+
+def test_agent_with_unknown_skill_detected(tmp_path):
+    repo = make_repo(tmp_path)
+    (repo / ".agents/agents/ghost.md").write_text(
+        '---\nname: ghost\ndescription: "d"\naccess: write\n---\nLoad the `nope` skill.\n'
+    )
+    assert any("unknown skill 'nope'" in e for e in validate_skills.validate_agents(repo))
+
+
+def test_agent_bad_access_detected(tmp_path):
+    repo = make_repo(tmp_path)
+    (repo / ".agents/agents/ghost.md").write_text(
+        '---\nname: ghost\ndescription: "d"\naccess: root\n---\nbody\n'
+    )
+    assert any("access must be" in e for e in validate_skills.validate_agents(repo))
+
+
+# --- sync behavior ---
+
+
+def test_sync_creates_then_detects_drift(tmp_path):
+    repo = make_repo(tmp_path)
+    assert sync_agents.check(repo)  # nothing generated yet
+    sync_agents.sync(repo)
+    assert sync_agents.check(repo) == []
+
+    (repo / ".claude/agents/reviewer.md").write_text("tampered")
+    (repo / ".claude/skills/extra.txt").write_text("stale")
+    problems = sync_agents.check(repo)
+    assert any("out of date: .claude/agents/reviewer.md" in p for p in problems)
+    assert any("stale: .claude/skills/extra.txt" in p for p in problems)
+
+    sync_agents.sync(repo)
+    assert sync_agents.check(repo) == []
+
+
+def test_main_check_exit_codes(tmp_path):
+    repo = make_repo(tmp_path)
+    assert sync_agents.main(["sync", "--check", str(repo)]) == 1
+    assert sync_agents.main(["sync", str(repo)]) == 0
+    assert sync_agents.main(["sync", "--check", str(repo)]) == 0
+
+
+def test_validate_main_exit_codes(tmp_path):
+    assert validate_skills.main(["v", str(ROOT)]) == 0
+    repo = make_repo(tmp_path)
+    write_skill(repo, "bad-skill", "name: nope\ndescription: x")
+    assert validate_skills.main(["v", str(repo)]) == 1

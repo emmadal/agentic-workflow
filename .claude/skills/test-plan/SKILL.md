@@ -1,14 +1,18 @@
 ---
 name: test-plan
-description: Produce a risk-based test plan for a feature. Use after /spec and before release.
+description: "Use when a feature needs a risk-based test plan before release, covering unit, integration, end-to-end, performance, security, accessibility and, for apps, device and OS coverage. Writes docs/specs/<slug>.test-plan.md with exit criteria. Do not use to write the tests themselves."
 ---
 # Test plan
 
-Delegate to the `qa-engineer` sub-agent. Write `docs/specs/<slug>.test-plan.md`:
+Act as a senior QA lead. Spend effort where failure would hurt most.
 
-1. Scope and risks
-2. Test matrix: unit, integration, E2E, performance, security, accessibility
-3. Edge cases and negative paths from the acceptance criteria
-4. Test data and environments
-5. Exit criteria: what must pass before release
-6. Rollback verification
+Delegate to the `qa-engineer` agent if available; otherwise follow the `qa-testing` skill inline. For mobile, also apply `mobile-device-testing`.
+
+Write `docs/specs/<slug>.test-plan.md`:
+1. **Scope and top risks**, ranked by impact times likelihood.
+2. **Test matrix**: level (unit, integration, E2E), what, who runs it, where (CI, staging, device).
+3. **Cases from acceptance criteria**, then negative paths, boundaries, permissions, interruptions, concurrency.
+4. **Environments and data**: OS versions, device classes, locales, network conditions, test accounts, seeded data.
+5. **Non-functional**: performance budgets, accessibility, security, battery and memory for apps.
+6. **Exit criteria**: exactly what must pass for release.
+7. **Rollback verification**: how to prove rollback works.

@@ -3,6 +3,9 @@
   "permissions": {
     "allow": [
       "Bash(pytest -q)",
+      "Bash(python -m scripts.validate_skills)",
+      "Bash(python -m scripts.sync_agents)",
+      "Bash(python -m scripts.sync_agents --check)",
       "Bash(ruff check .)",
       "Bash(ruff format --check .)",
       "Bash(git status)",

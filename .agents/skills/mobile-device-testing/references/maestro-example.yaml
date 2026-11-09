@@ -1,0 +1,22 @@
+# Example Maestro flow. Replace appId and ids with your app's values.
+appId: com.example.app
+---
+- launchApp:
+    clearState: true
+    permissions: { notifications: deny }
+- assertVisible: "Welcome"
+- tapOn:
+    id: "email-input"
+- inputText: "qa@example.com"
+- tapOn:
+    id: "password-input"
+- inputText: "correct-horse-battery"
+- tapOn: "Sign in"
+- assertVisible:
+    text: "Home"
+    timeout: 10000
+- takeScreenshot: artifacts/home
+# Background and restore
+- killApp
+- launchApp
+- assertVisible: "Home"

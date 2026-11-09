@@ -14,9 +14,13 @@ Each stage has an owner (sub-agent or skill), a defined output and a gate.
 
 | Path | Purpose |
 |------|---------|
-| `CLAUDE.md` | Project rules loaded into every session |
-| `.claude/agents/` | Role sub-agents with scoped tools |
-| `.claude/skills/` | Reusable procedures: `spec`, `plan`, `ship` |
+| `AGENTS.md` | Shared instructions for Claude Code, OpenCode, Cursor, Codex, Gemini CLI |
+| `CLAUDE.md` | Imports `AGENTS.md` plus Claude-specific notes |
+| `.agents/skills/` | Source of truth: 18 skills (process, backend, frontend, QA, mobile) |
+| `.agents/agents/` | Source of truth: 11 role agents |
+| `scripts/` | `sync_agents` generates per-tool files; `validate_skills` lints skills and agents |
+| `docs/compatibility.md` | Where each tool reads skills and agents, and how to invoke them |
+| `.claude/`, `.opencode/`, `.codex/`, `.cursor/`, `.gemini/` | Generated agent and skill files. Do not edit |
 | `.claude/settings.json` | Permissions and hooks (test gate, destructive command block) |
 | `agent/` | Minimal Python agent loop (Anthropic SDK) with step and token budgets |
 | `tests/` | Tests for the loop and tools |
@@ -49,7 +53,15 @@ python -m agent.cli "explain the repo layout" --workdir .
 python -m agent.cli "add a --verbose flag" --workdir . --allow-write
 ```
 
-Use with Claude Code: open the repo, then run `/spec`, `/plan`, implement slice by slice, `/ship`.
+Use with any supported tool: open the repo, then run `spec`, `plan`, implement slice by slice, `ship`.
+Skills load automatically from their descriptions, or by name (`/swift-ios`, `$swift-ios`). See `docs/compatibility.md`.
+
+Edit `.agents/`, then:
+
+```bash
+python -m scripts.validate_skills
+python -m scripts.sync_agents
+```
 
 ## Adapting
 
