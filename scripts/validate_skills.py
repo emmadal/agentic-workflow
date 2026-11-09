@@ -23,11 +23,19 @@ MAX_BODY_LINES = 500
 REF_RE = re.compile(r"`((?:scripts|references|assets)/[A-Za-z0-9._/-]+)`")
 
 
+def _symlinks(base: Path) -> list[str]:
+    return [
+        f"symlinks are not allowed: {p.relative_to(base.parent.parent)}"
+        for p in sorted(base.rglob("*"))
+        if p.is_symlink()
+    ]
+
+
 def validate_skills(root: Path) -> list[str]:
-    errors: list[str] = []
     skills_dir = root / ".agents" / "skills"
     if not skills_dir.is_dir():
         return [f"missing directory: {skills_dir}"]
+    errors: list[str] = _symlinks(skills_dir)
     seen: set[str] = set()
     for skill_dir in sorted(p for p in skills_dir.iterdir() if p.is_dir()):
         label = f"skill {skill_dir.name}"
@@ -78,10 +86,10 @@ def _check_skill(label: str, skill_dir: Path, meta: dict, body: str, seen: set[s
 
 
 def validate_agents(root: Path) -> list[str]:
-    errors: list[str] = []
     agents_dir = root / ".agents" / "agents"
     if not agents_dir.is_dir():
         return [f"missing directory: {agents_dir}"]
+    errors: list[str] = _symlinks(agents_dir)
     skill_names = {p.name for p in (root / ".agents" / "skills").iterdir() if p.is_dir()}
     for path in sorted(agents_dir.glob("*.md")):
         label = f"agent {path.stem}"

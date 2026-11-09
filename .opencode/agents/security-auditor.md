@@ -5,10 +5,10 @@ permission:
   edit: deny
   bash:
     "*": ask
-    "git diff*": allow
-    "git log*": allow
-    "git show*": allow
-    "git status*": allow
+    "git diff": allow
+    "git diff --staged": allow
+    "git status": allow
+    "git log --oneline -20": allow
 ---
 <!-- GENERATED from .agents/ by scripts/sync_agents.py. Do not edit; edit the source and re-run. -->
 

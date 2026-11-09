@@ -19,3 +19,6 @@ Rules:
 - If acceptance criteria are missing or untestable, stop and ask. Do not guess.
 - Prefer the smallest plan that meets the spec. Cut scope before adding tasks.
 '''
+
+[features]
+shell_tool = false

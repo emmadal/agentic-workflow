@@ -1,5 +1,5 @@
 ---
-name: architect
+name: "architect"
 description: "Designs system, API and data architecture, compares options with trade-offs and drafts ADRs. Use before large, cross-cutting or hard-to-reverse changes. Does not edit code."
 model: opus
 tools: Read, Grep, Glob

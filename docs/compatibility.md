@@ -53,13 +53,27 @@ CI fails if generated files drift (`python -m scripts.sync_agents --check`).
 | `access` | Claude `tools` | OpenCode `permission` | Cursor | Gemini `tools` |
 |---|---|---|---|---|
 | read-only | Read, Grep, Glob | edit deny, bash deny | `readonly: true` | read_file, list_directory, glob, grep_search |
-| inspect | + Bash | edit deny, bash ask (git read commands allowed) | `readonly: true` | + run_shell_command |
+| inspect | + Bash | edit deny, bash ask (exact read-only git commands allowed) | `readonly: true` | + run_shell_command |
 | write | + Edit, Write | edit allow, bash ask | writable | + write_file, replace |
 
-Codex custom agents inherit the parent's permissions and cannot override them, so read-only intent is stated in the instructions and enforced by your Codex sandbox and approval settings.
+Codex custom agents inherit the parent's sandbox and approvals and cannot override them. Read-only agents therefore disable the shell tool (`features.shell_tool = false`) and say so in their instructions; keep your Codex sandbox on `read-only` or `workspace-write` for the rest. `inspect` agents keep the shell on Codex because Codex cannot restrict individual commands per agent; `sandbox_mode` in an agent file is ignored by Codex, so none is emitted.
+
+On Claude Code the `inspect` agents get the full `Bash` tool; project `permissions` in `.claude/settings.json` apply, but review output before trusting a read-only claim.
 
 ## Known limits
 
 - Model pinning only applies to Claude Code and OpenCode. Other tools use their own model; pick the strongest available.
-- Cursor `readonly` and Gemini tool names follow their current docs; if a tool rejects a field, remove it in `scripts/sync_agents.py`.
 - Hooks (`.claude/settings.json`) are Claude Code only. CI enforces the same gates for every tool.
+
+## Verification status
+
+| Item | Status |
+|------|--------|
+| Cursor `readonly`, subagent fields | Confirmed in Cursor docs |
+| Gemini tool names (`read_file`, `list_directory`, `glob`, `grep_search`, `write_file`, `replace`, `run_shell_command`) and `.gemini/agents` format | Confirmed in Gemini CLI docs |
+| Codex agent TOML fields and `features.shell_tool` | Confirmed in Codex docs |
+| OpenCode | Run locally: `opencode debug agents` lists all 11 agents with the right `edit`/`shell` permissions; `opencode debug config` shows `anthropic/claude-opus-5-5` |
+| Claude Code | Run locally: `claude -p` sees all 18 skills and 11 agents and rejects decoy names |
+| Cursor, Codex, Gemini CLI skill loading | Not run (tools not installed on the author's machine); paths follow each tool's docs |
+| `android-emu.sh` | Run on a Pixel 9 emulator (Android 17): start, launch, shot, log, crash, stop |
+| `ios-sim.sh`, `run-maestro.sh` | Syntax-checked; iOS runtimes and Maestro are not installed on the author's machine |

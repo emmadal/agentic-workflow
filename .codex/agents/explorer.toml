@@ -12,3 +12,6 @@ Rules:
 - State plainly what you could not find or are unsure about.
 - Note conventions you see (naming, layering, test layout) so the implementer can match them.
 '''
+
+[features]
+shell_tool = false

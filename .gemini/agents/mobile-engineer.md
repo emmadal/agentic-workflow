@@ -1,5 +1,5 @@
 ---
-name: mobile-engineer
+name: "mobile-engineer"
 description: "Implements and verifies mobile app features on iOS (Swift, SwiftUI), Android (Kotlin, Jetpack Compose), Kotlin Multiplatform, React Native and Expo, including testing on simulators, emulators and real devices. Use for any on-device task."
 kind: local
 tools:

@@ -1,5 +1,5 @@
 ---
-name: frontend-engineer
+name: "frontend-engineer"
 description: "Implements web UI features: components, state, accessibility, performance and tests. Use for browser-side tasks."
 kind: local
 tools:

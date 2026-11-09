@@ -221,3 +221,39 @@ def test_validate_main_exit_codes(tmp_path):
     repo = make_repo(tmp_path)
     write_skill(repo, "bad-skill", "name: nope\ndescription: x")
     assert validate_skills.main(["v", str(repo)]) == 1
+
+
+def test_codex_read_only_disables_shell_tool():
+    read_only = tomllib.loads(sync_agents.render_codex("n", "d", "read-only", "b\n"))
+    assert read_only["features"]["shell_tool"] is False
+    for access in ("inspect", "write"):
+        assert "features" not in tomllib.loads(sync_agents.render_codex("n", "d", access, "b\n"))
+
+
+# --- hardening ---
+
+
+def test_symlinks_in_skills_are_rejected(tmp_path):
+    repo = make_repo(tmp_path)
+    (repo / ".agents/skills/spec/leak.md").symlink_to("/etc/hosts")
+    assert any("symlinks are not allowed" in e for e in validate_skills.validate_skills(repo))
+    with pytest.raises(sync_agents.SyncError):
+        sync_agents.sync(repo)
+
+
+def test_sync_refuses_invalid_sources(tmp_path):
+    repo = make_repo(tmp_path)
+    (repo / ".agents/agents/evil.md").write_text(
+        '---\nname: "../../escape"\ndescription: "d"\naccess: write\n---\nbody\n'
+    )
+    with pytest.raises(sync_agents.SyncError):
+        sync_agents.sync(repo)
+    assert not (tmp_path.parent / "escape.md").exists()
+    assert sync_agents.main(["sync", "--check", str(repo)]) == 2
+
+
+def test_inspect_permissions_use_exact_git_commands():
+    rendered = sync_agents.render_opencode("n", "d", "inspect", "b\n")
+    assert "*" not in rendered.replace('"*": ask', "")
+    assert '"git diff": allow' in rendered
+    assert "git diff*" not in rendered

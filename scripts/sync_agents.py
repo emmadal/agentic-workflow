@@ -22,6 +22,7 @@ import sys
 from pathlib import Path
 
 from .frontmatter import parse, quote
+from .validate_skills import validate_agents, validate_skills
 
 HEADER = (
     "GENERATED from .agents/ by scripts/sync_agents.py. Do not edit; edit the source and re-run."
@@ -52,10 +53,10 @@ OPENCODE_PERMISSION = {
         "  edit: deny\n"
         "  bash:\n"
         '    "*": ask\n'
-        '    "git diff*": allow\n'
-        '    "git log*": allow\n'
-        '    "git show*": allow\n'
-        '    "git status*": allow\n'
+        '    "git diff": allow\n'
+        '    "git diff --staged": allow\n'
+        '    "git status": allow\n'
+        '    "git log --oneline -20": allow\n'
     ),
     "write": "  edit: allow\n  bash: ask\n",
 }
@@ -79,7 +80,7 @@ def _front(fields: list[tuple[str, str]], extra: str = "") -> str:
 def render_claude(name: str, desc: str, access: str, body: str) -> str:
     head = _front(
         [
-            ("name", name),
+            ("name", quote(name)),
             ("description", quote(desc)),
             ("model", CLAUDE_MODEL),
             ("tools", CLAUDE_TOOLS[access]),
@@ -97,7 +98,7 @@ def render_opencode(name: str, desc: str, access: str, body: str) -> str:
 
 
 def render_cursor(name: str, desc: str, access: str, body: str) -> str:
-    fields = [("name", name), ("description", quote(desc)), ("model", "inherit")]
+    fields = [("name", quote(name)), ("description", quote(desc)), ("model", "inherit")]
     if access != "write":
         fields.append(("readonly", "true"))
     return _front(fields) + body
@@ -106,7 +107,7 @@ def render_cursor(name: str, desc: str, access: str, body: str) -> str:
 def render_gemini(name: str, desc: str, access: str, body: str) -> str:
     tools = "tools:\n" + "".join(f"  - {t}\n" for t in GEMINI_TOOLS[access])
     head = _front(
-        [("name", name), ("description", quote(desc)), ("kind", "local")],
+        [("name", quote(name)), ("description", quote(desc)), ("kind", "local")],
         extra=tools,
     )
     return head + body
@@ -114,11 +115,13 @@ def render_gemini(name: str, desc: str, access: str, body: str) -> str:
 
 def render_codex(name: str, desc: str, access: str, body: str) -> str:
     instructions = body.rstrip("\n")
+    # Read-only agents get the shell tool disabled; Codex agents cannot change sandbox settings.
+    features = "\n[features]\nshell_tool = false\n" if access == "read-only" else ""
     return (
         f"# {HEADER}\n"
         f"name = {quote(name)}\n"
         f"description = {quote(desc)}\n"
-        f"developer_instructions = '''\n{instructions}\n'''\n"
+        f"developer_instructions = '''\n{instructions}\n'''\n{features}"
     )
 
 
@@ -131,18 +134,35 @@ AGENT_RENDERERS = {
 }
 
 
+class SyncError(Exception):
+    pass
+
+
+def _inside(root: Path, rel: str) -> None:
+    target = (root / rel).resolve()
+    if not target.is_relative_to(root.resolve()):
+        raise SyncError(f"output path escapes repository: {rel}")
+
+
 def expected_files(root: Path) -> dict[str, bytes]:
-    """Return {relative path: content} for every generated file."""
+    """Return {relative path: content} for every generated file. Validates sources first."""
+    errors = validate_skills(root) + validate_agents(root)
+    if errors:
+        raise SyncError("invalid sources:\n" + "\n".join(f"  {e}" for e in errors))
     out: dict[str, bytes] = {}
     for src in sorted((root / ".agents" / "agents").glob("*.md")):
         doc = parse(src.read_text())
         name, desc, access = doc.meta["name"], doc.meta["description"], doc.meta["access"]
         for directory, (ext, render) in AGENT_RENDERERS.items():
-            out[f"{directory}/{name}{ext}"] = render(name, desc, access, doc.body).encode()
+            rel = f"{directory}/{name}{ext}"
+            _inside(root, rel)
+            out[rel] = render(name, desc, access, doc.body).encode()
 
     skills = root / ".agents" / "skills"
     for file in sorted(p for p in skills.rglob("*") if p.is_file()):
-        out[f".claude/skills/{file.relative_to(skills).as_posix()}"] = file.read_bytes()
+        rel = f".claude/skills/{file.relative_to(skills).as_posix()}"
+        _inside(root, rel)
+        out[rel] = file.read_bytes()
     return out
 
 
@@ -184,6 +204,14 @@ def sync(root: Path) -> int:
 def main(argv: list[str]) -> int:
     args = [a for a in argv[1:] if a != "--check"]
     root = Path(args[0]) if args else Path(__file__).resolve().parent.parent
+    try:
+        return _run(argv, root)
+    except SyncError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+
+
+def _run(argv: list[str], root: Path) -> int:
     if "--check" in argv:
         problems = check(root)
         for problem in problems:

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Android emulator/device helper. Usage: android-emu.sh <list|start|install|launch|shot|log|crash> [args]
+# Android emulator/device helper. Usage: android-emu.sh <list|start|stop|install|launch|shot|log|crash> [args]
 set -euo pipefail
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "error: $1 not found (set ANDROID_HOME and add platform-tools and emulator to PATH)" >&2; exit 1; }; }
@@ -28,6 +28,11 @@ case "$cmd" in
     wait_for_boot
     echo "booted: $avd"
     ;;
+  stop)
+    need adb
+    adb emu kill >/dev/null 2>&1 || true
+    echo "emulator stopped"
+    ;;
   install)
     need adb
     apk="${1:?usage: install <path/to/app.apk>}"
@@ -36,7 +41,11 @@ case "$cmd" in
   launch)
     need adb
     pkg="${1:?usage: launch <package name>}"
-    adb shell monkey -p "$pkg" -c android.intent.category.LAUNCHER 1 >/dev/null
+    out="$(adb shell monkey -p "$pkg" -c android.intent.category.LAUNCHER 1 2>&1 || true)"
+    if printf '%s' "$out" | grep -qiE "monkey aborted|No activities found|Error"; then
+      echo "error: could not launch $pkg (is it installed?)" >&2
+      exit 1
+    fi
     ;;
   shot)
     need adb
@@ -48,7 +57,7 @@ case "$cmd" in
   log)
     need adb
     pkg="${1:?usage: log <package name>}"
-    pid="$(adb shell pidof -s "$pkg" | tr -d '\r')"
+    pid="$(adb shell pidof -s "$pkg" 2>/dev/null | tr -d '\r' || true)"
     [ -n "$pid" ] || { echo "error: $pkg is not running" >&2; exit 1; }
     adb logcat -v time --pid="$pid"
     ;;
@@ -57,7 +66,7 @@ case "$cmd" in
     adb logcat -b crash -d
     ;;
   *)
-    echo "usage: android-emu.sh <list|start|install|launch|shot|log|crash> [args]" >&2
+    echo "usage: android-emu.sh <list|start|stop|install|launch|shot|log|crash> [args]" >&2
     exit 2
     ;;
 esac

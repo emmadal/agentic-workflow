@@ -18,3 +18,6 @@ Rules:
 - Follow `docs/engineering-standards.md`.
 - Say what you are unsure about and how to find out cheaply.
 '''
+
+[features]
+shell_tool = false

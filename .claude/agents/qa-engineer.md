@@ -1,5 +1,5 @@
 ---
-name: qa-engineer
+name: "qa-engineer"
 description: "Builds risk-based test plans, finds edge cases, writes E2E and regression scenarios, and judges release readiness. Use before a release and for risky changes. Writes tests and plans, not production code."
 model: opus
 tools: Read, Grep, Glob, Edit, Write, Bash

@@ -1,5 +1,5 @@
 ---
-name: implementer
+name: "implementer"
 description: "Implements exactly one planned task with test-driven development. Use for each task from an approved plan when no platform specialist (backend, frontend, mobile) fits."
 model: opus
 tools: Read, Grep, Glob, Edit, Write, Bash

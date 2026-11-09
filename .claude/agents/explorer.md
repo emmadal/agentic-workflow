@@ -1,5 +1,5 @@
 ---
-name: explorer
+name: "explorer"
 description: "Read-only codebase search. Use to find where something is defined or used, map a module, or answer \"how does X work here\" before changing code. Returns file:line references, not file dumps."
 model: opus
 tools: Read, Grep, Glob

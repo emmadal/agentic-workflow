@@ -9,7 +9,12 @@ cmd="${1:-}"
 
 case "$cmd" in
   list)
-    xcrun simctl list devices available
+    out="$(xcrun simctl list devices available)"
+    printf '%s\n' "$out"
+    if ! printf '%s' "$out" | grep -qE "\((Shutdown|Booted)\)"; then
+      echo "error: no usable simulators. Install an iOS runtime: Xcode > Settings > Components, or 'xcodebuild -downloadPlatform iOS'." >&2
+      exit 3
+    fi
     ;;
   boot)
     device="${1:?usage: boot <name|udid>}"

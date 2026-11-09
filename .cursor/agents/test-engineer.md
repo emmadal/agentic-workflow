@@ -1,5 +1,5 @@
 ---
-name: test-engineer
+name: "test-engineer"
 description: "Writes unit, integration and regression tests for existing or new code and closes coverage gaps. Use when code needs tests, a bug needs a failing reproduction, or tests are flaky. Writes tests, not production code."
 model: inherit
 ---

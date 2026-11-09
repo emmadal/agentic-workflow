@@ -1,5 +1,5 @@
 ---
-name: backend-engineer
+name: "backend-engineer"
 description: "Implements backend services, APIs, data access, migrations and background jobs with senior-level rigor. Use for server-side tasks."
 model: opus
 tools: Read, Grep, Glob, Edit, Write, Bash

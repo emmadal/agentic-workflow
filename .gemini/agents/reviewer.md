@@ -1,5 +1,5 @@
 ---
-name: reviewer
+name: "reviewer"
 description: "Reviews the current diff in fresh context for correctness, tests, security, readability and performance, and returns severity-ranked findings. Use before merge. Never edits."
 kind: local
 tools:

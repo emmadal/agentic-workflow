@@ -1,5 +1,5 @@
 ---
-name: planner
+name: "planner"
 description: "Breaks an approved spec into small, ordered, verifiable tasks with risks and dependencies. Use after a spec exists and before any implementation starts. Does not edit files."
 kind: local
 tools:

@@ -1,5 +1,5 @@
 ---
-name: security-auditor
+name: "security-auditor"
 description: "Audits changes for vulnerabilities: injection, authn and authz flaws, secrets, unsafe deserialization, dependency risk, and mobile-specific issues such as insecure storage. Use for auth, input handling, dependencies and release checks. Never edits."
 model: inherit
 readonly: true
