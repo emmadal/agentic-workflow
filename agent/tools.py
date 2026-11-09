@@ -6,7 +6,8 @@ Write access and test execution are code execution. They are opt-in at the CLI.
 from __future__ import annotations
 
 import os
-import subprocess
+import subprocess  # nosec B404
+import sys
 from collections.abc import Callable
 from pathlib import Path
 
@@ -81,8 +82,8 @@ def write_file(workdir: Path, path: str, content: str) -> str:
 
 def run_tests(workdir: Path) -> str:
     env = {k: os.environ[k] for k in SAFE_ENV_KEYS if k in os.environ}
-    proc = subprocess.run(
-        ["pytest", "-q", "--maxfail=5"],
+    proc = subprocess.run(  # nosec B603
+        [sys.executable, "-m", "pytest", "-q", "--maxfail=5"],
         cwd=workdir,
         env=env,
         capture_output=True,

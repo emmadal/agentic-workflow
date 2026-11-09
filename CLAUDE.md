@@ -1,7 +1,21 @@
 # Project rules
 
+Default model: `claude-opus-5-5` (sub-agents use `model: opus`). See `docs/adr/0001-default-model-opus.md`.
+Process: `docs/sdlc.md`. Code standards (backend, frontend, mobile, QA, security, DevOps): `docs/engineering-standards.md`.
+
+## Role routing
+- Design and trade-offs: `architect` (+ `/adr`)
+- Server code: `backend-engineer`; web UI: `frontend-engineer`; apps: `mobile-engineer`
+- Tests and release risk: `qa-engineer`, `test-engineer` (+ `/test-plan`)
+- Review: `reviewer`; security: `security-auditor`
+
+## Definition of done
+Acceptance criteria met and tested, CI green (lint, types, tests, coverage, security scan),
+docs/ADRs updated, reviewed by `reviewer`, human approved, rollback path known.
+
 ## Commands
-- Test: `pytest -q`
+- Test: `pytest -q --cov=agent --cov-fail-under=80`
+- Security: `bandit -q -r agent` and `pip-audit`
 - Lint: `ruff check .`
 - Format: `ruff format .`
 

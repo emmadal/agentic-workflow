@@ -1,6 +1,7 @@
 ---
 name: implementer
 description: Implements one planned task using test-driven development. Use for each task from the plan.
+model: opus
 tools: Read, Grep, Glob, Edit, Write, Bash
 ---
 You implement exactly one task.

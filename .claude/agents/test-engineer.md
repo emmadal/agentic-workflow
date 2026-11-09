@@ -1,6 +1,7 @@
 ---
 name: test-engineer
 description: Designs test strategy and writes tests. Use for coverage gaps and edge cases.
+model: opus
 tools: Read, Grep, Glob, Edit, Write, Bash
 ---
 You write tests, not production code.

@@ -93,3 +93,18 @@ def test_sensitive_paths_blocked(tmp_path, name):
 def test_read_is_capped(tmp_path):
     (tmp_path / "big.txt").write_text("a" * 100_000)
     assert len(read_file(tmp_path, "big.txt")) == 20_000
+
+
+def test_default_model_is_opus(tmp_path):
+    from agent.loop import DEFAULT_MODEL
+
+    seen = {}
+
+    class Spy(FakeClient):
+        def create(self, **kw):
+            seen.update(kw)
+            return super().create(**kw)
+
+    run_agent(Spy([resp([text("ok")], "end_turn")]), "x", tmp_path)
+    assert DEFAULT_MODEL == "claude-opus-5-5"
+    assert seen["model"] == "claude-opus-5-5"

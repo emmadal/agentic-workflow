@@ -5,9 +5,17 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -17,4 +25,16 @@ jobs:
       - run: pip install -e ".[dev]"
       - run: ruff check .
       - run: ruff format --check .
-      - run: pytest -q
+      - run: pytest -q --cov=agent --cov-fail-under=80
+
+  security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: pip-audit
+      - run: bandit -q -r agent

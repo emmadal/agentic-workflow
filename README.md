@@ -1,5 +1,7 @@
 # agentic-workflow
 
+Default model: Claude Opus 5.5 (`claude-opus-5-5`).
+
 Template for an AI agentic software engineering workflow.
 
 ```
@@ -20,6 +22,9 @@ Each stage has an owner (sub-agent or skill), a defined output and a gate.
 | `tests/` | Tests for the loop and tools |
 | `.github/workflows/ci.yml` | Lint and test on every PR |
 | `docs/workflow.md` | Stage definitions and gates |
+| `docs/sdlc.md` | SDLC phases, definition of ready and done, release and incident process |
+| `docs/engineering-standards.md` | Standards for backend, frontend, mobile, QA, security, DevOps |
+| `docs/adr/` | Architecture decision records |
 
 ## Principles
 
