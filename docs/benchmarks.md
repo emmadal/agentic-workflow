@@ -7,9 +7,9 @@ Compared against [`addyosmani/agent-skills`](https://github.com/addyosmani/agent
 | Skills | 38 | 25 |
 | Always-loaded tokens (descriptions + instructions) | 2669 | 3804 |
 | Always-loaded tokens per skill | 70 | 152 |
-| Tokens to load one average skill | 367 | 3314 |
-| Tokens to load the largest skill | 524 (mobile-device-testing) | 5307 (constraint-driven-development) |
-| All skill bodies | 13946 | 82873 |
+| Tokens to load one average skill | 368 | 3314 |
+| Tokens to load the largest skill | 537 (swe-interview) | 5307 (constraint-driven-development) |
+| All skill bodies | 14006 | 82873 |
 | On-demand references (not loaded by default) | 7310 | 16222 |
 
 Reproduce:
@@ -122,15 +122,26 @@ Limits: n=5 per cell is small and no significance test was run; checks are mine 
 
 Harness: `evals/behavioral/personal_multi.py`. Same headless `claude -p` setup as above; turn 2 is a scripted user reply sent with `--resume`, and the grader checks the turn-2 reply only. Accountability checks commitment proof, the given deadline, an if-then for tiredness and a dated check-in; swe-interview checks question count, no solution leaked, no early scoring, no fluff.
 
+Run of 2026-11-10 after the `swe-interview` mock-loop change (third run of the day, see below):
+
 | Task | Arm | Perfect runs | Mean score | Mean cost per run | Failed runs |
 |---|---|---:|---:|---:|---:|
-| accountability | no skill | 0/4 | 0.61 | $0.042 | 1 |
-| accountability | skill | 4/5 | 0.97 | $0.055 | 0 |
-| swe-interview | no skill | 0/5 | 0.57 | $0.034 | 0 |
-| swe-interview | skill | 0/5 | 0.80 | $0.035 | 0 |
+| accountability | no skill | 0/3 | 0.62 | $0.041 | 2 |
+| accountability | skill | 1/5 | 0.89 | $0.054 | 0 |
+| swe-interview | no skill | 0/5 | 0.43 | $0.034 | 0 |
+| swe-interview | skill | 5/5 | 1.00 | $0.036 | 0 |
 
-- **Accountability**: the skill arm reaches 4/5 perfect runs and keeps the dated check-in discipline ("check-in is Sun Nov 15") that the no-skill arm never does (4/4 failing there). The no-skill arm fails `has_proof` in every run.
-- **Swe-interview**: the skill improves the mean score (0.57 → 0.80) but no run is perfect. The remaining miss is `asks_at_most_two_questions`, failing in 4/5 skill runs; the skill arm asks too many questions in turn 2.
-- **Grader rewrite**: the swe-interview grader was rewritten after reading a first run, so no earlier multi-turn numbers exist for comparison; the accountability grader was not changed after the run.
+History of the skill arm across the three runs (5 reps each, same grader):
+
+| Run | swe-interview skill | accountability skill | What changed |
+|---|---|---|---|
+| 1 | 0/5 perfect, 0.80 | 4/5 perfect, 0.97 | baseline |
+| 2 | 1/5 perfect, 0.70 | 3/5 perfect, 0.86 | swe-interview: one probe per turn, written as a question |
+| 3 | 5/5 perfect, 1.00 | 1/5 perfect, 0.89 | swe-interview: "done" with open gaps is not done, probe again |
+
+- **Swe-interview**: in run 1 the miss was `asks_at_most_two_questions` (4/5). Reading the replies showed 3 of those 4 asked zero questions (the probe was an imperative, "Walk me through ..."), and one asked three. Run 2 fixed the phrasing but 3/5 replies scored at once, because the scripted "I think I'm done" matched the skill's "when they finish, stop and score". Run 3 resolved that conflict in the skill and all 5 replies ask one question about the lost indices.
+- **Accountability**: the skill was not edited, yet its perfect runs moved 4/5, 3/5, 1/5. The unstable check is `names_next_checkin` (fails 1/5, 2/5, 4/5). Treat run-to-run differences of this size as noise at n=5, and the dated check-in as not reliable yet.
+- **Overfitting risk**: the swe-interview wording was changed twice against this single scripted scenario and the same grader, so 5/5 shows the two rules are followed here, not that the skill generalizes. The no-skill arm also moved 0.57 to 0.43 with no change.
+- **Grader rewrite**: the swe-interview grader was rewritten after reading a first run (before run 1), so no earlier multi-turn numbers exist for comparison; neither grader was changed between runs 1 and 3. Only run 3 is kept in `results-personal-multi.json`; runs 1 and 2 are in git history and this table.
 
 Limits: n=5 per cell, one model, self-written checks, two turns only. Reproduce: `python evals/behavioral/personal_multi.py --reps 5` (spends tokens, not part of CI).
