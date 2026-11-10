@@ -13,6 +13,7 @@ Shared by Claude Code, OpenCode, Cursor, Codex and Gemini CLI. `CLAUDE.md` impor
 ## Skills
 Skills load from their `description`; do not preload. Open a skill's `references/` only when needed.
 Flow: `discover` → `spec` → `plan` → `incremental-implementation` + `test-driven-development` → `code-review` → `ship` → `release`.
+Pause or resume: `context-save` writes a checkpoint to `.context/checkpoints/`, `context-restore` loads it.
 Mobile: start with `mobile-engineering`; run and test with `mobile-device-testing`.
 Agents: `planner` `explorer` `architect` (read-only), `reviewer` `security-auditor` (no edits), `implementer` `backend-engineer` `frontend-engineer` `mobile-engineer` `test-engineer` `qa-engineer` (write). Writer and reviewer differ. No sub-agents? Follow the same rules inline.
 

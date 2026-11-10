@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "agentic-workflow",
+  "description": "Spec-driven workflow skills and role agents for AI coding tools.",
+  "owner": { "name": "Emmanuel Dalougou" },
+  "plugins": [
+    {
+      "name": "agentic-workflow",
+      "version": "0.1.0",
+      "source": "./",
+      "description": "38 skills and 11 role agents from spec to release, plus context, accountability, secretary and interview skills.",
+      "homepage": "https://github.com/emmadal/agentic-workflow",
+      "keywords": ["skills", "agents", "spec", "tdd", "review", "ship", "context"]
+    }
+  ]
+}

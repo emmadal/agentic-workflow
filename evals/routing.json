@@ -460,5 +460,75 @@
     "owner": "swift-ios"
    }
   ]
+ },
+ {
+  "skill": "context-save",
+  "positive": [
+   "Save my progress, I need to stop for today and continue tomorrow",
+   "Checkpoint the current state so I can resume later",
+   "The context window is almost full, write down where we are before it resets"
+  ],
+  "negative": [
+   {
+    "prompt": "Pick up where we left off yesterday",
+    "owner": "context-restore"
+   }
+  ]
+ },
+ {
+  "skill": "context-restore",
+  "positive": [
+   "Pick up where we left off yesterday",
+   "Load my last checkpoint and tell me what is left to do",
+   "Resume the earlier session after the context reset"
+  ],
+  "negative": [
+   {
+    "prompt": "Save my progress before I close the laptop",
+    "owner": "context-save"
+   }
+  ]
+ },
+ {
+  "skill": "accountability",
+  "positive": [
+   "Hold me accountable to finish my side project by the end of the month",
+   "Do a weekly review of my commitments and tell me what I missed",
+   "I keep slipping on my goals, set up a check-in system for me"
+  ],
+  "negative": [
+   {
+    "prompt": "Write minutes and action items from this meeting transcript",
+    "owner": "secretary"
+   }
+  ]
+ },
+ {
+  "skill": "secretary",
+  "positive": [
+   "Turn these meeting notes into minutes with action items and owners",
+   "Draft a polite reply to this email asking for a deadline extension",
+   "Plan my week with time blocks around these meetings and tasks"
+  ],
+  "negative": [
+   {
+    "prompt": "Hold me accountable to my goals and check in weekly",
+    "owner": "accountability"
+   }
+  ]
+ },
+ {
+  "skill": "swe-interview",
+  "positive": [
+   "Give me a mock system design interview and score my answer",
+   "I have a coding interview next week, make me a prep plan and practice problems",
+   "Help me prepare behavioral interview stories using STAR"
+  ],
+  "negative": [
+   {
+    "prompt": "Draft an email thanking the recruiter for their time",
+    "owner": "secretary"
+   }
+  ]
  }
 ]

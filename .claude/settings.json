@@ -1,5 +1,4 @@
 {
-  "model": "claude-opus-5-5",
   "permissions": {
     "allow": [
       "Bash(pytest -q)",
@@ -17,25 +16,30 @@
       "Bash(rm -rf:*)",
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
-      "Read(**/.env)",
-      "Read(**/.env.*)",
       "Read(**/*.pem)",
       "Read(**/*.key)"
     ]
   },
+  "model": "claude-opus-5-5",
   "hooks": {
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
         "hooks": [
-          { "type": "command", "command": "ruff check . --quiet || true" }
+          {
+            "type": "command",
+            "command": "ruff check . --quiet || true"
+          }
         ]
       }
     ],
     "Stop": [
       {
         "hooks": [
-          { "type": "command", "command": "pytest -q" }
+          {
+            "type": "command",
+            "command": "pytest -q"
+          }
         ]
       }
     ]
