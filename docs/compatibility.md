@@ -74,8 +74,9 @@ On Claude Code the `inspect` agents get the full `Bash` tool; project `permissio
 | Cursor `readonly`, subagent fields | Confirmed in Cursor docs |
 | Gemini tool names (`read_file`, `list_directory`, `glob`, `grep_search`, `write_file`, `replace`, `run_shell_command`) and `.gemini/agents` format | Confirmed in Gemini CLI docs |
 | Codex agent TOML fields and `features.shell_tool` | Confirmed in Codex docs |
-| OpenCode | Run locally: `opencode debug agents` lists all 11 agents with the right `edit`/`shell` permissions; `opencode debug config` shows `anthropic/claude-opus-5-5` |
-| Claude Code | Run locally: `claude -p` sees the real skills (re-checked after the 33-skill refactor) and rejects decoy names |
+| OpenCode | Re-run with 38 skills via `install_skills --tool opencode`: `opencode debug agents` lists all 11 agents. Skill discovery: with a local mock OpenAI-compatible provider, OpenCode's `skill` tool listed `accountability`, `secretary`, `swe-interview`, `context-save`, `context-restore`, `spec` and `ship` in a project that had only `.agents/skills/` (the three personal names exist nowhere else on the machine). Rerun with an empty `HOME` (no global skills): OpenCode listed 40 skills = all 38 installed (none missing) + built-ins `opencode` and `report`. With a normal `HOME` the list also includes global skills from `~/.claude/skills`. Earlier: `opencode debug agents` lists all 11 agents with the right `edit`/`shell` permissions; `opencode debug config` shows `anthropic/claude-opus-5-5` |
+| Claude Code | Run locally: `claude -p` sees the real skills (re-checked with 35 skills; also loads as a plugin via `--plugin-dir`) and rejects decoy names |
+| `npx skills add . --list` (vercel-labs skills CLI) | Run in this repo: it discovered and listed project skills with their descriptions (end of the list seen, `swift-ios` to `test-plan`); install into a target not run |
 | Cursor, Codex, Gemini CLI skill loading | Not run (tools not installed on the author's machine); paths follow each tool's docs |
 | `android-emu.sh` | Run on a Pixel 9 emulator (Android 17): start, launch, shot, log, crash, stop |
 | `ios-sim.sh`, `run-maestro.sh` | Syntax-checked; iOS runtimes and Maestro are not installed on the author's machine |
