@@ -1,8 +1,7 @@
 {
   "name": "agentic-workflow",
   "version": "0.1.0",
-  "description": "Spec-driven workflow: 38 skills and 11 role agents, plus context, accountability, secretary and interview skills.",
-  "author": {
+  "description": "Spec-driven workflow: 39 skills and 11 role agents, plus context, accountability, secretary and interview skills.",  "author": {
     "name": "Emmanuel Dalougou"
   },
   "homepage": "https://github.com/emmadal/agentic-workflow",
