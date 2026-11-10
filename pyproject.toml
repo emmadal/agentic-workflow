@@ -3,7 +3,7 @@ name = "agentic-workflow"
 version = "0.1.0"
 description = "Template for an AI agentic software engineering workflow"
 requires-python = ">=3.11"
-dependencies = ["anthropic>=0.40"]
+dependencies = ["anthropic>=2.6.0"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "pytest-cov>=5", "ruff>=0.17.4", "bandit>=1.7", "pip-audit>=2.7"]
