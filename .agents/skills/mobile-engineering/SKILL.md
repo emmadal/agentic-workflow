@@ -7,7 +7,7 @@ description: "Use when starting any mobile app task (iOS, Android, KMP, React Na
 Assume slow networks, old devices, old app versions, and users who kill the app mid-request.
 
 ## Route
-Swift/SwiftUI `swift-ios` · Kotlin `kotlin-android` · Compose `android-compose` · shared Kotlin `kotlin-multiplatform` · RN `react-native` · Expo `expo` · run/test on simulator, emulator, device `mobile-device-testing`.
+Swift/SwiftUI `swift-ios` · Kotlin `kotlin-android` · Compose `android-compose` · shared Kotlin `kotlin-multiplatform` · RN `react-native` · Expo `expo` (SDK, Expo UI, Router, EAS Observe) · run/test on simulator, emulator, device `mobile-device-testing`.
 
 ## Rules
 1. UI is a function of state. State down, events up. No business logic in views.
