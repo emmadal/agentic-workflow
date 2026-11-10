@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1150" height="430" viewBox="0 0 1150 430" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect width="1150" height="430" fill="#f8fafc"/>
+  <text x="575" y="34" text-anchor="middle" font-size="21" font-weight="700" fill="#0f172a">Written once in .agents/ — generated for every tool</text>
+
+  <!-- source of truth -->
+  <g>
+    <rect x="385" y="55" width="380" height="115" rx="12" fill="#4f46e5"/>
+    <text x="575" y="85" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.agents/</text>
+    <text x="575" y="108" text-anchor="middle" font-size="12" fill="#c7d2fe">the source of truth — edit here</text>
+    <text x="575" y="130" text-anchor="middle" font-size="12" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">skills/  (38 skills)</text>
+    <text x="575" y="150" text-anchor="middle" font-size="12" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">agents/  (11 role agents)</text>
+  </g>
+
+  <!-- distribution -->
+  <line x1="575" y1="170" x2="575" y2="195" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="140" y1="195" x2="1020" y2="195" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="140" y1="195" x2="140" y2="215" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="360" y1="195" x2="360" y2="215" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="575" y1="195" x2="575" y2="215" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="800" y1="195" x2="800" y2="215" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="1020" y1="195" x2="1020" y2="215" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M 136 215 L 144 215 L 140 223 Z" fill="#94a3b8"/>
+  <path d="M 356 215 L 364 215 L 360 223 Z" fill="#94a3b8"/>
+  <path d="M 571 215 L 579 215 L 575 223 Z" fill="#94a3b8"/>
+  <path d="M 796 215 L 804 215 L 800 223 Z" fill="#94a3b8"/>
+  <path d="M 1016 215 L 1024 215 L 1020 223 Z" fill="#94a3b8"/>
+  <text x="590" y="188" font-size="12" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">python -m scripts.sync_agents</text>
+
+  <!-- tool columns -->
+  <g>
+    <rect x="40" y="230" width="200" height="120" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="40" y="230" width="200" height="30" rx="12" fill="#e2e8f0"/>
+    <rect x="40" y="246" width="200" height="14" fill="#e2e8f0"/>
+    <text x="140" y="251" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Claude Code</text>
+    <text x="140" y="285" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.claude/skills/</text>
+    <text x="140" y="305" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.claude/agents/</text>
+    <text x="140" y="325" text-anchor="middle" font-size="11" fill="#64748b">/spec</text>
+  </g>
+  <g>
+    <rect x="260" y="230" width="200" height="120" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="260" y="230" width="200" height="30" rx="12" fill="#e2e8f0"/>
+    <rect x="260" y="246" width="200" height="14" fill="#e2e8f0"/>
+    <text x="360" y="251" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">OpenCode</text>
+    <text x="360" y="285" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.agents/skills/</text>
+    <text x="360" y="305" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.opencode/agents/</text>
+    <text x="360" y="325" text-anchor="middle" font-size="11" fill="#64748b">"use the spec skill"</text>
+  </g>
+  <g>
+    <rect x="480" y="230" width="200" height="120" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="480" y="230" width="200" height="30" rx="12" fill="#e2e8f0"/>
+    <rect x="480" y="246" width="200" height="14" fill="#e2e8f0"/>
+    <text x="575" y="251" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Cursor</text>
+    <text x="575" y="285" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.agents/skills/</text>
+    <text x="575" y="305" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.cursor/agents/</text>
+    <text x="575" y="325" text-anchor="middle" font-size="11" fill="#64748b">/spec in Agent chat</text>
+  </g>
+  <g>
+    <rect x="700" y="230" width="200" height="120" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="700" y="230" width="200" height="30" rx="12" fill="#e2e8f0"/>
+    <rect x="700" y="246" width="200" height="14" fill="#e2e8f0"/>
+    <text x="800" y="251" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Codex</text>
+    <text x="800" y="285" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.agents/skills/</text>
+    <text x="800" y="305" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.codex/agents/*.toml</text>
+    <text x="800" y="325" text-anchor="middle" font-size="11" fill="#64748b">$spec</text>
+  </g>
+  <g>
+    <rect x="920" y="230" width="200" height="120" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="920" y="230" width="200" height="30" rx="12" fill="#e2e8f0"/>
+    <rect x="920" y="246" width="200" height="14" fill="#e2e8f0"/>
+    <text x="1020" y="251" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Gemini CLI</text>
+    <text x="1020" y="285" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.agents/skills/</text>
+    <text x="1020" y="305" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, 'SF Mono', Menlo, monospace">.gemini/agents/</text>
+    <text x="1020" y="325" text-anchor="middle" font-size="11" fill="#64748b">"use the spec skill"</text>
+  </g>
+
+  <text x="575" y="385" text-anchor="middle" font-size="12" fill="#64748b">CI runs sync_agents --check on every PR — drift fails the build. Never edit the generated folders.</text>
+  <text x="575" y="403" text-anchor="middle" font-size="12" fill="#64748b">Agent permissions are mapped to each tool's own model: read-only, inspect (no edits) and write.</text>
+</svg>

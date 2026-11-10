@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="300" viewBox="0 0 1180 300" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect width="1180" height="300" fill="#f8fafc"/>
+  <text x="590" y="40" text-anchor="middle" font-size="21" font-weight="700" fill="#0f172a">The workflow — six phases, one skill per step</text>
+  <text x="590" y="60" text-anchor="middle" font-size="12" fill="#64748b">Skills load automatically from their description ("Use when ..."), or by name (/spec)</text>
+
+  <!-- DEFINE -->
+  <g>
+    <rect x="40" y="80" width="160" height="180" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="40" y="80" width="160" height="34" rx="12" fill="#6366f1"/>
+    <rect x="40" y="102" width="160" height="12" fill="#6366f1"/>
+    <text x="120" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">DEFINE</text>
+    <text x="120" y="134" text-anchor="middle" font-size="11" fill="#475569">discover</text>
+    <text x="120" y="150" text-anchor="middle" font-size="11" fill="#475569">spec</text>
+    <line x1="60" y1="166" x2="180" y2="166" stroke="#e2e8f0"/>
+    <text x="120" y="186" text-anchor="middle" font-size="11" fill="#64748b">Questions, then 2-3</text>
+    <text x="120" y="200" text-anchor="middle" font-size="11" fill="#64748b">options with trade-offs.</text>
+    <text x="120" y="214" text-anchor="middle" font-size="11" fill="#64748b">Every change starts</text>
+    <text x="120" y="228" text-anchor="middle" font-size="11" fill="#64748b">with a spec.</text>
+  </g>
+  <path d="M 204 162 L 218 170 L 204 178 Z" fill="#94a3b8"/>
+
+  <!-- PLAN -->
+  <g>
+    <rect x="225" y="80" width="160" height="180" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="225" y="80" width="160" height="34" rx="12" fill="#8b5cf6"/>
+    <rect x="225" y="102" width="160" height="12" fill="#8b5cf6"/>
+    <text x="305" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">PLAN</text>
+    <text x="305" y="134" text-anchor="middle" font-size="11" fill="#475569">plan</text>
+    <text x="305" y="150" text-anchor="middle" font-size="11" fill="#475569">adr</text>
+    <line x1="245" y1="166" x2="365" y2="166" stroke="#e2e8f0"/>
+    <text x="305" y="186" text-anchor="middle" font-size="11" fill="#64748b">Small ordered tasks,</text>
+    <text x="305" y="200" text-anchor="middle" font-size="11" fill="#64748b">dependencies, risks.</text>
+    <text x="305" y="214" text-anchor="middle" font-size="11" fill="#64748b">ADRs when it is</text>
+    <text x="305" y="228" text-anchor="middle" font-size="11" fill="#64748b">hard to reverse.</text>
+  </g>
+  <path d="M 389 162 L 403 170 L 389 178 Z" fill="#94a3b8"/>
+
+  <!-- BUILD -->
+  <g>
+    <rect x="410" y="80" width="160" height="180" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="410" y="80" width="160" height="34" rx="12" fill="#0ea5e9"/>
+    <rect x="410" y="102" width="160" height="12" fill="#0ea5e9"/>
+    <text x="490" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">BUILD</text>
+    <text x="490" y="134" text-anchor="middle" font-size="11" fill="#475569">incremental-implementation</text>
+    <text x="490" y="150" text-anchor="middle" font-size="11" fill="#475569">test-driven-development</text>
+    <line x1="430" y1="166" x2="550" y2="166" stroke="#e2e8f0"/>
+    <text x="490" y="186" text-anchor="middle" font-size="11" fill="#64748b">Thin slices, each</text>
+    <text x="490" y="200" text-anchor="middle" font-size="11" fill="#64748b">with a test that</text>
+    <text x="490" y="214" text-anchor="middle" font-size="11" fill="#64748b">failed first.</text>
+  </g>
+  <path d="M 574 162 L 588 170 L 574 178 Z" fill="#94a3b8"/>
+
+  <!-- VERIFY -->
+  <g>
+    <rect x="595" y="80" width="160" height="180" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="595" y="80" width="160" height="34" rx="12" fill="#10b981"/>
+    <rect x="595" y="102" width="160" height="12" fill="#10b981"/>
+    <text x="675" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">VERIFY</text>
+    <text x="675" y="134" text-anchor="middle" font-size="11" fill="#475569">debugging</text>
+    <text x="675" y="150" text-anchor="middle" font-size="11" fill="#475569">qa-testing</text>
+    <line x1="615" y1="166" x2="735" y2="166" stroke="#e2e8f0"/>
+    <text x="675" y="186" text-anchor="middle" font-size="11" fill="#64748b">Reproduce, isolate,</text>
+    <text x="675" y="200" text-anchor="middle" font-size="11" fill="#64748b">fix the cause.</text>
+    <text x="675" y="214" text-anchor="middle" font-size="11" fill="#64748b">Risk-based test</text>
+    <text x="675" y="228" text-anchor="middle" font-size="11" fill="#64748b">plans.</text>
+  </g>
+  <path d="M 759 162 L 773 170 L 759 178 Z" fill="#94a3b8"/>
+
+  <!-- REVIEW -->
+  <g>
+    <rect x="780" y="80" width="160" height="180" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="780" y="80" width="160" height="34" rx="12" fill="#f59e0b"/>
+    <rect x="780" y="102" width="160" height="12" fill="#f59e0b"/>
+    <text x="860" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">REVIEW</text>
+    <text x="860" y="134" text-anchor="middle" font-size="11" fill="#475569">code-review</text>
+    <text x="860" y="150" text-anchor="middle" font-size="11" fill="#475569">security-hardening</text>
+    <line x1="800" y1="166" x2="920" y2="166" stroke="#e2e8f0"/>
+    <text x="860" y="186" text-anchor="middle" font-size="11" fill="#64748b">Fresh-context review:</text>
+    <text x="860" y="200" text-anchor="middle" font-size="11" fill="#64748b">ranked findings</text>
+    <text x="860" y="214" text-anchor="middle" font-size="11" fill="#64748b">and a verdict.</text>
+  </g>
+  <path d="M 944 162 L 958 170 L 944 178 Z" fill="#94a3b8"/>
+
+  <!-- SHIP -->
+  <g>
+    <rect x="965" y="80" width="160" height="180" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="965" y="80" width="160" height="34" rx="12" fill="#ef4444"/>
+    <rect x="965" y="102" width="160" height="12" fill="#ef4444"/>
+    <text x="1045" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">SHIP</text>
+    <text x="1045" y="134" text-anchor="middle" font-size="11" fill="#475569">ship</text>
+    <text x="1045" y="150" text-anchor="middle" font-size="11" fill="#475569">release</text>
+    <line x1="985" y1="166" x2="1105" y2="166" stroke="#e2e8f0"/>
+    <text x="1045" y="186" text-anchor="middle" font-size="11" fill="#64748b">Checks run, staged</text>
+    <text x="1045" y="200" text-anchor="middle" font-size="11" fill="#64748b">rollout, rollback</text>
+    <text x="1045" y="214" text-anchor="middle" font-size="11" fill="#64748b">ready.</text>
+  </g>
+
+  <text x="590" y="288" text-anchor="middle" font-size="12" fill="#64748b">Humans approve the plan and the merge. Deterministic gates (hooks, CI) over model memory.</text>
+</svg>

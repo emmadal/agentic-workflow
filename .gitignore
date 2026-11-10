@@ -9,3 +9,4 @@ __pycache__/
 artifacts/
 .context/
 .serena/
+.coverage
