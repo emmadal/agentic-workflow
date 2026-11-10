@@ -1,0 +1,572 @@
+[
+ {
+  "task": "scope_tests",
+  "arm": "baseline",
+  "rep": 0,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 57,
+  "turns": 5,
+  "cost_usd": 0.0251985,
+  "input_tokens": 26509,
+  "output_tokens": 843
+ },
+ {
+  "task": "scope_tests",
+  "arm": "baseline",
+  "rep": 1,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 55,
+  "turns": 4,
+  "cost_usd": 0.021110700000000003,
+  "input_tokens": 19556,
+  "output_tokens": 595
+ },
+ {
+  "task": "scope_tests",
+  "arm": "baseline",
+  "rep": 2,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 41,
+  "turns": 4,
+  "cost_usd": 0.020799300000000003,
+  "input_tokens": 19534,
+  "output_tokens": 575
+ },
+ {
+  "task": "scope_tests",
+  "arm": "baseline",
+  "rep": 3,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 30,
+  "turns": 3,
+  "cost_usd": 0.0183382,
+  "input_tokens": 19313,
+  "output_tokens": 413
+ },
+ {
+  "task": "scope_tests",
+  "arm": "baseline",
+  "rep": 4,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 28,
+  "turns": 3,
+  "cost_usd": 0.018568900000000003,
+  "input_tokens": 19424,
+  "output_tokens": 410
+ },
+ {
+  "task": "scope_tests",
+  "arm": "baseline",
+  "rep": 5,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 28,
+  "turns": 3,
+  "cost_usd": 0.018568900000000003,
+  "input_tokens": 19424,
+  "output_tokens": 410
+ },
+ {
+  "task": "scope_tests",
+  "arm": "baseline",
+  "rep": 6,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 48,
+  "turns": 4,
+  "cost_usd": 0.0209267,
+  "input_tokens": 19520,
+  "output_tokens": 591
+ },
+ {
+  "task": "scope_tests",
+  "arm": "baseline",
+  "rep": 7,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 33,
+  "turns": 3,
+  "cost_usd": 0.0187289,
+  "input_tokens": 19424,
+  "output_tokens": 426
+ },
+ {
+  "task": "scope_tests",
+  "arm": "baseline",
+  "rep": 8,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 42,
+  "turns": 4,
+  "cost_usd": 0.0208367,
+  "input_tokens": 19520,
+  "output_tokens": 582
+ },
+ {
+  "task": "scope_tests",
+  "arm": "baseline",
+  "rep": 9,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 42,
+  "turns": 4,
+  "cost_usd": 0.0208667,
+  "input_tokens": 19520,
+  "output_tokens": 585
+ },
+ {
+  "task": "scope_tests",
+  "arm": "ours",
+  "rep": 0,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": true,
+   "suite_passes": true
+  },
+  "score": 5,
+  "max": 5,
+  "reply_words": 59,
+  "turns": 8,
+  "cost_usd": 0.043559,
+  "input_tokens": 49426,
+  "output_tokens": 1549
+ },
+ {
+  "task": "scope_tests",
+  "arm": "ours",
+  "rep": 1,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": true,
+   "suite_passes": true
+  },
+  "score": 5,
+  "max": 5,
+  "reply_words": 51,
+  "turns": 9,
+  "cost_usd": 0.0471569,
+  "input_tokens": 58701,
+  "output_tokens": 1701
+ },
+ {
+  "task": "scope_tests",
+  "arm": "ours",
+  "rep": 2,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": true,
+   "suite_passes": true
+  },
+  "score": 5,
+  "max": 5,
+  "reply_words": 68,
+  "turns": 9,
+  "cost_usd": 0.047160900000000006,
+  "input_tokens": 58611,
+  "output_tokens": 1714
+ },
+ {
+  "task": "scope_tests",
+  "arm": "ours",
+  "rep": 3,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": true,
+   "suite_passes": true
+  },
+  "score": 5,
+  "max": 5,
+  "reply_words": 51,
+  "turns": 9,
+  "cost_usd": 0.04691590000000001,
+  "input_tokens": 58817,
+  "output_tokens": 1650
+ },
+ {
+  "task": "scope_tests",
+  "arm": "ours",
+  "rep": 4,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": true,
+   "suite_passes": true
+  },
+  "score": 5,
+  "max": 5,
+  "reply_words": 69,
+  "turns": 9,
+  "cost_usd": 0.047572800000000005,
+  "input_tokens": 58758,
+  "output_tokens": 1735
+ },
+ {
+  "task": "scope_tests",
+  "arm": "ours",
+  "rep": 5,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": true,
+   "suite_passes": true
+  },
+  "score": 5,
+  "max": 5,
+  "reply_words": 49,
+  "turns": 8,
+  "cost_usd": 0.043827500000000005,
+  "input_tokens": 49674,
+  "output_tokens": 1541
+ },
+ {
+  "task": "scope_tests",
+  "arm": "ours",
+  "rep": 6,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": true,
+   "suite_passes": true
+  },
+  "score": 5,
+  "max": 5,
+  "reply_words": 66,
+  "turns": 9,
+  "cost_usd": 0.047498,
+  "input_tokens": 58776,
+  "output_tokens": 1725
+ },
+ {
+  "task": "scope_tests",
+  "arm": "ours",
+  "rep": 7,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": true,
+   "suite_passes": true
+  },
+  "score": 5,
+  "max": 5,
+  "reply_words": 67,
+  "turns": 9,
+  "cost_usd": 0.04742930000000001,
+  "input_tokens": 58735,
+  "output_tokens": 1724
+ },
+ {
+  "task": "scope_tests",
+  "arm": "ours",
+  "rep": 8,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": true,
+   "suite_passes": true
+  },
+  "score": 5,
+  "max": 5,
+  "reply_words": 69,
+  "turns": 9,
+  "cost_usd": 0.0471422,
+  "input_tokens": 58612,
+  "output_tokens": 1709
+ },
+ {
+  "task": "scope_tests",
+  "arm": "ours",
+  "rep": 9,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": true,
+   "suite_passes": true
+  },
+  "score": 5,
+  "max": 5,
+  "reply_words": 56,
+  "turns": 6,
+  "cost_usd": 0.035201699999999995,
+  "input_tokens": 40555,
+  "output_tokens": 988
+ },
+ {
+  "task": "scope_tests",
+  "arm": "upstream",
+  "rep": 0,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 55,
+  "turns": 4,
+  "cost_usd": 0.0589283,
+  "input_tokens": 46546,
+  "output_tokens": 607
+ },
+ {
+  "task": "scope_tests",
+  "arm": "upstream",
+  "rep": 1,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 48,
+  "turns": 4,
+  "cost_usd": 0.0593068,
+  "input_tokens": 46795,
+  "output_tokens": 594
+ },
+ {
+  "task": "scope_tests",
+  "arm": "upstream",
+  "rep": 2,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 54,
+  "turns": 4,
+  "cost_usd": 0.059210399999999996,
+  "input_tokens": 46555,
+  "output_tokens": 632
+ },
+ {
+  "task": "scope_tests",
+  "arm": "upstream",
+  "rep": 3,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 50,
+  "turns": 4,
+  "cost_usd": 0.058927400000000005,
+  "input_tokens": 46527,
+  "output_tokens": 611
+ },
+ {
+  "task": "scope_tests",
+  "arm": "upstream",
+  "rep": 4,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 54,
+  "turns": 4,
+  "cost_usd": 0.0588538,
+  "input_tokens": 46535,
+  "output_tokens": 602
+ },
+ {
+  "task": "scope_tests",
+  "arm": "upstream",
+  "rep": 5,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 81,
+  "turns": 4,
+  "cost_usd": 0.059479800000000006,
+  "input_tokens": 46564,
+  "output_tokens": 653
+ },
+ {
+  "task": "scope_tests",
+  "arm": "upstream",
+  "rep": 6,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 46,
+  "turns": 4,
+  "cost_usd": 0.0587538,
+  "input_tokens": 46535,
+  "output_tokens": 592
+ },
+ {
+  "task": "scope_tests",
+  "arm": "upstream",
+  "rep": 7,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 73,
+  "turns": 4,
+  "cost_usd": 0.05937239999999999,
+  "input_tokens": 46578,
+  "output_tokens": 639
+ },
+ {
+  "task": "scope_tests",
+  "arm": "upstream",
+  "rep": 8,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 52,
+  "turns": 4,
+  "cost_usd": 0.05885290000000001,
+  "input_tokens": 46516,
+  "output_tokens": 606
+ },
+ {
+  "task": "scope_tests",
+  "arm": "upstream",
+  "rep": 9,
+  "flags": {
+   "feature_works": true,
+   "default_unchanged": true,
+   "unrelated_code_untouched": true,
+   "test_added": false,
+   "suite_passes": true
+  },
+  "score": 4,
+  "max": 5,
+  "reply_words": 79,
+  "turns": 4,
+  "cost_usd": 0.0593708,
+  "input_tokens": 46542,
+  "output_tokens": 647
+ }
+]

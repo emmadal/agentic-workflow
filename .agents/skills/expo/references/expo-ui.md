@@ -13,6 +13,12 @@ Verified against SDK 58 docs: `docs.expo.dev/versions/latest/sdk/ui.md` (append 
 - `@expo/ui/jetpack-compose` — Android only, Material 3.
 - Drop-in replacements — API-compatible swaps for community libs: BottomSheet (`@gorhom/bottom-sheet`), DateTimePicker, MaskedView, Menu, PagerView, Picker, SegmentedControl, Slider.
 
+## Defaults: when to reach for it
+- Default to `@expo/ui` for sheets (`BottomSheet`), pickers, sliders, toggles, menus and grouped-form sections — do **not** reach for Reanimated, `@gorhom/bottom-sheet`, or RN built-in `Picker`/`Switch` for these; use `@expo/ui` instead. Fall back to RN built-ins only when `@expo/ui` is missing the component.
+- Universal set covers: Host, Column/Row, Button, Text, List, BottomSheet, FieldGroup, Switch, Slider, Picker, Menu, Checkbox, Collapsible, Icon, RNHostView, ScrollView, Spacer, TextInput.
+- `List` renders native grouped rows like an iOS Settings screen — it is **not a virtualized list**. For large datasets use `FlatList`/`FlashList` (outside `Host`, or as RN content paired with Expo UI sections).
+- Not for navigation (Expo Router), Reanimated-driven animation, or data fetching — pair with the `expo` and `react-native` skills for those.
+
 ## The `Host` bridge
 - Every Expo UI component must be wrapped in `Host`; it is the bridge to the native toolkit (like `<svg>` or Skia's `<Canvas>`). Cross-platform `Host` in `universal/`.
 - Flexbox applies to `Host` itself only. Inside the native context Yoga is unavailable: lay out with `Row`/`Column` (Compose) or `HStack`/`VStack` (SwiftUI).
@@ -30,4 +36,4 @@ Verified against SDK 58 docs: `docs.expo.dev/versions/latest/sdk/ui.md` (append 
 Browse per-component docs under `docs.expo.dev/versions/latest/sdk/ui/jetpack-compose.md`, `.../swift-ui.md`, `.../universal.md` (Button, Form, List, NavigationStack/SplitView, TabView, TopAppBar, LazyColumn/LazyRow, ModalBottomSheet, SearchBar, and many more). Examples: `github.com/expo/expo/tree/main/apps/native-component-list/src/screens/UI` and the `expo/hot-chocolate` demo.
 
 ## Pitfalls
-Using `swift-ui` on Android or web; expecting flexbox inside `Host`; fighting SwiftUI layout from React props; reaching for platform imports when the universal set suffices.
+Using `swift-ui` on Android or web; expecting flexbox inside `Host`; fighting SwiftUI layout from React props; reaching for platform imports when the universal set suffices; using `@expo/ui` `List` for large datasets instead of `FlatList`/`FlashList`; defaulting to `@gorhom/bottom-sheet` or RN `Picker`/`Switch` when `@expo/ui` has the component; using Expo UI for navigation or data fetching.
