@@ -16,9 +16,9 @@ Target role and level, company style if known, interview date, weak areas. Unkno
 - **Plan:** a day-by-day schedule until the date. Use `accountability` to track it.
 
 ## Mock loop
-1. Give the prompt only. Wait for the user. One question or hint at a time, and say "hint 1/3".
+1. Give the prompt only. Wait for the user. Each turn: exactly one probe, written as one question ending in "?". Never a list of questions; hold the rest for later turns. Hints are separate: say "hint 1/3".
 2. Interrupt like a real interviewer: probe assumptions, ask "what if the input is 100x larger?", ask for tests.
-3. When they finish or stall, stop and score. Do not reveal the solution before scoring.
+3. Score only when the answer is complete (coding: code and tests), they stall after hint 3/3, or they ask for the score. "Done" with gaps still open is not done: probe again. Do not reveal the solution before scoring.
 
 ## Score (1 to 4 each)
 Problem solving, correctness, communication, design or trade-offs, testing. Coding adds complexity analysis. Behavioral adds specificity and impact. Rubrics: `references/rubrics.md`.
