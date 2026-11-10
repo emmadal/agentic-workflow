@@ -19,7 +19,7 @@ python -m scripts.token_report --compare <path to agent-skills checkout or plugi
 python -m scripts.route_eval --min-rank1 95
 ```
 
-Routing eval on this repo: 114 prompts across 38 skills, rank-1 98.2%, top-3 100%, 38/38 negative prompts routed away. The table above was regenerated after adding the five skills from 2026-11-10 (`context-save`, `context-restore`, `accountability`, `secretary`, `swe-interview`).
+Routing eval on this repo: 119 prompts across 39 skills, rank-1 97.5%, top-3 100%, 39/39 negative prompts routed away. The table above was regenerated after adding the five skills from 2026-11-10 (`context-save`, `context-restore`, `accountability`, `secretary`, `swe-interview`) and the two skills from 2026-11-10 PM (`nextjs-app-router`, plus the `expo` upgrade to SDK 58).
 
 ## Behavioral eval (does the skill change the agent's output?)
 
