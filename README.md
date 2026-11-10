@@ -2,25 +2,21 @@
 
 **Skills and role agents that make AI coding agents work like a senior engineer: spec first, small slices, tests as the signal, independent review.**
 
-39 skills and 11 agents, written once in `.agents/` and generated for Claude Code, OpenCode, Cursor, Codex and Gemini CLI. Built to be cheap: about 70 tokens per skill sit in context, and one skill costs about 380 tokens when it loads.
-
-<p align="center">
-  <img src="assets/workflow.svg" alt="The workflow: six phases (define, plan, build, verify, review, ship), each with its two core skills" width="100%">
-</p>
+39 skills and 11 agents, written once in `.agents/` and generated for Claude Code, OpenCode, Cursor, Codex and Gemini CLI. Built to be cheap: about 70 tokens per skill sit permanently in context, and loading one skill costs about 380 tokens.
 
 ## How it works
 
-<p align="center">
-  <img src="assets/architecture.svg" alt="One source of truth in .agents/: Claude Code gets generated skills, the other tools read .agents/skills/ in place, and every tool gets generated agents" width="100%">
-</p>
+You write a skill or agent once in `.agents/skills/<name>/SKILL.md` or `.agents/agents/<name>.md`. A generator (`sync_agents`) renders the agents into every tool's own folder and the skills into `.claude/skills/`; OpenCode, Cursor, Codex and Gemini CLI read `.agents/skills/` directly. CI fails if a generated folder drifts.
 
-You write skills and agents once in `.agents/`. A generator (`sync_agents`) renders the agents into each tool's own folder and the skills into `.claude/skills/`; OpenCode, Cursor, Codex and Gemini CLI read `.agents/skills/` directly. CI fails if a generated folder drifts. Agent permissions are mapped to each tool's own permission model: `read-only` (no shell, no edits), `inspect` (shell, no edits) and `write` (everything).
+Agent permissions map to each tool's own permission model:
+
+| Access | Meaning |
+|--------|---------|
+| `read-only` | no shell, no edits |
+| `inspect` | shell, no edits |
+| `write` | everything |
 
 ## Install
-
-<p align="center">
-  <img src="assets/install.svg" alt="Install in three steps: clone this repo, run install_skills on your project, restart your tool" width="100%">
-</p>
 
 ### Claude Code
 
@@ -32,6 +28,8 @@ Plugin (recommended):
 ```
 
 Skills appear namespaced, for example `/agentic-workflow:spec`. To try it from a clone: `claude --plugin-dir /path/to/agentic-workflow`.
+
+The plugin loads the whole `.claude/skills/` folder, so a marketplace update (`/plugin marketplace update agentic-workflow`, then `/plugin update agentic-workflow`) picks up new skills automatically. Current version: **0.2.0**.
 
 ### Any tool, from a clone
 
@@ -53,13 +51,13 @@ Needs Python 3.11+ and nothing else. Without `--tool`, it installs for Claude Co
 
 ### What each tool reads
 
-| Tool | Skills read from | Agents read from | `install_skills` writes |
-|------|------------------|------------------|-------------------------|
-| Claude Code | `.claude/skills/` | `.claude/agents/` | `.claude/skills/` + `.claude/agents/` |
-| OpenCode | `.agents/skills/` | `.opencode/agents/` | `.agents/skills/` + `.opencode/agents/` |
-| Cursor | `.agents/skills/` | `.cursor/agents/` | `.agents/skills/` + `.cursor/agents/` |
-| Codex | `.agents/skills/` | `.codex/agents/*.toml` | `.agents/skills/` + `.codex/agents/` |
-| Gemini CLI | `.agents/skills/` | `.gemini/agents/` | `.agents/skills/` + `.gemini/agents/` |
+| Tool | Skills read from | Agents read from |
+|------|------------------|------------------|
+| Claude Code | `.claude/skills/` | `.claude/agents/` |
+| OpenCode | `.agents/skills/` | `.opencode/agents/` |
+| Cursor | `.agents/skills/` | `.cursor/agents/` |
+| Codex | `.agents/skills/` | `.codex/agents/*.toml` |
+| Gemini CLI | `.agents/skills/` | `.gemini/agents/` |
 
 ### Verify the install
 
@@ -71,9 +69,9 @@ opencode debug agents                        # OpenCode: all 11 agents listed
 npx skills add . --list                      # vercel-labs skills CLI: lists project skills
 ```
 
-## Load skills and agents
+## How to use it
 
-Skills load automatically when the task matches their description ("Use when ..."). To invoke one explicitly, or to use an agent:
+You do not need to memorize anything: the model routes to the right skill from its description ("Use when ..."). Invoke one explicitly when you want it, or ask for an agent by name.
 
 | Tool | Invoke a skill | Use an agent |
 |------|----------------|--------------|
@@ -83,9 +81,7 @@ Skills load automatically when the task matches their description ("Use when ...
 | Codex | `$spec`, or `/skills` to list them | "have the reviewer agent audit this diff" |
 | Gemini CLI | "use the spec skill" (its `activate_skill`) | "ask the planner agent to break this down" |
 
-You do not need to memorize anything: the model routes to the right skill from its description.
-
-## Use the skills
+### The workflow, skill by skill
 
 | You are doing | Skill | What you get |
 |---------------|-------|--------------|
@@ -98,6 +94,8 @@ You do not need to memorize anything: the model routes to the right skill from i
 | Opening the PR | `ship` | Checks run, independent review, short PR. Never merges |
 | Going live | `release` | Checklist, staged rollout, rollback |
 | Pausing or resuming | `context-save` / `context-restore` | Checkpoint to `.context/checkpoints/`, then resume exactly |
+
+The rest of the catalog covers platform depth (backend, frontend, mobile, Expo, Next.js), quality and delivery, and personal skills — see [All 39 skills](#all-39-skills).
 
 ### Session continuity
 
@@ -123,7 +121,7 @@ Writer and reviewer are always different agents. No sub-agents in your tool? The
 | `implementer`, `backend-engineer`, `frontend-engineer`, `mobile-engineer` | write | One planned task, test-first |
 | `test-engineer`, `qa-engineer` | write | Tests, regression, release readiness |
 
-The `access` level is mapped to each tool's permission model: `read-only` disables shell and edits, `inspect` keeps the shell but denies edits, `write` allows everything. Codex agents inherit the parent's sandbox and approvals; read-only agents there disable the shell tool.
+Codex agents inherit the parent's sandbox and approvals; read-only agents there disable the shell tool.
 
 ## All 39 skills
 
@@ -136,13 +134,15 @@ The `access` level is mapped to each tool's permission model: `read-only` disabl
 - **Session continuity:** `context-save` `context-restore`
 - **Personal:** `accountability` `secretary` `swe-interview`
 
+Each skill is a small `SKILL.md` (body of 400 words or less) plus optional `references/` files with the depth, opened only when the task needs it. For example, the `expo` skill carries per-domain references (`expo-ui`, `observe`, `eas`, `router`, `sdk-modules`) verified against the current SDK docs, and `nextjs-app-router` covers data, caching and multi-target deployment.
+
 ## Why it is cheap and precise
 
 - **Descriptions are triggers**, one line, 280 characters or less, so the model routes correctly without reading bodies.
 - **Bodies are 400 words or less.** Depth lives in `references/` and is opened only when needed.
 - **Always-on text is small:** all descriptions plus `AGENTS.md` come to about 2,800 tokens for 39 skills.
 - **Routing is tested** on every PR: 119 prompts, 97.5% right at rank 1, 100% in the top 3, 39 of 39 negative prompts routed away.
-- **Behavior is measured:** in a 90-run headless test, perfect runs were 26/30 with these skills, 7/30 with no skill and 14/30 with the closest upstream skills, at about 40% lower cost per run than upstream. Method and limits are in [`docs/benchmarks.md`](docs/benchmarks.md).
+- **Behavior is measured:** in a 90-run headless benchmark, perfect runs were 26/30 with these skills, 7/30 with no skill and 14/30 with the closest upstream skills, at about 40% lower cost per run. After tightening the two skills behind every imperfect run, the affected tasks now grade 30/30 perfect. Method, numbers and limits are in [`docs/benchmarks.md`](docs/benchmarks.md).
 
 ## Develop this repo
 
@@ -203,7 +203,7 @@ No secrets in code, logs or prompts, and no force-pushes.
 ## Limits
 
 - Verified by running: Claude Code (all 39 skills load, also through `install_skills` and as a plugin) and OpenCode (`opencode debug agents` lists the 11 installed agents, and with an empty `HOME` the skill tool it sends to a mock model provider lists exactly all 39 skills installed in `.agents/skills/`, none missing, plus two OpenCode built-ins). `npx skills add . --list` run in this repo discovered and listed the project skills (the end of the list was seen, from `swift-ios` to `test-plan`; each of the 39 was not confirmed individually). Cursor, Codex and Gemini CLI are not installed here, so their loading was not run; their paths follow each tool's documentation. Details in [`docs/compatibility.md`](docs/compatibility.md).
-- `accountability`, `secretary` and `swe-interview` have a small single-turn behavioral test (5 runs per cell) and a two-turn test (5 reps); longer multi-turn behavior is untested. See [`docs/benchmarks.md`](docs/benchmarks.md).
+- The behavioral benchmark ran on Sonnet and Haiku with 10 and 8 reps per cell; longer multi-turn behavior is only covered for the personal skills. See [`docs/benchmarks.md`](docs/benchmarks.md).
 - Hooks in `.claude/settings.json` are Claude Code only; CI applies the same gates to every tool.
 - Model pinning applies to Claude Code and OpenCode only.
 - The repo is public but has no license file yet, so no reuse rights are granted until one is added.
@@ -212,7 +212,6 @@ No secrets in code, logs or prompts, and no force-pushes.
 
 ```
 .agents/skills/, .agents/agents/     source of truth
-assets/                              README diagrams (SVG)
 .claude/ .opencode/ .codex/ .cursor/ .gemini/   generated, do not edit
 .claude-plugin/                      Claude Code plugin and marketplace manifests
 scripts/                             sync_agents, validate_skills, install_skills, route_eval, token_report
