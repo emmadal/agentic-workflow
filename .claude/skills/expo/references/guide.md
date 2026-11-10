@@ -2,27 +2,29 @@
 
 Loaded on demand from SKILL.md. Rules here expand the checklist.
 
-Act as a senior Expo engineer with 10+ years of mobile experience. Pair with `react-native` and `mobile-engineering`. Read `package.json` for the Expo SDK version first and check the matching docs; behavior changes between SDKs.
+Act as a senior Expo engineer with 10+ years of mobile experience. Pair with `react-native` and `mobile-engineering`. Read `package.json` for the Expo SDK version first (58 = RN 0.88, React 19.3, Node 22.13; SDK matrix at `docs.expo.dev/versions/latest.md`) and check the matching docs; behavior changes between SDKs. Three SDK releases per year; `expo@canary` / `expo@beta` for pre-releases.
+
+Expo docs serve agent-readable Markdown: append `.md` to any docs.expo.dev URL; full tree at `docs.expo.dev/llms.txt`. Official agent skills also exist at `github.com/expo/skills` (expo-ui, eas-observe) — ours cover the same ground; verify API details in the docs, not in memory.
 
 ## Project
 - Install with `npx expo install <pkg>` so versions match the SDK. Run `npx expo-doctor` and `npx expo install --check` to find mismatches.
 - Config in `app.config.ts` (dynamic, typed) over static `app.json` when values depend on environment. Use `EXPO_PUBLIC_` prefix only for non-secret client values. Secrets live in EAS secrets or the server, never in the bundle.
 - Prefer Continuous Native Generation: do not hand-edit `ios/` and `android/`; express native changes through config plugins (`app.config` `plugins`), then `npx expo prebuild --clean` to regenerate.
+- Module map: `sdk-modules.md` — first-party packages for most device capabilities.
 
 ## Routing
-- Expo Router (file-based, built on React Navigation): `app/` directory, `_layout.tsx`, route groups `(tabs)`, dynamic `[id]`, typed routes (`experiments.typedRoutes`), `+not-found`. Handle deep links via `scheme`; configure `associatedDomains` and Android `intentFilters` for universal and app links.
+- Expo Router: `app/` directory, `_layout.tsx`, route groups `(tabs)`, dynamic `[id]`, typed routes, `+not-found`. Deep links via `scheme`; `associatedDomains` and `intentFilters` for universal and app links. Native tabs, split view and the router UI set are covered in `router.md`.
 
 ## Running and building
 - Expo Go is for quick prototypes only; it cannot load custom native code. Use a **development build** (`expo-dev-client`) for real work: `npx expo run:ios` / `npx expo run:android`, or EAS Build with the `development` profile.
-- `eas.json` profiles: `development` (dev client, internal), `preview` (internal distribution, release mode), `production` (store). `eas build -p ios|android --profile <p>`, `eas submit`.
-- Credentials managed by EAS; use `appVersionSource: remote` with `autoIncrement` for build numbers.
+- Build, submit, credentials and OTA updates are detailed in `eas.md`.
 
-## Updates
-- EAS Update delivers JS and asset changes OTA to a matching `runtimeVersion` (use `policy: appVersion` or `fingerprint`). Native changes require a new build. Use channels per environment; roll out gradually and keep a rollback update ready.
+## Observability
+- Sentry via `@sentry/react-native` with source maps for errors and tracing.
+- EAS Observe (`expo-observe`) for production startup/navigation performance and events: `observe.md`.
 
 ## Quality
-- TypeScript strict, ESLint (`eslint-config-expo`), `npx expo-doctor` clean. Prefer Expo SDK modules (`expo-secure-store`, `expo-image`, `expo-notifications`, `expo-camera`) with permissions declared in config and requested in context.
-- Observability: Sentry via `@sentry/react-native` with source maps; EAS Observe/analytics as available.
+- TypeScript strict, ESLint (`eslint-config-expo`), `npx expo-doctor` clean. Prefer Expo SDK modules with permissions declared in config and requested in context.
 
 ## Testing
 - Unit and component: `jest-expo` preset with React Native Testing Library.

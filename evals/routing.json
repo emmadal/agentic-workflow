@@ -438,7 +438,9 @@
   "positive": [
    "Configure EAS Build and EAS Update for the Expo app",
    "Add a config plugin and run prebuild in Expo",
-   "Set up Expo Router with typed routes and a development build"
+   "Set up Expo Router with typed routes and a development build",
+   "Build this Expo screen with @expo/ui SwiftUI and Jetpack Compose components",
+   "Add Expo Observe performance metrics and error reporting with expo-observe"
   ],
   "negative": [
    {
@@ -528,6 +530,20 @@
    {
     "prompt": "Draft an email thanking the recruiter for their time",
     "owner": "secretary"
+   }
+  ]
+ },
+ {
+  "skill": "nextjs-app-router",
+  "positive": [
+   "Build this page with Server Components and Server Actions in Next.js App Router",
+   "Cache this data fetch with use cache and cacheTag in Next.js",
+   "Deploy my Next.js 16 app with Docker and output standalone"
+  ],
+  "negative": [
+   {
+    "prompt": "Fix this Expo screen's FlatList performance",
+    "owner": "react-native"
    }
   ]
  }

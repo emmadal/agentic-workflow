@@ -2,7 +2,7 @@
 
 **Skills and role agents that make AI coding agents work like a senior engineer: spec first, small slices, tests as the signal, independent review.**
 
-38 skills and 11 agents, written once in `.agents/` and generated for Claude Code, OpenCode, Cursor, Codex and Gemini CLI. Built to be cheap: about 70 tokens per skill sit in context, and one skill costs about 370 tokens when it loads.
+39 skills and 11 agents, written once in `.agents/` and generated for Claude Code, OpenCode, Cursor, Codex and Gemini CLI. Built to be cheap: about 70 tokens per skill sit in context, and one skill costs about 380 tokens when it loads.
 
 <p align="center">
   <img src="assets/workflow.svg" alt="The workflow: six phases (define, plan, build, verify, review, ship), each with its two core skills" width="100%">
@@ -66,7 +66,7 @@ Needs Python 3.11+ and nothing else. Without `--tool`, it installs for Claude Co
 After installing, restart the tool and check:
 
 ```bash
-claude -p "list project skills"              # Claude Code: all 38 skills load
+claude -p "list project skills"              # Claude Code: all 39 skills load
 opencode debug agents                        # OpenCode: all 11 agents listed
 npx skills add . --list                      # vercel-labs skills CLI: lists project skills
 ```
@@ -125,12 +125,12 @@ Writer and reviewer are always different agents. No sub-agents in your tool? The
 
 The `access` level is mapped to each tool's permission model: `read-only` disables shell and edits, `inspect` keeps the shell but denies edits, `write` allows everything. Codex agents inherit the parent's sandbox and approvals; read-only agents there disable the shell tool.
 
-## All 38 skills
+## All 39 skills
 
 - **Define and plan:** `discover` `spec` `plan` `adr` `context-engineering`
 - **Build:** `incremental-implementation` `test-driven-development` `source-verified-coding` `code-simplification` `migration` `git-workflow`
 - **Backend and platform:** `backend-engineering` `api-design` `security-hardening` `observability` `performance-optimization` `ci-cd`
-- **Frontend:** `frontend-engineering` `browser-testing`
+- **Frontend:** `frontend-engineering` `nextjs-app-router` `browser-testing`
 - **Mobile:** `mobile-engineering` `swift-ios` `kotlin-android` `android-compose` `kotlin-multiplatform` `react-native` `expo` `mobile-device-testing`
 - **Quality and delivery:** `qa-testing` `test-plan` `debugging` `code-review` `ship` `release`
 - **Session continuity:** `context-save` `context-restore`
@@ -140,8 +140,8 @@ The `access` level is mapped to each tool's permission model: `read-only` disabl
 
 - **Descriptions are triggers**, one line, 280 characters or less, so the model routes correctly without reading bodies.
 - **Bodies are 400 words or less.** Depth lives in `references/` and is opened only when needed.
-- **Always-on text is small:** all descriptions plus `AGENTS.md` come to about 2,700 tokens for 38 skills.
-- **Routing is tested** on every PR: 114 prompts, 98.2% right at rank 1, 100% in the top 3, 38 of 38 negative prompts routed away.
+- **Always-on text is small:** all descriptions plus `AGENTS.md` come to about 2,800 tokens for 39 skills.
+- **Routing is tested** on every PR: 119 prompts, 97.5% right at rank 1, 100% in the top 3, 39 of 39 negative prompts routed away.
 - **Behavior is measured:** in a 90-run headless test, perfect runs were 26/30 with these skills, 7/30 with no skill and 14/30 with the closest upstream skills, at about 40% lower cost per run than upstream. Method and limits are in [`docs/benchmarks.md`](docs/benchmarks.md).
 
 ## Develop this repo
@@ -202,7 +202,7 @@ No secrets in code, logs or prompts, and no force-pushes.
 
 ## Limits
 
-- Verified by running: Claude Code (all 38 skills load, also through `install_skills` and as a plugin) and OpenCode (`opencode debug agents` lists the 11 installed agents, and with an empty `HOME` the skill tool it sends to a mock model provider lists exactly all 38 skills installed in `.agents/skills/`, none missing, plus two OpenCode built-ins). `npx skills add . --list` run in this repo discovered and listed the project skills (the end of the list was seen, from `swift-ios` to `test-plan`; each of the 38 was not confirmed individually). Cursor, Codex and Gemini CLI are not installed here, so their loading was not run; their paths follow each tool's documentation. Details in [`docs/compatibility.md`](docs/compatibility.md).
+- Verified by running: Claude Code (all 39 skills load, also through `install_skills` and as a plugin) and OpenCode (`opencode debug agents` lists the 11 installed agents, and with an empty `HOME` the skill tool it sends to a mock model provider lists exactly all 39 skills installed in `.agents/skills/`, none missing, plus two OpenCode built-ins). `npx skills add . --list` run in this repo discovered and listed the project skills (the end of the list was seen, from `swift-ios` to `test-plan`; each of the 39 was not confirmed individually). Cursor, Codex and Gemini CLI are not installed here, so their loading was not run; their paths follow each tool's documentation. Details in [`docs/compatibility.md`](docs/compatibility.md).
 - `accountability`, `secretary` and `swe-interview` have a small single-turn behavioral test (5 runs per cell) and a two-turn test (5 reps); longer multi-turn behavior is untested. See [`docs/benchmarks.md`](docs/benchmarks.md).
 - Hooks in `.claude/settings.json` are Claude Code only; CI applies the same gates to every tool.
 - Model pinning applies to Claude Code and OpenCode only.
