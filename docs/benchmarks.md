@@ -59,6 +59,19 @@ Fisher exact test on perfect runs: this repo vs no skill p < 0.001; this repo vs
 - **`vague` on Haiku is not valid.** Every failed call was a baseline or this-repo run with an empty reply, most likely the agent hitting the 6-turn limit while building the app instead of asking questions. Dropping failed runs would be survivorship bias, so no pooled score is reported for this model.
 - Tokens: the skill text here costs about 365 tokens, upstream's about 3,300, so cost per run is lower for this repo on both models.
 
+### 2026-11-10 (evening): `scope_tests` and `vague` re-run after skill tightening (10 reps, Sonnet)
+
+`incremental-implementation` now states an existing test suite is not an exemption (extend the nearest test file; a slice with no new test is not done), and `discover` now requires the first reply to be questions, not a plan. Both changes came from the failure analysis of the morning run.
+
+| Task | no skill | this repo | agent-skills 0.6.15 |
+|---|---:|---:|---:|
+| scope_tests, perfect runs | 0/10 | **10/10** (was 7/10) | 0/10 |
+| vague, perfect runs | 4/6 valid (4 empty replies) | **10/10** (was 9/10) | 1/10 |
+
+- Files: `results-scope-tests-venv-n10.json` (valid) and `results-scope-vague-n10.json` (its `vague` rows are valid; its `scope_tests` rows are **invalid** — the first attempt ran with a system Python without `pytest`, so `suite_passes` graded false in every arm; the venv re-run above replaces them).
+- The 4 empty `vague` baseline replies match the 6-turn-limit failure mode documented on Haiku; kept as imperfect rather than dropped.
+- Combined with the unchanged `tdd` arm (10/10): **30/30 perfect runs (100%)** for this repo on Sonnet across `tdd`, `scope_tests` and `vague`.
+
 So the supported claim is: skills clearly beat no skill on discipline tasks on two models; this repo matches upstream on the bug-fix task on both models, and beats it on two other tasks on Sonnet only.
 
 ### Earlier 5-task matrix, 3 reps (`results.json`, `results-after-port.json`)

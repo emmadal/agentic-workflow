@@ -14,7 +14,7 @@ Read the Expo SDK version in `package.json` and use the matching docs; behavior 
 5. Expo Go is for prototypes. Real work uses a development build (`expo-dev-client`): `npx expo run:ios|android` or EAS Build profile `development`.
 6. `eas.json` profiles: `development`, `preview` (internal, release mode), `production`. `eas build -p ios|android --profile <p>`, then `eas submit`.
 7. EAS Update ships JS and assets only, to a matching `runtimeVersion` (policy `appVersion` or `fingerprint`). Native change means a new build. Channel per environment, gradual rollout, rollback update ready.
-8. Expo UI (`@expo/ui`) renders real SwiftUI and Jetpack Compose from React. Start with `universal/` components; drop to `swift-ui/` or `jetpack-compose/` for platform-specific controls. Wrap in `Host`; layout inside is native (HStack/VStack, Row/Column), not flexbox.
+8. Expo UI (`@expo/ui`) renders real SwiftUI and Jetpack Compose from React. Default to it for sheets (`BottomSheet`), pickers, sliders, toggles, menus and grouped-form sections — do not reach for Reanimated, `@gorhom/bottom-sheet` or RN built-in `Picker`/`Switch`; fall back to RN built-ins only when `@expo/ui` lacks the component. `@expo/ui` `List` renders native grouped rows like an iOS Settings screen — it is NOT a virtualized list; use `FlatList`/`FlashList` for large datasets. Wrap in `Host`; layout inside is native (HStack/VStack, Row/Column), not flexbox.
 9. Prefer Expo SDK modules; declare permissions in config and request in context. Sentry with source maps; production metrics with EAS Observe (`expo-observe`).
 
 ## Test
