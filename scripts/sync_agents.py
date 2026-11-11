@@ -4,6 +4,8 @@ Canonical:
   .agents/skills/<name>/SKILL.md   (+ scripts/, references/)   Agent Skills standard
   .agents/agents/<name>.md         name, description, access (read-only | inspect | write)
 
+  .agents/manifest.json  name, version and summary for every plugin manifest
+
 Generated (do not edit):
   .claude/skills/        Claude Code reads skills here; the others read .agents/skills natively
   .claude/agents/        Claude Code subagents
@@ -11,12 +13,19 @@ Generated (do not edit):
   .codex/agents/         Codex custom agents (TOML)
   .cursor/agents/        Cursor subagents
   .gemini/agents/        Gemini CLI subagents
+  skills/, agents/       plugin and extension root: Claude Code plugin, Codex plugin and
+                         Gemini CLI extension load skills/; Gemini loads agents/ (Gemini format)
+  .claude-plugin/        Claude Code plugin + marketplace (Codex also reads this marketplace)
+  .codex-plugin/         Codex plugin manifest
+  .agents/plugins/       Codex marketplace
+  gemini-extension.json  Gemini CLI extension manifest
 
 Usage: python -m scripts.sync_agents [--check] [repo_root]
 """
 
 from __future__ import annotations
 
+import json
 import shutil
 import sys
 from pathlib import Path
@@ -69,7 +78,23 @@ OUTPUT_DIRS = (
     ".codex/agents",
     ".cursor/agents",
     ".gemini/agents",
+    "skills",
+    "agents",
 )
+# Byte-for-byte copies of .agents/skills (executable bits preserved).
+SKILL_COPIES = (".claude/skills", "skills")
+MANIFEST_SOURCE = ".agents/manifest.json"
+# Local by-products that must never be copied into generated or installed outputs.
+IGNORED_NAMES = {"__pycache__", ".DS_Store", "node_modules"}
+IGNORED_SUFFIXES = {".pyc", ".pyo"}
+
+
+def is_source_file(path: Path) -> bool:
+    return (
+        path.is_file()
+        and path.suffix not in IGNORED_SUFFIXES
+        and not IGNORED_NAMES.intersection(path.parts)
+    )
 
 
 def _front(fields: list[tuple[str, str]], extra: str = "") -> str:
@@ -131,6 +156,8 @@ AGENT_RENDERERS = {
     ".cursor/agents": (".md", render_cursor),
     ".gemini/agents": (".md", render_gemini),
     ".codex/agents": (".toml", render_codex),
+    # Gemini CLI extensions load sub-agents from <extension root>/agents/.
+    "agents": (".md", render_gemini),
 }
 
 
@@ -144,25 +171,109 @@ def _inside(root: Path, rel: str) -> None:
         raise SyncError(f"output path escapes repository: {rel}")
 
 
+def _json(data: dict) -> bytes:
+    return (json.dumps(data, indent=2, ensure_ascii=False) + "\n").encode()
+
+
+def load_manifest(root: Path) -> dict:
+    path = root / MANIFEST_SOURCE
+    try:
+        meta = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SyncError(f"cannot read {MANIFEST_SOURCE}: {exc}") from exc
+    required = {"name", "displayName", "version", "summary", "highlights", "author", "homepage"}
+    missing = sorted(required - set(meta))
+    if missing:
+        raise SyncError(f"{MANIFEST_SOURCE} is missing: {', '.join(missing)}")
+    return meta
+
+
+def render_manifests(meta: dict, skills: int, agents: list[str]) -> dict[str, bytes]:
+    """Plugin and extension manifests for Claude Code, Codex and Gemini CLI."""
+    name, version = meta["name"], meta["version"]
+    desc = f"{skills} skills and {len(agents)} role agents: {meta['highlights']}."
+    common = {
+        "author": meta["author"],
+        "homepage": meta["homepage"],
+        "repository": meta.get("repository", meta["homepage"]),
+        "keywords": meta.get("keywords", []),
+    }
+    claude_plugin = {
+        "name": name,
+        "version": version,
+        "description": desc,
+        **common,
+        # Skills load from the default skills/ directory. `agents` replaces the default
+        # agents/ directory, which holds the Gemini-format copies.
+        "agents": [f"./.claude/agents/{a}.md" for a in agents],
+    }
+    entry = {"name": name, "version": version, "source": "./", "description": desc}
+    claude_market = {
+        "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+        "name": name,
+        "description": meta["summary"],
+        "owner": meta["author"],
+        "plugins": [{**entry, "homepage": meta["homepage"], "keywords": common["keywords"]}],
+    }
+    codex_plugin = {
+        "name": name,
+        "version": version,
+        "description": desc,
+        **common,
+        "skills": "./skills/",
+        "interface": {
+            "displayName": meta["displayName"],
+            "shortDescription": meta["summary"],
+            "longDescription": desc,
+            "developerName": meta["author"]["name"],
+            "category": "Coding",
+            "websiteURL": meta["homepage"],
+        },
+    }
+    codex_market = {
+        "name": name,
+        "interface": {"displayName": meta["displayName"]},
+        "plugins": [{**entry, "category": "Coding"}],
+    }
+    gemini = {
+        "name": name,
+        "version": version,
+        "description": desc,
+        "contextFileName": "GEMINI.md",
+    }
+    return {
+        ".claude-plugin/plugin.json": _json(claude_plugin),
+        ".claude-plugin/marketplace.json": _json(claude_market),
+        ".codex-plugin/plugin.json": _json(codex_plugin),
+        ".agents/plugins/marketplace.json": _json(codex_market),
+        "gemini-extension.json": _json(gemini),
+    }
+
+
 def expected_files(root: Path) -> dict[str, bytes]:
     """Return {relative path: content} for every generated file. Validates sources first."""
     errors = validate_skills(root) + validate_agents(root)
     if errors:
         raise SyncError("invalid sources:\n" + "\n".join(f"  {e}" for e in errors))
     out: dict[str, bytes] = {}
+    agent_names: list[str] = []
     for src in sorted((root / ".agents" / "agents").glob("*.md")):
         doc = parse(src.read_text())
         name, desc, access = doc.meta["name"], doc.meta["description"], doc.meta["access"]
+        agent_names.append(name)
         for directory, (ext, render) in AGENT_RENDERERS.items():
             rel = f"{directory}/{name}{ext}"
             _inside(root, rel)
             out[rel] = render(name, desc, access, doc.body).encode()
 
     skills = root / ".agents" / "skills"
-    for file in sorted(p for p in skills.rglob("*") if p.is_file()):
-        rel = f".claude/skills/{file.relative_to(skills).as_posix()}"
-        _inside(root, rel)
-        out[rel] = file.read_bytes()
+    for file in sorted(p for p in skills.rglob("*") if is_source_file(p)):
+        for copy in SKILL_COPIES:
+            rel = f"{copy}/{file.relative_to(skills).as_posix()}"
+            _inside(root, rel)
+            out[rel] = file.read_bytes()
+    skill_count = sum(1 for p in skills.iterdir() if (p / "SKILL.md").is_file())
+    out.update(render_manifests(load_manifest(root), skill_count, agent_names))
     return out
 
 
@@ -171,14 +282,14 @@ def existing_files(root: Path) -> set[str]:
     for directory in OUTPUT_DIRS:
         base = root / directory
         if base.is_dir():
-            found |= {p.relative_to(root).as_posix() for p in base.rglob("*") if p.is_file()}
+            found |= {p.relative_to(root).as_posix() for p in base.rglob("*") if is_source_file(p)}
     return found
 
 
 def check(root: Path) -> list[str]:
     expected = expected_files(root)
     present = existing_files(root)
-    problems = [f"missing: {p}" for p in sorted(set(expected) - present)]
+    problems = [f"missing: {p}" for p in sorted(expected) if not (root / p).is_file()]
     problems += [f"stale: {p}" for p in sorted(present - set(expected))]
     for rel, content in expected.items():
         path = root / rel
@@ -195,8 +306,9 @@ def sync(root: Path) -> int:
         path = root / rel
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(content)
-        if rel.startswith(".claude/skills/"):
-            source = root / ".agents" / "skills" / rel.removeprefix(".claude/skills/")
+        copy = next((c for c in SKILL_COPIES if rel.startswith(f"{c}/")), None)
+        if copy:
+            source = root / ".agents" / "skills" / rel.removeprefix(f"{copy}/")
             path.chmod(source.stat().st_mode & 0o777)
     return len(expected)
 

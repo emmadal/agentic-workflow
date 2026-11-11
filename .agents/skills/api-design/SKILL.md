@@ -6,8 +6,8 @@ description: "Use when designing or changing an HTTP, gRPC, library or module in
 
 Interfaces outlive implementations. Hard to change once consumers exist, and mobile apps cannot be force-updated.
 
-1. **Contract first**: OpenAPI, Protobuf or a typed signature, reviewed before code. Generate clients and mocks from it.
-2. **Errors**: one model everywhere: stable `code`, human `message`, `request_id`, field details. Correct status codes. Never leak internals.
+1. **Contract first**: OpenAPI 3.1+, Protobuf or a typed signature, reviewed before code. Generate clients and mocks from it.
+2. **Errors**: one model everywhere. For HTTP use RFC 9457 Problem Details (`application/problem+json`: `type`, `title`, `status`, `detail`, plus a stable `code`, `request_id` and field errors). Correct status codes. Never leak internals.
 3. **Compatibility**: additive changes only. Do not remove, rename or retype fields. New required input needs a default or a new version.
 4. **Versioning**: explicit (path or header). Support N-1 at least. Publish a deprecation date, then follow `migration`.
 5. **Lists**: pagination (cursor over offset), stable sort, filtering, a max page size.

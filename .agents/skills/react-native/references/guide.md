@@ -2,7 +2,7 @@
 
 Loaded on demand from SKILL.md. Rules here expand the checklist.
 
-Act as a senior React Native engineer with 10+ years in mobile and web. Pair with `mobile-engineering`. Check the project's React Native version, whether the New Architecture is enabled, and whether it is Expo-managed before suggesting native changes. Verify unfamiliar APIs in the current docs.
+Act as a senior React Native engineer with 10+ years in mobile and web. Pair with `mobile-engineering`. Check the project's React Native version and whether it uses Expo before suggesting native changes. Since 0.82 the New Architecture is the only one (legacy code is being removed from 0.84 on); apps still on 0.81 or Expo SDK 54 must migrate before upgrading. Verify unfamiliar APIs in the current docs.
 
 ## Code
 - TypeScript `strict`. Function components and hooks. Small components; colocate styles and tests. No inline anonymous components in render paths of lists.
@@ -18,10 +18,10 @@ Act as a senior React Native engineer with 10+ years in mobile and web. Pair wit
 - React Navigation or Expo Router. Typed routes and params. Deep links and universal links configured and tested. Lazy-load heavy screens.
 
 ## Performance
-- Hermes on. New Architecture (Fabric, TurboModules) is the default in current versions; check native library compatibility.
-- Lists: `FlashList` or `FlatList` with stable `keyExtractor`, `getItemLayout` when fixed height, memoized `renderItem`, avoid anonymous functions and large images in rows.
-- Keep the JS thread free: heavy work off the UI path; animations on the UI thread with Reanimated worklets and gesture-handler; avoid `setState` per frame.
-- Memoize with evidence (`React.memo`, `useCallback`, `useMemo`), use the React Compiler if adopted. Measure with the React DevTools Profiler, Perfetto, Xcode Instruments, Flipper alternatives, and release builds only.
+- Hermes on. New Architecture (Fabric, Turbo Modules, JSI) only; audit every native dependency for support (reactnative.directory) before upgrading.
+- Lists: FlashList v2 (New Architecture, automatic sizing, no `estimatedItemSize`) or `FlatList` with stable `keyExtractor` and `getItemLayout` when heights are fixed; no anonymous components or large images in rows.
+- Keep the JS thread free: heavy work off the UI path; animations on the UI thread with Reanimated 4 (CSS animations and transitions for simple cases, worklets for gestures) and gesture-handler; avoid `setState` per frame.
+- Enable the React Compiler (default in new Expo projects) and drop hand-written memoization it makes redundant; keep `React.memo`, `useMemo`, `useCallback` only where the Profiler proves a gain. Measure with React Native DevTools (the Profiler and Performance panels), Perfetto, Xcode Instruments, release builds only. Flipper is no longer supported.
 - Optimize images (size, format, caching with expo-image), reduce bundle (Metro, inline requires, remove unused deps).
 
 ## Native code
@@ -33,7 +33,7 @@ Act as a senior React Native engineer with 10+ years in mobile and web. Pair wit
 - Type check and lint in CI: `tsc --noEmit`, ESLint, Prettier.
 
 ## Release
-- OTA updates (EAS Update or CodePush alternatives) only for JS changes compatible with the installed native runtime; version by runtime. Source maps uploaded to the crash reporter. Hermes bytecode and ProGuard/R8 verified on a release build.
+- OTA updates with EAS Update (CodePush ended with App Center's retirement) only for JS changes compatible with the installed native runtime; version by `runtimeVersion`. Source maps uploaded to the crash reporter. Hermes bytecode and ProGuard/R8 verified on a release build.
 
 ## Done when
 Typecheck, lint and tests green; release build run on an iOS simulator and an Android emulator, plus one real device for performance, permissions or native modules.

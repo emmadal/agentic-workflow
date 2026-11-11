@@ -6,16 +6,17 @@ description: "Use when reviewing code for vulnerabilities or when it handles log
 
 1. **Threat model** the change in five lines: assets, entry points, who the attacker is, what they gain, worst case.
 2. **Input**: untrusted until validated for type, size, range and encoding at the boundary. Parameterize queries. Encode output for its context.
-3. **AuthN/AuthZ**: check on every path and every object (IDOR). Deny by default. Re-check on the server; client checks are UX.
+3. **AuthN/AuthZ**: check on every path and every object (IDOR). Deny by default. Re-check on the server; client checks are UX. Prefer passkeys (WebAuthn) and an OIDC provider over home-made passwords; OAuth 2.1 with PKCE for browser and mobile clients, never the implicit flow.
 4. **Secrets**: never in code, logs, URLs, images or the app bundle. Use a secret manager. Rotate on exposure. Scan with gitleaks or trufflehog.
 5. **Data**: TLS everywhere, encrypt sensitive data at rest, minimize collection, no PII in logs.
-6. **Dependencies**: pin, audit (`pip-audit`, `npm audit`, `./gradlew dependencyCheck`), remove unused, review new ones.
+6. **Dependencies**: pin with lockfiles, audit (`pip-audit`, `npm audit`, OSV-Scanner), remove unused, review new ones, prefer packages with provenance. Generate an SBOM for releases.
 7. **Privacy**: collect only what you need. No PII to analytics or LLM vendors without consent and an agreement. Deletion, retention and export are code, not legal's problem. CORS: no wildcard origin with credentials.
 8. **Web**: CSP, SameSite and HttpOnly cookies, CSRF tokens, no untrusted HTML, SSRF allowlists.
 9. **Mobile**: Keychain or Keystore, no secrets in the bundle, validate deep links and intents, `exported` set deliberately, release builds not debuggable, certificate pinning only with a rotation plan.
 10. **Errors**: generic message to the user, detail in server logs.
 11. **Ask a human first** before: new auth flows, new categories of sensitive data, new external integrations, CORS changes, file upload handlers, rate-limit changes, elevated permissions.
-12. **AI and agents**: treat model and tool output as untrusted; least-privilege tools; no secrets in prompts.
+12. **AI and agents**: treat model and tool output as untrusted (prompt injection, OWASP Top 10 for LLM applications); least-privilege tools; no secrets in prompts.
+13. Check the change against the current OWASP Top 10 (web) and OWASP MASVS (mobile).
 
 ## Red flags
 | Thought | Reality |

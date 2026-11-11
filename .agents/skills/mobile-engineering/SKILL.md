@@ -1,13 +1,13 @@
 ---
 name: mobile-engineering
-description: "Use when starting any mobile app task (iOS, Android, KMP, React Native, Expo) or planning app architecture, offline support, old app versions: sets cross-platform rules and routes to the platform skill."
+description: "Use when starting any mobile app task (iOS, Android, KMP, Flutter, React Native, Expo) or planning app architecture, offline support, old app versions: sets cross-platform rules and routes to the platform skill."
 ---
 # Mobile engineering
 
 Assume slow networks, old devices, old app versions, and users who kill the app mid-request.
 
 ## Route
-Swift/SwiftUI `swift-ios` · Kotlin `kotlin-android` · Compose `android-compose` · shared Kotlin `kotlin-multiplatform` · RN `react-native` · Expo `expo` (SDK, Expo UI, Router, EAS Observe) · run/test on simulator, emulator, device `mobile-device-testing`.
+Swift/SwiftUI `swift-ios` · Kotlin `kotlin-android` · Compose `android-compose` · shared Kotlin `kotlin-multiplatform` · Flutter/Dart `flutter` · RN `react-native` · Expo `expo` (SDK, Expo UI, Router, EAS Observe) · run/test on simulator, emulator, device `mobile-device-testing` · find-and-fix QA on a running app `ios-qa`, `android-qa`.
 
 ## Rules
 1. UI is a function of state. State down, events up. No business logic in views.

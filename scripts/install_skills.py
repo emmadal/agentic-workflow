@@ -13,7 +13,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from .sync_agents import SyncError, expected_files
+from .sync_agents import SyncError, expected_files, is_source_file
 
 TOOLS = {
     "claude": (".claude/skills/", ".claude/agents/"),
@@ -32,7 +32,7 @@ def plan(root: Path, tools: list[str]) -> dict[str, bytes]:
         skills_dir, agents_dir = TOOLS[tool]
         if skills_dir == ".agents/skills/":
             src = root / ".agents" / "skills"
-            for file in sorted(p for p in src.rglob("*") if p.is_file()):
+            for file in sorted(p for p in src.rglob("*") if is_source_file(p)):
                 out[f"{skills_dir}{file.relative_to(src).as_posix()}"] = file.read_bytes()
         for rel, content in generated.items():
             if rel.startswith(skills_dir) or rel.startswith(agents_dir):

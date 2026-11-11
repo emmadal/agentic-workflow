@@ -1,13 +1,24 @@
 {
   "name": "agentic-workflow",
-  "version": "0.2.0",
-  "description": "Spec-driven workflow: 39 skills and 11 role agents, plus context, accountability, secretary and interview skills.",
+  "version": "1.2.0",
+  "description": "45 skills and 11 role agents: spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output.",
   "author": {
     "name": "Emmanuel Dalougou"
   },
   "homepage": "https://github.com/emmadal/agentic-workflow",
   "repository": "https://github.com/emmadal/agentic-workflow",
-  "skills": "./.claude/skills",
+  "keywords": [
+    "skills",
+    "agents",
+    "spec",
+    "tdd",
+    "review",
+    "ship",
+    "mobile",
+    "qa",
+    "pdf",
+    "docx"
+  ],
   "agents": [
     "./.claude/agents/architect.md",
     "./.claude/agents/backend-engineer.md",

@@ -4,7 +4,7 @@ description: "Use when adding or reviewing logs, metrics, traces, health checks,
 ---
 # Observability
 
-Goal: answer "what broke, for whom, since when, why" without a redeploy.
+Goal: answer "what broke, for whom, since when, why" without a redeploy. Instrument with OpenTelemetry (SDK, semantic conventions, OTLP export) so the backend vendor can change without touching code.
 
 1. **Logs**: structured JSON, levels used honestly, `request_id` and user-safe ids on every line, errors with stack and context. No secrets or PII.
 2. **Metrics**: RED for services (rate, errors, duration percentiles), USE for resources (utilization, saturation, errors). Keep label cardinality low.

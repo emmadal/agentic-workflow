@@ -19,10 +19,10 @@ Simulators do not run APNs push, real camera or most hardware. Emulators lack re
 Run them with `bash`. They fail loudly if a required tool is missing; install the tool or report it, do not fake a result.
 
 ## iOS
-1. `bash scripts/ios-sim.sh list`, then `boot "iPhone 16"`.
-2. Build and test: `xcodebuild test -scheme <Scheme> -destination 'platform=iOS Simulator,name=iPhone 16' -resultBundlePath artifacts/ios.xcresult`.
+1. `bash scripts/ios-sim.sh list`, then `boot "<device name>"` (pick a current model and one small-screen model).
+2. Build and test: `xcodebuild test -scheme <Scheme> -destination 'platform=iOS Simulator,name=<device name>' -resultBundlePath artifacts/ios.xcresult`.
 3. Run the app: `xcodebuild build ... -derivedDataPath build`, then `ios-sim.sh install <path/App.app>` and `launch <bundle id>`.
-4. Real device: connect, trust, enable Developer Mode, sign with a team; list with `xcrun xctrace list devices` or `xcrun devicectl list devices`; run with Xcode or `xcodebuild -destination 'id=<UDID>'`.
+4. Real device: connect, trust, enable Developer Mode, sign with a team; list with `xcrun devicectl list devices`; run with Xcode or `xcodebuild -destination 'id=<UDID>'`.
 5. Logs and crashes: `ios-sim.sh log <process>`; crash logs in Xcode Devices window or `~/Library/Logs/DiagnosticReports`. Profile with Instruments on device.
 
 ## Android

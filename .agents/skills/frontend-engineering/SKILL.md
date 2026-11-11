@@ -13,12 +13,13 @@ description: "Use when building or reviewing web UI: components, state, forms, r
 7. **Structure**: small components with clear props, colocated tests, shared primitives, TypeScript `strict`.
 8. Avoid the generic AI look (purple gradients, oversized cards, stock layouts); use the project's design system.
 9. Responsive from 320px with no layout shift.
+10. **Modern React and platform**: React 19 actions (`useActionState`, `useOptimistic`, form actions) for mutations; the React Compiler handles memoization, so hand-written `useMemo`/`useCallback` need profiler evidence. Use the platform before a library: `<dialog>`, the Popover API, container queries, `:has()`, View Transitions.
 
 ## Test
 Component tests assert user-visible behavior (Testing Library). Playwright E2E for critical journeys (`browser-testing`). axe in CI. Visual regression for shared components.
 
 ## Red flags
-`div` with `onClick` · fetch inside `useEffect` with no cancel or cache · index as list key · layout shift from unsized images · spinner as the only error handling.
+`div` with `onClick` · fetch inside `useEffect` with no cancel or cache · index as list key · layout shift from unsized images · spinner as the only error handling · `useMemo` everywhere with the React Compiler on · a modal library where `<dialog>` works.
 
 ## Verify
 Works by keyboard and screen reader, meets budgets, all states handled, tests green.
