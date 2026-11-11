@@ -1,30 +1,29 @@
 ---
 name: swift-ios
-description: "Use when writing, reviewing or testing Swift, SwiftUI or UIKit code for iOS/iPadOS: concurrency, state ownership, navigation, SwiftData or Core Data, Keychain, Swift Testing, XCTest, XCUITest."
+description: "Use when writing, reviewing or testing Swift, SwiftUI or UIKit code for iOS/iPadOS: Swift 6 concurrency, @Observable models, navigation, SwiftData or Core Data, Keychain, Swift Testing, XCTest, XCUITest."
 ---
 # Swift and iOS
 
-Read the deployment target and Swift version first. Gate newer APIs with `#available`.
+Follows Apple's Swift API Design Guidelines, the Swift 6 concurrency model and Human Interface Guidelines. First read the deployment target, Swift language mode, Xcode version and the target's default actor isolation (`SWIFT_DEFAULT_ACTOR_ISOLATION` or SwiftPM `.defaultIsolation`). Gate newer APIs with `#available`.
 
 ## Rules
-1. `struct` and `let` by default; `final class` otherwise. Enums with payloads for state. No `!` or `try!` outside tests.
-2. Concurrency: `async/await`, actors for shared state, `@MainActor` on UI and view models, `Sendable` across boundaries. Enable Swift 6 strict concurrency on new code. Check `Task.isCancelled`; store and cancel long tasks.
-3. `[weak self]` only in escaping closures that outlive the owner. Prefer async APIs over callbacks.
-4. SwiftUI state: `@State` local, `@Binding` passed down, `@Observable` (iOS 17+) or `ObservableObject` for models, `@Environment` for dependencies. Create owned models with `@State` or `@StateObject`, never inside `body`.
-5. `body` is pure and cheap. Stable `id`s in lists. `.task` for async work tied to view lifetime.
-6. Navigation: `NavigationStack` with a typed path.
-7. `URLSession` async, `Codable`, timeouts, typed errors. Secrets in Keychain, never `UserDefaults`.
-8. Ship `PrivacyInfo.xcprivacy`, usage strings for every permission, ATS on.
-9. Dynamic Type, VoiceOver labels, Dark Mode, Reduce Motion.
+1. Value types and `let` by default; `final class` otherwise. Enums with payloads so illegal states cannot exist. Names read clearly at the call site. No `!`, `try!` or `as!` outside tests.
+2. Concurrency: Swift 6 language mode for new targets. App targets on Swift 6.2 default to `@MainActor`; mark CPU-heavy async work `@concurrent`. Actors for shared mutable state, `Sendable` across isolation boundaries. `@unchecked Sendable` and `nonisolated(unsafe)` need a written reason. Prefer `async let` and task groups over `Task.detached`; check cancellation.
+3. Observation: `@Observable` models (iOS 17+), owned with `@State`, bound with `@Bindable`, injected with `@Environment(Model.self)`. `ObservableObject` only below iOS 17. Never create an owned model inside `body`.
+4. Views: `body` pure and cheap; extract subviews (structs, not computed properties) so invalidation stays small; stable `id`s, no `AnyView`; `.task(id:)` for work tied to view lifetime; `#Preview` per state.
+5. Navigation: `NavigationStack(path:)` with typed `Hashable` routes; `NavigationSplitView` for iPad and regular width; deep links drive the same router.
+6. Data: SwiftData with `VersionedSchema` and a migration plan, or Core Data. `URLSession` async, `Codable`, timeouts, typed errors. Secrets in Keychain, never `UserDefaults`.
+7. Platform: `PrivacyInfo.xcprivacy`, usage strings for every permission, ATS on. Standard components so iOS 26 Liquid Glass applies automatically; custom glass only behind `#available`.
+8. Accessibility: system text styles and `@ScaledMetric` for Dynamic Type, VoiceOver labels and traits, Reduce Motion, Increase Contrast, 44pt targets.
 
 ## Test
-- Unit: Swift Testing (`@Test`, `#expect`) or XCTest. Inject clock and network behind protocols.
-- UI: XCUITest with accessibility identifiers and launch arguments to stub state.
-- `xcodebuild test -scheme <S> -destination 'platform=iOS Simulator,name=iPhone 16'`
-- Profile on a real device with Instruments: Time Profiler, Allocations, Hangs.
+- Swift Testing: `@Test`, `#expect`, `#require`, parameterized `arguments:`, `@Suite`. Inject clock and network behind protocols.
+- XCUITest with accessibility identifiers and launch arguments; `performAccessibilityAudit()` (iOS 17+).
+- `xcodebuild test -scheme <S> -destination 'platform=iOS Simulator,name=<device>' -resultBundlePath artifacts/ios.xcresult`; `swift test` for packages.
+- Instruments on a real device: Time Profiler, Allocations, Hangs, SwiftUI.
 
 ## Pitfalls
-Re-creating an `ObservableObject` on every render; heavy work in `body`; unstructured `Task {}` that outlives the screen; forgetting dSYM upload; testing push or camera on a simulator.
+Blocking the main actor with sync I/O; unstructured `Task {}` outliving the screen; silencing Sendable errors with `@unchecked`; heavy work in `body`; missing dSYMs; testing push or camera on a simulator.
 
 ## Verify
-Zero warnings, tests green, run on simulator plus a real device for hardware, push, performance. `references/guide.md` has depth on data, release and architecture.
+Zero warnings in Swift 6 mode, tests green, VoiceOver and largest Dynamic Type checked, run on a simulator plus a real device for hardware, push and performance. Depth on concurrency migration, SwiftData, architecture and release: `references/guide.md`.

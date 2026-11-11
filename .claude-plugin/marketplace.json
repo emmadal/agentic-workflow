@@ -2,15 +2,28 @@
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "agentic-workflow",
   "description": "Spec-driven workflow skills and role agents for AI coding tools.",
-  "owner": { "name": "Emmanuel Dalougou" },
+  "owner": {
+    "name": "Emmanuel Dalougou"
+  },
   "plugins": [
     {
       "name": "agentic-workflow",
-      "version": "0.2.0",
+      "version": "1.2.0",
       "source": "./",
-      "description": "39 skills and 11 role agents from spec to release, plus context, accountability, secretary and interview skills.",
+      "description": "45 skills and 11 role agents: spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output.",
       "homepage": "https://github.com/emmadal/agentic-workflow",
-      "keywords": ["skills", "agents", "spec", "tdd", "review", "ship", "context"]
+      "keywords": [
+        "skills",
+        "agents",
+        "spec",
+        "tdd",
+        "review",
+        "ship",
+        "mobile",
+        "qa",
+        "pdf",
+        "docx"
+      ]
     }
   ]
 }

@@ -8,10 +8,11 @@ description: "Use when verifying or debugging web UI in a real browser: Playwrig
 2. **Playwright** for repeatable E2E: locate by role, label or text (`getByRole`), not CSS or XPath. Auto-waiting assertions (`expect(locator).toBeVisible()`), never `waitForTimeout`.
 3. **Isolation**: fresh context per test, seeded data, mock or stage third parties, no ordering between tests.
 4. **Cover** the critical journey, error and empty states, keyboard-only use, mobile viewport (320 and 390 px), slow network throttling.
-5. **Accessibility**: run axe, then tab through the page manually.
+5. **Accessibility**: run axe (`@axe-core/playwright`), then tab through the page manually.
 6. **Evidence**: trace, screenshot and video on failure. `npx playwright show-trace`.
 7. **DevTools** for diagnosis: Console (errors and warnings), Network (failed, slow, large), Performance and Lighthouse for Web Vitals, Elements for layout.
 8. Fix flakiness at the cause: await the real condition, stabilize data, do not add retries.
+9. **Visual**: `expect(page).toHaveScreenshot()` for stable shared components, with masked dynamic regions. Agents can drive the same browser through the Playwright MCP or Chrome DevTools MCP server.
 
 ## Red flags
 `sleep` or fixed timeouts · selectors tied to DOM structure · tests that depend on each other · "passes locally" with no CI run.

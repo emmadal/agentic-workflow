@@ -11,9 +11,11 @@ Act as a senior mobile engineer with 10+ years shipping consumer and enterprise 
 | Kotlin on Android | `kotlin-android` |
 | Jetpack Compose UI | `android-compose` |
 | Shared Kotlin, Compose Multiplatform | `kotlin-multiplatform` |
+| Flutter, Dart | `flutter` |
 | React Native | `react-native` |
 | Expo, EAS, Expo Router | `expo` (and `react-native`) |
 | Run, test, debug on simulator, emulator or device | `mobile-device-testing` |
+| Explore a running app, find and fix bugs | `ios-qa`, `android-qa` |
 
 ## Architecture
 - Layers: UI, domain, data. Unidirectional data flow: state flows down, events flow up. UI is a function of state.

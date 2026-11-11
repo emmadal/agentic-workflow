@@ -15,10 +15,13 @@ Simulator or emulator for logic and UI. Real device for permissions, push, camer
 - `run-maestro.sh <flow|dir>` saves JUnit and debug output to `artifacts/`
 
 ## iOS
-`xcodebuild test -scheme <S> -destination 'platform=iOS Simulator,name=iPhone 16' -resultBundlePath artifacts/ios.xcresult`. Device: `xcrun devicectl list devices`, then `-destination 'id=<UDID>'`. Crashes: Xcode Devices or `~/Library/Logs/DiagnosticReports`.
+`xcodebuild test -scheme <S> -destination 'platform=iOS Simulator,name=<device>' -resultBundlePath artifacts/ios.xcresult` (`xcrun simctl list devices available` for names). Device: `xcrun devicectl list devices`, then `-destination 'id=<UDID>'`. Crashes: Xcode Devices or `~/Library/Logs/DiagnosticReports`.
 
 ## Android
 `./gradlew testDebugUnitTest`; `./gradlew connectedDebugAndroidTest`. Headless: `emulator -no-window -no-audio -gpu swiftshader_indirect` or Gradle Managed Devices. Device: USB debugging, `adb devices`. Diagnose: `adb logcat -b crash -d`, `dumpsys meminfo|gfxinfo <pkg>`, Perfetto.
+
+## Flutter
+`flutter test` for unit and widget tests; `flutter test integration_test -d <device-id>` on a simulator, emulator or device; `flutter devices` lists ids.
 
 ## E2E
 Maestro by default (YAML, any framework; `references/maestro-example.yaml`). Detox for RN gray-box. XCUITest, Espresso, Compose tests for native suites. Fresh state per test, stubbed backend, condition waits instead of sleeps.

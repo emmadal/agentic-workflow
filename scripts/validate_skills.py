@@ -20,8 +20,9 @@ ACCESS = {"read-only", "inspect", "write"}
 MAX_NAME = 64
 MAX_DESCRIPTION = 280
 MAX_BODY_WORDS = 400
-# Always-loaded cost: every description is in context every session. Keep the catalog lean.
-TOTAL_DESCRIPTION_BUDGET = 8000
+# Always-loaded cost: every description is in context every session. Keep the catalog lean:
+# about 200 characters per skill for 45 skills.
+TOTAL_DESCRIPTION_BUDGET = 9000
 MAX_AGENTS_MD_WORDS = 450
 REF_RE = re.compile(r"`((?:scripts|references|assets)/[A-Za-z0-9._/-]+)`")
 

@@ -15,6 +15,7 @@ Skills load from their `description`; do not preload. Open a skill's `references
 Flow: `discover` → `spec` → `plan` → `incremental-implementation` + `test-driven-development` → `code-review` → `ship` → `release`.
 Pause or resume: `context-save` writes a checkpoint to `.context/checkpoints/`, `context-restore` loads it.
 Mobile: start with `mobile-engineering`; run and test with `mobile-device-testing`.
+QA on a running product (find, fix, prove): `qa` for web, API, CLI; `ios-qa`, `android-qa` for apps. Documents: `make-pdf`, `make-docx`.
 Agents: `planner` `explorer` `architect` (read-only), `reviewer` `security-auditor` (no edits), `implementer` `backend-engineer` `frontend-engineer` `mobile-engineer` `test-engineer` `qa-engineer` (write). Writer and reviewer differ. No sub-agents? Follow the same rules inline.
 
 ## Commands

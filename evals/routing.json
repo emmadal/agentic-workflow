@@ -220,6 +220,10 @@
    {
     "prompt": "Test the iOS app on the simulator",
     "owner": "mobile-device-testing"
+   },
+   {
+    "prompt": "QA the staging site and fix the bugs you find",
+    "owner": "qa"
    }
   ]
  },
@@ -360,6 +364,10 @@
    {
     "prompt": "Write a server endpoint",
     "owner": "backend-engineering"
+   },
+   {
+    "prompt": "Write golden tests for this Flutter widget",
+    "owner": "flutter"
    }
   ]
  },
@@ -368,7 +376,8 @@
   "positive": [
    "Write a SwiftUI view with an Observable view model and async await",
    "Fix this Swift concurrency Sendable warning in my iOS app",
-   "Store the token in Keychain and add XCTest tests for iOS"
+   "Store the token in Keychain and add XCTest tests for iOS",
+   "Adopt Swift 6.2 default MainActor isolation and mark heavy work @concurrent"
   ],
   "negative": [
    {
@@ -396,7 +405,8 @@
   "positive": [
    "Build a Jetpack Compose screen with state hoisting and Material 3",
    "Fix excessive recomposition in this LazyColumn",
-   "Write Compose UI tests with semantics"
+   "Write Compose UI tests with semantics",
+   "Migrate this Compose app to Navigation 3 with an adaptive list-detail layout"
   ],
   "negative": [
    {
@@ -410,7 +420,8 @@
   "positive": [
    "Share business logic between Android and iOS with Kotlin Multiplatform",
    "Set up expect actual and Ktor in a KMP shared module",
-   "Expose a Kotlin Flow to Swift from the shared module"
+   "Expose a Kotlin Flow to Swift from the shared module",
+   "Add @Throws and SKIE so Swift can call the KMP suspend functions"
   ],
   "negative": [
    {
@@ -544,6 +555,90 @@
    {
     "prompt": "Fix this Expo screen's FlatList performance",
     "owner": "react-native"
+   }
+  ]
+ },
+ {
+  "skill": "flutter",
+  "positive": [
+   "Build a Flutter screen with a ChangeNotifier view model and go_router",
+   "Fix setState called after dispose in this Flutter widget",
+   "Write widget and golden tests for my Dart Flutter app"
+  ],
+  "negative": [
+   {
+    "prompt": "Write a React Native FlatList screen",
+    "owner": "react-native"
+   }
+  ]
+ },
+ {
+  "skill": "qa",
+  "positive": [
+   "QA the staging site and fix the bugs you find",
+   "Does this work? Test the checkout page in the running app and fix what is broken",
+   "Find bugs in our API and CLI before we ship, then fix them with regression tests"
+  ],
+  "negative": [
+   {
+    "prompt": "Design a test strategy with the test pyramid",
+    "owner": "qa-testing"
+   }
+  ]
+ },
+ {
+  "skill": "ios-qa",
+  "positive": [
+   "QA my iPhone app on the simulator and fix the bugs",
+   "Explore the iOS app screen by screen and check Dynamic Type and dark mode",
+   "Find bugs in the running iPad app and fix them"
+  ],
+  "negative": [
+   {
+    "prompt": "Write a SwiftUI view with an Observable view model",
+    "owner": "swift-ios"
+   }
+  ]
+ },
+ {
+  "skill": "android-qa",
+  "positive": [
+   "QA the Android app on the emulator and fix what breaks",
+   "Explore my Android app with adb, check font scale, rotation and process death",
+   "Find bugs in the running Android app on my device"
+  ],
+  "negative": [
+   {
+    "prompt": "Build a Jetpack Compose screen with Material 3",
+    "owner": "android-compose"
+   }
+  ]
+ },
+ {
+  "skill": "make-pdf",
+  "positive": [
+   "Make a PDF from this markdown report",
+   "Export the spec to PDF with a cover page and table of contents",
+   "Turn these notes into a printable PDF with a DRAFT watermark"
+  ],
+  "negative": [
+   {
+    "prompt": "Create a Word docx document from these notes",
+    "owner": "make-docx"
+   }
+  ]
+ },
+ {
+  "skill": "make-docx",
+  "positive": [
+   "Create a Word document from this markdown",
+   "Export the proposal as a .docx I can edit in Google Docs",
+   "Turn these meeting notes into a Word file with headings and a table"
+  ],
+  "negative": [
+   {
+    "prompt": "Export this markdown to PDF",
+    "owner": "make-pdf"
    }
   ]
  }

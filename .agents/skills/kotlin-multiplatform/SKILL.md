@@ -1,26 +1,28 @@
 ---
 name: kotlin-multiplatform
-description: "Use when sharing Kotlin across Android, iOS, desktop or server with KMP or Compose Multiplatform: source sets, expect/actual, Ktor, SQLDelight or Room KMP, Koin, Swift interop, testing on every target."
+description: "Use when sharing Kotlin across Android, iOS, desktop or server with KMP or Compose Multiplatform: project structure, source sets, expect/actual, Ktor, Room or SQLDelight, Koin, SKIE Swift interop, all-target tests."
 ---
 # Kotlin Multiplatform
 
-Check current Kotlin, KMP and Compose Multiplatform versions in the version catalog and official docs before touching build logic.
+Follows JetBrains' KMP documentation and recommended project structure. First read `gradle/libs.versions.toml` (Kotlin, AGP, Compose Multiplatform), the module layout and how iOS consumes the framework. Check versions against official docs before touching build logic.
 
 ## Rules
-1. Share logic first (domain, use cases, repositories, networking, persistence, validation). Share UI (Compose Multiplatform) only if the team accepts one toolkit. Platform UX, permissions and hardware stay native.
-2. `shared` module: `commonMain`, `androidMain`, `iosMain`, tests per source set. Keep platform code thin.
-3. Prefer interfaces plus DI over `expect/actual`. Use `expect/actual` for small primitives (UUID, clock, secure storage, logging).
-4. Multiplatform libraries only: Ktor (OkHttp on Android, Darwin on iOS), kotlinx.serialization, coroutines, kotlinx-datetime, SQLDelight or Room KMP, Koin.
-5. No platform types in `commonMain`. Review imports.
-6. iOS interop: export a small API with simple types. Bridge `suspend` and `Flow` with SKIE or KMP-NativeCoroutines. Watch retain cycles across the boundary.
-7. Ship iOS as an XCFramework via SwiftPM or Gradle `embedAndSignAppleFrameworkForXcode`.
+1. Share logic first: domain, repositories, networking, persistence, validation. Share UI with Compose Multiplatform when the team accepts one toolkit; JetBrains recommends it to keep interop small. Platform UX, permissions and hardware stay native.
+2. Structure: shared code in KMP library modules using the `com.android.kotlin.multiplatform.library` plugin (`android {}` block, `androidLibrary {}` in older AGP); app entry points in their own modules (`androidApp`, `desktopApp`) plus the `iosApp` Xcode project. Use the default hierarchy template (`iosMain`, `appleMain`); do not hand-write `dependsOn` trees.
+3. Platform APIs: multiplatform library first, then interface + DI, then `expect fun`. `expect class` is Beta; avoid it in new code.
+4. Libraries: Ktor client, kotlinx.serialization, coroutines, kotlinx-datetime, Room KMP or SQLDelight, DataStore, androidx ViewModel and Navigation for Compose Multiplatform, Koin. Resources through Compose Multiplatform `Res`.
+5. `commonMain` has no platform imports. Libraries use explicit API mode and the binary compatibility validator.
+6. Swift API: export a small facade with simple types; `@Throws` on every function Swift calls that can fail (otherwise the exception crashes the app); `@ObjCName`, `@HiddenFromObjC`, `@ShouldRefineInSwift` to shape names. Bridge `suspend` and `Flow` with SKIE or KMP-NativeCoroutines. Swift export is Alpha: evaluate, do not ship on it.
+7. iOS integration: `embedAndSignAppleFrameworkForXcode` for local builds, an XCFramework via Swift Package Manager for distribution. CocoaPods is being phased out; do not start new projects on it.
+8. Concurrency: suspend APIs are main-safe; inject dispatchers; never block the iOS main thread.
 
 ## Test
-- Shared logic in `commonTest`: `kotlin.test`, `runTest`, Turbine, fakes for platform deps.
-- Run every target: `./gradlew :shared:allTests`, `:shared:iosSimulatorArm64Test`. Add app-level UI tests per platform. CI needs macOS for iOS targets; cache `~/.konan`.
+- `commonTest`: `kotlin.test`, `runTest`, Turbine, fakes for platform interfaces. Compose Multiplatform UI: `runComposeUiTest {}`.
+- Every target: `./gradlew :shared:allTests` (JVM, Android host, `iosSimulatorArm64Test`). App UI tests per platform.
+- CI needs macOS for iOS targets; cache Gradle and `~/.konan`.
 
 ## Pitfalls
-Behavior drift between platforms (locale, formatting, threading, time zones); leaking Kotlin generics into Swift; binary size and build time growth; unpinned versions.
+Missing `@Throws`; Kotlin generics, sealed classes or default arguments leaking awkwardly into Swift; platform drift in locale, time zones, number formatting; iOS framework size and link time; unpinned versions.
 
 ## Verify
-Shared tests pass on JVM and iOS simulator, both apps build and run on a simulator and an emulator, the Swift call sites look idiomatic. Depth: `references/guide.md`.
+Shared tests pass on JVM and iOS simulator, both apps build and run on a simulator and an emulator, Swift call sites read idiomatically, framework size checked. Depth: `references/guide.md`.

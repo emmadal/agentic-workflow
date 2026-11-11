@@ -1,12 +1,26 @@
-.venv/
+# Python
 __pycache__/
+*.py[cod]
 *.egg-info/
+.venv/
 .pytest_cache/
 .ruff_cache/
+.coverage*
+htmlcov/
+
+# Secrets and local environment
 .env
 .env.*
+
+# Tool state, local settings and run output
 .claude/settings.local.json
-artifacts/
-.context/
 .serena/
-.coverage
+.context/
+artifacts/
+
+# OS
+.DS_Store
+idea/
+
+# Node (skill scripts and tooling)
+node_modules/

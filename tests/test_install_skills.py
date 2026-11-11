@@ -76,7 +76,8 @@ def test_plugin_manifest_matches_generated_agents():
     market = json.loads((ROOT / ".claude-plugin" / "marketplace.json").read_text())
     listed = sorted(Path(a).name for a in plugin["agents"])
     assert listed == sorted(p.name for p in (ROOT / ".claude" / "agents").glob("*.md"))
-    assert (ROOT / plugin["skills"]).is_dir()
+    assert "skills" not in plugin  # loads the default skills/ directory (see test_plugins.py)
+    assert (ROOT / "skills").is_dir()
     assert market["plugins"][0]["name"] == plugin["name"]
     assert market["plugins"][0]["version"] == plugin["version"]
 

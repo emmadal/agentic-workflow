@@ -281,7 +281,9 @@ def test_repo_meets_routing_floor():
 def test_repo_stays_within_token_budgets():
     cat = token_report.measure("t", ROOT / ".agents/skills", ROOT / "AGENTS.md")
     assert cat.skills >= 30
-    assert cat.always_on < 3000
+    # Always-loaded cost grows with the catalog; hold the per-skill cost and a hard ceiling.
+    assert cat.always_on / cat.skills < 72
+    assert cat.always_on < 3300
     assert cat.body_avg < 450
     assert cat.body_max < 800
 
