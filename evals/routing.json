@@ -182,6 +182,20 @@
   ]
  },
  {
+  "skill": "vue",
+  "positive": [
+   "Refactor this Vue component to script setup with defineModel",
+   "Add a Pinia store and typed Vue Router routes",
+   "Fetch data in Nuxt with useFetch during SSR"
+  ],
+  "negative": [
+   {
+    "prompt": "Add signal inputs and outputs to this Angular component",
+    "owner": "angular"
+   }
+  ]
+ },
+ {
   "skill": "security-hardening",
   "positive": [
    "Review this login flow for vulnerabilities and add input validation",

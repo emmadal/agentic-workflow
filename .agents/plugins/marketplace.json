@@ -8,7 +8,7 @@
       "name": "agentic-workflow",
       "version": "1.3.0",
       "source": "./",
-      "description": "47 skills and 11 role agents: spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output.",
+      "description": "48 skills and 11 role agents: spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output.",
       "category": "Coding"
     }
   ]
