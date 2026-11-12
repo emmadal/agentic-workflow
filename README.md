@@ -1,8 +1,8 @@
 # agentic-workflow
 
-agentic-workflow turns Claude Code (and Codex, Gemini CLI, OpenCode and Cursor) into a senior engineering team that works the way good teams do: a product thinker who asks the right questions, a spec writer, a planner, a test-first implementer, platform specialists for web, backend, iOS, Android, Kotlin Multiplatform, Flutter, React Native and Expo, a reviewer who never edits, a QA lead who tests the running app and fixes what breaks, and a release engineer who ships.
+agentic-workflow turns Claude Code (and Codex, Gemini CLI, OpenCode and Cursor) into a senior engineering team that works the way good teams do: a product thinker who asks the right questions, a spec writer, a planner, a test-first implementer, platform specialists for web (React, Preact, Angular, Vue, Svelte, Solid and plain JavaScript), backend, iOS, Android, Kotlin Multiplatform, Flutter, React Native and Expo, a reviewer who never edits, a QA lead who tests the running app and fixes what breaks, and a release engineer who ships.
 
-46 skills and 11 role agents, plain Markdown, written once and generated for every tool.
+51 skills and 11 role agents, plain Markdown, written once and generated for every tool.
 
 Built and maintained by [Emmanuel Dalougou](https://github.com/emmadal). It is the workflow I use every day to ship web and mobile products with AI agents, packaged so you can install it in a minute.
 
@@ -119,7 +119,12 @@ agentic-workflow is a process, not a pile of prompts. The skills run in the orde
 
 | Skill | Your specialist | What it covers |
 |-------|-----------------|----------------|
-| `/frontend-engineering` | **Frontend Engineer** | Accessible components (WCAG 2.2 AA), every UI state, Core Web Vitals budgets, React 19 actions and the React Compiler, platform-first HTML and CSS. |
+| `/frontend-engineering` | **Frontend Engineer** | Start every web UI task here. Accessible components (WCAG 2.2 AA), every UI state, Core Web Vitals budgets, React 19 and Preact 11 rules, a legacy-to-modern map for every framework, then routes to the framework skill. |
+| `/angular` | **Angular Engineer** | Standalone components, signals, zoneless and OnPush by default, Signal Forms, `httpResource`, built-in control flow, SSR with incremental hydration, Vitest, and the schematics that remove legacy APIs. |
+| `/vue` | **Vue Engineer** | `<script setup>` and the Composition API, `defineModel`, composables, Pinia setup stores, Vue Router file-based typed routes, Nuxt for SSR, Vitest. |
+| `/svelte` | **Svelte Engineer** | Svelte 5 runes, snippets, attachments, SvelteKit `load` and form actions, SvelteKit 3 configuration, `sv migrate` for legacy syntax. |
+| `/solidjs` | **Solid Engineer** | Fine-grained reactivity without breaking props, signals and stores, router `query`, `createAsync` and actions, SolidStart 2 server functions. |
+| `/vanilla-js` | **Web Platform Engineer** | No framework, no legacy: ES modules, custom elements, `AbortController` cleanup, `<dialog>`, popover, invoker commands, the Navigation API, chosen by Baseline status. |
 | `/nextjs-app-router` | **Next.js Engineer** | Next.js 16 App Router: server components, server actions, cache components, streaming, deployment on Vercel or self-hosted. |
 | `/backend-engineering` | **Backend Engineer** | Layers, constraints and transactions, expand-migrate-contract migrations, object-level authorization, idempotency, resilience. |
 | `/api-design` | **API Designer** | Contract first (OpenAPI 3.1+, Protobuf), RFC 9457 error responses, cursor pagination, idempotency keys, versioning and deprecation. |
@@ -171,7 +176,7 @@ Skills tell the model how to work; agents are role-scoped helpers it can delegat
 | `security-auditor` | inspect, no edits | Vulnerability audit of a change |
 | `implementer` | write | One planned task, test first |
 | `backend-engineer` | write | Services, APIs, data, migrations, jobs |
-| `frontend-engineer` | write | Web UI, accessibility, performance |
+| `frontend-engineer` | write | Web UI in any framework, accessibility, performance |
 | `mobile-engineer` | write | iOS, Android, KMP, Flutter, React Native and Expo, on simulators and devices |
 | `test-engineer` | write | Unit, integration and regression tests |
 | `qa-engineer` | write | Test plans, edge cases, exploratory QA, release readiness |
@@ -194,7 +199,7 @@ skills/  agents/                                       plugin and extension root
 - **Descriptions are triggers.** Each skill has one line that starts with "Use when ...", so the model picks the right skill without reading the others.
 - **Bodies are short.** A `SKILL.md` body is 400 words or less. Depth lives in `references/` and loads only when the task needs it. Helper scripts live in `scripts/`.
 - **Routing is tested.** 143 prompts run on every pull request: 97.9% pick the right skill first, 100% within the top three, and 49 of 49 negative prompts go elsewhere.
-- **The cost is measured.** All descriptions plus `AGENTS.md` come to about 3,100 tokens for 46 skills; loading one skill averages about 450 tokens. Method and comparison in [`docs/benchmarks.md`](docs/benchmarks.md).
+- **The cost is measured.** All descriptions plus `AGENTS.md` come to about 3,100 tokens for 51 skills; loading one skill averages about 440 tokens. Method and comparison in [`docs/benchmarks.md`](docs/benchmarks.md).
 - **CI keeps it honest.** Lint, the skill validator, a drift check on every generated file, the routing eval, tests with a coverage floor, `pip-audit` and `bandit`.
 
 ## Docs
