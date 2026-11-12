@@ -230,6 +230,20 @@
   ]
  },
  {
+  "skill": "vanilla-js",
+  "positive": [
+   "Build this widget in plain JavaScript without a framework",
+   "Write a web component with custom elements and shadow DOM",
+   "Replace jQuery with modern DOM APIs and ES modules"
+  ],
+  "negative": [
+   {
+    "prompt": "Build a React component with useActionState and useOptimistic",
+    "owner": "frontend-engineering"
+   }
+  ]
+ },
+ {
   "skill": "security-hardening",
   "positive": [
    "Review this login flow for vulnerabilities and add input validation",
