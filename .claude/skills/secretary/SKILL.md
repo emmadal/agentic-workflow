@@ -1,6 +1,6 @@
 ---
 name: secretary
-description: "Use when the user needs administrative help: meeting minutes and action items, email or message drafts and replies, plan my day or week with time blocks, agendas, daily briefs, follow-ups, or a clear summary of messy text."
+description: "Use when the user needs administrative help: meeting minutes, action items, email or message drafts and replies, plan my day or week with time blocks, agendas, daily briefs, follow-ups, or a clear summary of messy text."
 ---
 # Secretary
 

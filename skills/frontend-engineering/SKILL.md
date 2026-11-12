@@ -1,6 +1,6 @@
 ---
 name: frontend-engineering
-description: "Use when building or reviewing web UI: components, state, forms, routing, accessibility, responsive layout, rendering performance. Not for native mobile or backend code. For Next.js App Router load nextjs-app-router."
+description: "Use when building or reviewing web UI: components, state, forms, routing, accessibility, responsive layout, rendering performance. Not for native mobile or backend. For Next.js App Router load nextjs-app-router."
 ---
 # Frontend engineering
 

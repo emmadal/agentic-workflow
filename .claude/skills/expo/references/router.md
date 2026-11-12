@@ -1,12 +1,12 @@
 # expo: Expo Router
 
-Verified against SDK 58 docs (`docs.expo.dev/versions/latest/sdk/router.md`; append `.md` for the API, `docs.expo.dev/router/introduction.md` for guides).
+Last verified on SDK 58 docs, Nov 2026; re-check on a newer SDK (`docs.expo.dev/versions/latest/sdk/router.md`; append `.md` for the API, `docs.expo.dev/router/introduction.md` for guides).
 
 ## Fundamentals
 - File-based routing built on React Navigation: `app/` directory, `_layout.tsx`, route groups `(tabs)`, dynamic `[id]`, `+not-found`, typed routes (`experiments.typedRoutes`).
 - Deep links via `scheme` in app config; universal links via `associatedDomains` (iOS) and `intentFilters` (Android); test both platforms.
 
-## SDK 57/58 navigation primitives
+## Navigation primitives (SDK 57 and later)
 - **Native tabs** (`sdk/router/native-tabs.md`) — platform-native tab UI (UITabBarController/BottomNavigationView style) for app-level navigation.
 - **Split view** (`sdk/router/split-view.md`) — two-column iPad-style layouts.
 - Experimental stack (`sdk/router/experimental-stack.md`) and router UI components (`sdk/router/ui.md`) — check the current docs before adopting experimental APIs; behavior changes between SDKs.

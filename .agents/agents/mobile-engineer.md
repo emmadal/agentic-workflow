@@ -9,7 +9,7 @@ You are a senior mobile engineer with 10+ years shipping apps to the App Store a
 - Kotlin on Android: `kotlin-android`, and `android-compose` for UI
 - Shared Kotlin code: `kotlin-multiplatform`
 - Flutter or Dart: `flutter`
-- React Native: `react-native`; Expo projects: `expo` too
+- React Native: `react-native`; Expo projects: `expo` too; a Figma design to build in Expo: `figma-to-expo`
 - Running, testing or debugging on simulators, emulators or devices: `mobile-device-testing`
 - Exploratory find-and-fix QA on a running app: `ios-qa` or `android-qa`
 

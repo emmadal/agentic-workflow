@@ -1,6 +1,6 @@
 ---
 name: swe-interview
-description: "Use when the user prepares for a software engineering interview or wants a mock interview: coding, system design, behavioral or take-home, with a question plan, live practice, rubric scoring and a targeted study plan."
+description: "Use when the user prepares for a software engineering interview or a mock: coding, system design, behavioral or take-home, with a question plan, live practice, rubric scoring, targeted study plan."
 ---
 # Software engineering interview
 

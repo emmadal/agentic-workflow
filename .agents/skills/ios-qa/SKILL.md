@@ -1,6 +1,6 @@
 ---
 name: ios-qa
-description: "Use when asked to QA or find and fix bugs in a running iOS app on iPhone or iPad (simulator or device): drive screens with simctl, check Dynamic Type, VoiceOver labels, deep links, push, crash logs, fix with XCUITest."
+description: "Use when asked to QA or find and fix bugs in a running iOS app on iPhone or iPad (simulator/device): drive screens with simctl, check Dynamic Type, VoiceOver labels, deep links, push, crash logs, fix with XCUITest."
 ---
 # iOS QA: explore, fix, verify
 

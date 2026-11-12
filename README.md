@@ -1,6 +1,6 @@
 # agentic-workflow
 
-agentic-workflow turns Claude Code (and Codex, Gemini CLI, OpenCode and Cursor) into a senior engineering team that works the way good teams do: a product thinker who asks the right questions, a spec writer, a planner, a test-first implementer, platform specialists for web, backend, iOS, Android, Kotlin Multiplatform, Flutter and React Native, a reviewer who never edits, a QA lead who tests the running app and fixes what breaks, and a release engineer who ships. 45 skills and 11 role agents, plain Markdown, written once and generated for every tool.
+agentic-workflow turns Claude Code (and Codex, Gemini CLI, OpenCode and Cursor) into a senior engineering team that works the way good teams do: a product thinker who asks the right questions, a spec writer, a planner, a test-first implementer, platform specialists for web, backend, iOS, Android, Kotlin Multiplatform, Flutter and React Native, a reviewer who never edits, a QA lead who tests the running app and fixes what breaks, and a release engineer who ships. 46 skills and 11 role agents, plain Markdown, written once and generated for every tool.
 
 Built and maintained by [Emmanuel Dalougou](https://github.com/emmadal). It is the workflow I use every day to ship web and mobile products with AI agents, packaged so you can install it in a minute.
 
@@ -39,7 +39,7 @@ Open Claude Code and run:
 /plugin install agentic-workflow@agentic-workflow
 ```
 
-Skills appear namespaced, for example `/agentic-workflow:spec`, and the 11 agents are available to delegate to. Update later with `/plugin marketplace update agentic-workflow`, then `/plugin update agentic-workflow`. Current version: **1.0.0**.
+Skills appear namespaced, for example `/agentic-workflow:spec`, and the 11 agents are available to delegate to. Update later with `/plugin marketplace update agentic-workflow`, then `/plugin update agentic-workflow`.
 
 Prefer plain files in one project instead of a plugin? From a clone, run `python -m scripts.install_skills /path/to/project --tool claude`. To try a local checkout without installing: `claude --plugin-dir /path/to/agentic-workflow`.
 
@@ -173,7 +173,8 @@ Start every mobile task with `/mobile-engineering`. It sets the cross-platform r
 | `/kotlin-multiplatform` | **KMP Engineer** | JetBrains' recommended structure, the Android-KMP library plugin, Ktor, Room KMP or SQLDelight, `@Throws` and SKIE for Swift, Swift Package Manager distribution. |
 | `/flutter` | **Flutter Engineer** | The Flutter team's architecture: MVVM with `ChangeNotifier`, commands and `Result`, repositories and services, go_router, Pigeon, widget, golden and integration tests. |
 | `/react-native` | **React Native Engineer** | New Architecture only, the React Compiler, FlashList v2, Reanimated 4, Expo Modules or Turbo Modules, Jest and Maestro. |
-| `/expo` | **Expo Engineer** | Expo SDK 58, Expo Router, Expo UI, EAS Build, Submit, Update and Observe, config plugins and development builds. |
+| `/expo` | **Expo Engineer** | The latest stable Expo SDK and the React Native it pins, Expo Router, Expo UI, EAS Build, Submit, Update and Observe, config plugins and development builds. |
+| `/figma-to-expo` | **Design Engineer** | Turns a Figma link into Expo Router screens through the Figma MCP server: design tokens, `@expo/ui` controls, React Native layout, a divergence list, and a side-by-side check against the Figma screenshot. |
 | `/mobile-device-testing` | **Device Lab** | Simulators, emulators and real devices: xcodebuild, Gradle Managed Devices, Maestro, screenshots, logs and crashes. |
 | `/ios-qa` | **iOS QA Lead** | Drives the running iPhone or iPad app screen by screen: Dynamic Type, dark mode, VoiceOver labels, permissions, deep links, push, crash logs. Fixes come with XCUITest regressions. |
 | `/android-qa` | **Android QA Lead** | Drives the running Android app over adb: tap by label, font scale, rotation, process death, TalkBack labels, ANRs, cold start and jank numbers. Fixes come with tests. |
@@ -256,8 +257,8 @@ skills/  agents/                                       plugin and extension root
 
 - **Descriptions are triggers.** Each skill has one line that starts with "Use when ...", so the model picks the right skill without reading the others.
 - **Bodies are short.** A `SKILL.md` body is 400 words or less. Depth lives in `references/` and loads only when the task needs it. Helper scripts live in `scripts/`.
-- **Routing is tested.** 140 prompts run on every pull request: 97.9% pick the right skill first, 100% within the top three, and 47 of 47 negative prompts go elsewhere.
-- **The cost is measured.** All descriptions plus `AGENTS.md` come to about 3,100 tokens for 45 skills; loading one skill averages about 440 tokens. Method and comparison in [`docs/benchmarks.md`](docs/benchmarks.md).
+- **Routing is tested.** 143 prompts run on every pull request: 97.9% pick the right skill first, 100% within the top three, and 49 of 49 negative prompts go elsewhere.
+- **The cost is measured.** All descriptions plus `AGENTS.md` come to about 3,100 tokens for 46 skills; loading one skill averages about 450 tokens. Method and comparison in [`docs/benchmarks.md`](docs/benchmarks.md).
 - **CI keeps it honest.** Lint, the skill validator, a drift check on every generated file, the routing eval, tests with a coverage floor, `pip-audit` and `bandit`.
 
 ## Platform notes
