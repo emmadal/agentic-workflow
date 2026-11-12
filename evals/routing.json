@@ -158,12 +158,18 @@
   "positive": [
    "Build an accessible modal component with keyboard support",
    "Fix the layout shift and state management in this React page",
-   "Add loading and error states to this web form"
+   "Add loading and error states to this web form",
+   "Replace forwardRef with ref as a prop in this React 19 component",
+   "Build a Preact component with signals and preact-iso routing"
   ],
   "negative": [
    {
     "prompt": "Write a Playwright test for the checkout flow",
     "owner": "browser-testing"
+   },
+   {
+    "prompt": "Make this Angular component standalone and zoneless",
+    "owner": "angular"
    }
   ]
  },
