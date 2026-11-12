@@ -1,6 +1,10 @@
 # agentic-workflow
 
-agentic-workflow turns Claude Code (and Codex, Gemini CLI, OpenCode and Cursor) into a senior engineering team that works the way good teams do: a product thinker who asks the right questions, a spec writer, a planner, a test-first implementer, platform specialists for web (React, Preact, Angular, Vue, Svelte, Solid and plain JavaScript), backend, iOS, Android, Kotlin Multiplatform, Flutter, React Native and Expo, a reviewer who never edits, a QA lead who tests the running app and fixes what breaks, and a release engineer who ships.
+agentic-workflow transforms Claude Code, Codex, Gemini CLI, OpenCode, and Cursor into a versatile AI-powered workforce through a collection of specialized skills, role-based agents, and structured workflows.
+
+It brings together software engineering, product discovery, technical planning, test-driven development, code review, quality assurance, and release management, alongside business operations such as accounting, administrative assistance, and secretarial tasks.
+
+With specialized capabilities spanning frontend, backend, mobile development, finance, and administration, agentic-workflow helps AI coding tools handle complex tasks through structured processes, domain-specific expertise, and consistent execution.
 
 51 skills and 11 role agents, plain Markdown, written once and generated for every tool.
 
