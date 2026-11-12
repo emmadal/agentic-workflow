@@ -1,24 +1,30 @@
 ---
 name: observability
-description: "Use when adding or reviewing logs, metrics, traces, health checks, dashboards, alerts or SLOs, or before launching a service or app feature: make failures visible and diagnosable."
+description: "Use when adding or reviewing logs, metrics, traces, profiles, SLOs, alerts, dashboards or health checks in any backend, or before launch: OpenTelemetry-first, sampling, semconv."
 ---
 # Observability
 
-Goal: answer "what broke, for whom, since when, why" without a redeploy. Instrument with OpenTelemetry (SDK, semantic conventions, OTLP export) so the backend vendor can change without touching code.
+Goal: answer "what broke, for whom, since when, why" without a redeploy. One instrumentation: OpenTelemetry SDK → OTLP → Collector → any backend, no vendor code.
 
-1. **Logs**: structured JSON, levels used honestly, `request_id` and user-safe ids on every line, errors with stack and context. No secrets or PII.
-2. **Metrics**: RED for services (rate, errors, duration percentiles), USE for resources (utilization, saturation, errors). Keep label cardinality low.
-3. **Traces**: propagate trace context across services and into mobile clients.
-4. **Health**: liveness (process up) and readiness (dependencies ok) probes.
-5. **SLOs**: pick a user-visible indicator and target (e.g. 99.9% of requests under 500 ms). Alert on SLO burn or user symptoms, not on CPU.
-6. **Alerts** must be actionable: each links a runbook and has an owner. Delete noisy ones.
-7. **Mobile**: crash and ANR reporting with symbols or mapping files, startup and screen-load timings, network error rate, release health by version.
-8. **Dashboards** per service: golden signals, recent deploys, dependency health.
-9. More logs is not more observability: a few queryable fields beat paragraphs. Two or more services means traces.
-10. **Release markers**: tag deploys so regressions line up with changes.
+## Setup order
+1. Identity: `OTEL_SERVICE_NAME` env + `deployment.environment.name`/`service.version` attrs.
+2. Official auto-instrumentation per language; OTLP gRPC 4317 or HTTP 4318.
+3. Manual spans only at business boundaries: `<domain>.<action>`, low-cardinality attributes; on failure `error.type` + status `Error` + `record_exception`.
+4. Logs: bridge the logger to OTel (auto `trace_id`) or stdout JSON for the `filelog` receiver.
+5. Metrics: RED via stable histogram names (see semconv); USE for resources.
+6. SLOs on user journeys; multi-window burn-rate alerts with runbooks.
 
-## Red flags
-`catch` that logs nothing · `console.log` debugging left in · alert with no runbook · metric labeled by user id · logging full request bodies.
+## Hard rules
+- W3C `tracecontext`/`baggage`; one trace across every hop.
+- `http.route`, not raw paths; never `user_id` in metric labels.
+- Head sampling `parentbased_traceidratio`; Collector tail sampling keeps errors and slow traces 100%. Flush at SIGTERM.
+- No secrets, tokens or bodies; redact `url.full` credentials.
+- Collector: `memory_limiter` + `batch`, `resourcedetection`, `redaction`/OTTL `filter`.
+
+## Legacy banned
+StatsD, Jaeger UDP, Zipkin, vendor SDKs, Promtail → OTLP + Collector. `deployment.environment`, `db.statement`, `http.method`, `net.*` → stable semconv names.
 
 ## Verify
-Trigger a failure in staging and see it in logs, metrics and the alert; a new on-call can diagnose from the dashboard.
+Break a dependency in staging: panels move, the error log carries the `trace_id`, the sampled trace shows the failing hop, the burn-rate alert fires with runbook.
+
+Depth: `references/guide.md`, `backends.md`, `semantic-conventions.md`, `slo-and-alerts.md`.
