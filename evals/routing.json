@@ -210,6 +210,20 @@
   ]
  },
  {
+  "skill": "solidjs",
+  "positive": [
+   "Fix props destructuring that breaks reactivity in this SolidJS component",
+   "Load data with createAsync and query in SolidStart",
+   "Add a SolidJS store and an action for the todo form"
+  ],
+  "negative": [
+   {
+    "prompt": "Convert these Svelte stores to runes",
+    "owner": "svelte"
+   }
+  ]
+ },
+ {
   "skill": "security-hardening",
   "positive": [
    "Review this login flow for vulnerabilities and add input validation",

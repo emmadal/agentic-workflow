@@ -1,7 +1,7 @@
 {
   "name": "agentic-workflow",
   "version": "1.3.0",
-  "description": "49 skills and 11 role agents: spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output.",
+  "description": "50 skills and 11 role agents: spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output.",
   "author": {
     "name": "Emmanuel Dalougou"
   },
@@ -23,7 +23,7 @@
   "interface": {
     "displayName": "Agentic Workflow",
     "shortDescription": "Spec-driven workflow skills and role agents for AI coding tools.",
-    "longDescription": "49 skills and 11 role agents: spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output.",
+    "longDescription": "50 skills and 11 role agents: spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output.",
     "developerName": "Emmanuel Dalougou",
     "category": "Coding",
     "websiteURL": "https://github.com/emmadal/agentic-workflow"
