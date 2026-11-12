@@ -196,6 +196,20 @@
   ]
  },
  {
+  "skill": "svelte",
+  "positive": [
+   "Migrate this Svelte component from export let to $props runes",
+   "Add a SvelteKit form action and load function with progressive enhancement",
+   "Use snippets instead of slots in Svelte 5"
+  ],
+  "negative": [
+   {
+    "prompt": "Load data with createAsync and query in SolidStart",
+    "owner": "solidjs"
+   }
+  ]
+ },
+ {
   "skill": "security-hardening",
   "positive": [
    "Review this login flow for vulnerabilities and add input validation",

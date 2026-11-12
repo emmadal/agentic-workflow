@@ -1,6 +1,6 @@
 {
   "name": "agentic-workflow",
   "version": "1.3.0",
-  "description": "48 skills and 11 role agents: spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output.",
+  "description": "49 skills and 11 role agents: spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output.",
   "contextFileName": "GEMINI.md"
 }
