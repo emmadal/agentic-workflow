@@ -257,4 +257,4 @@ ruff check . && ruff format --check .
 
 ## License
 
-No license file has been added yet, so the code is published for reading and evaluation; reuse rights will come with a license.
+[MIT](LICENSE). Free to use, copy, modify, merge, publish, distribute, sublicense and sell, in personal, open-source and commercial projects. Keep the copyright and license notice in copies or substantial portions of the work.
