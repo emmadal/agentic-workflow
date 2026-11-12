@@ -1,6 +1,6 @@
 ---
 name: debugging
-description: "Use when something fails, crashes, regresses or misbehaves and you don't know why: failing tests, stack traces, flaky behavior, incidents, app crashes. Reproduce, isolate, fix the root cause, prove."
+description: "Use when something fails, crashes, regresses or misbehaves and you don't know why: failing tests, stack traces, flaky behavior, incidents. Reproduce, isolate, fix the root cause, prove."
 ---
 # Debugging
 

@@ -1,6 +1,6 @@
 ---
 name: kotlin-multiplatform
-description: "Use when sharing Kotlin across Android, iOS, desktop or server with KMP or Compose Multiplatform: project structure, source sets, expect/actual, Ktor, Room or SQLDelight, Koin, SKIE Swift interop, all-target tests."
+description: "Use when sharing Kotlin across Android, iOS, desktop or server with KMP or Compose Multiplatform: source sets, expect/actual, Ktor, Room or SQLDelight, SKIE Swift interop, all-target tests."
 ---
 # Kotlin Multiplatform
 

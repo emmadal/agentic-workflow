@@ -1,6 +1,6 @@
 ---
 name: discover
-description: "Use when the request is vague or you have only a rough idea, are not sure what to build, or need options before committing: asks a few targeted questions, states assumptions, proposes 2-3 variants."
+description: "Use when the request is vague or you have only a rough idea, are not sure what to build, or need options before committing: asks a few targeted questions, proposes 2-3 variants."
 ---
 # Discover
 

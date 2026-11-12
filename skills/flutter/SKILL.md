@@ -1,6 +1,6 @@
 ---
 name: flutter
-description: "Use when writing, reviewing or testing Flutter or Dart app code: widgets, MVVM with ChangeNotifier, Riverpod or Bloc, go_router, Pigeon platform channels, flavors, jank, widget, golden and integration_test tests."
+description: "Use when writing, reviewing or testing Flutter or Dart app code: widgets, MVVM with ChangeNotifier, Riverpod or Bloc, go_router, Pigeon platform channels, jank, widget, golden and integration_test tests."
 ---
 # Flutter and Dart
 

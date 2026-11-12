@@ -1,6 +1,6 @@
 ---
 name: make-pdf
-description: "Use when asked to make, export or print a PDF from Markdown or notes: report, spec, memo, proposal, handout. Cover, clickable TOC, page numbers, running header, DRAFT watermark, offline images."
+description: "Use when asked to make, export or print a PDF from Markdown or notes: report, spec, memo, proposal, handout. Cover, clickable TOC, page numbers, running header, DRAFT watermark."
 ---
 # make-pdf
 

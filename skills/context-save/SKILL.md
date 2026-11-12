@@ -1,6 +1,6 @@
 ---
 name: context-save
-description: "Use when pausing, switching task or branch, ending a session, or the context window is filling up: saves a checkpoint of goal, decisions, remaining work and git state so context-restore can resume exactly."
+description: "Use when pausing, switching task or branch, ending a session, or the context window is filling up: saves a checkpoint of goal, decisions, remaining work and git state so context-restore can resume."
 ---
 # Context save
 

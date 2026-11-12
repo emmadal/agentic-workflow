@@ -1,6 +1,6 @@
 ---
 name: react-native
-description: "Use when building, reviewing or testing React Native apps: TypeScript, navigation, FlatList/list performance, Reanimated, native modules, New Architecture, Hermes, Jest, Detox, Maestro. For Expo also load expo."
+description: "Use when building, reviewing or testing React Native apps: navigation, FlatList/list performance, Reanimated, native modules, New Architecture, Jest, Detox, Maestro. For Expo also load expo."
 ---
 # React Native
 

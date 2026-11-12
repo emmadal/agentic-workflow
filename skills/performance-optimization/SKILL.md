@@ -1,6 +1,6 @@
 ---
 name: performance-optimization
-description: "Use when something is slow or must meet a budget (latency, slow query, index, memory, startup, bundle, battery, Core Web Vitals): profile, optimize the bottleneck, change one thing, prove the gain."
+description: "Use when something is slow or must meet a budget (latency, slow query, index, memory, startup, bundle, Core Web Vitals): profile, optimize the bottleneck, change one thing, prove the gain."
 ---
 # Performance optimization
 

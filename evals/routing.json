@@ -158,12 +158,88 @@
   "positive": [
    "Build an accessible modal component with keyboard support",
    "Fix the layout shift and state management in this React page",
-   "Add loading and error states to this web form"
+   "Add loading and error states to this web form",
+   "Replace forwardRef with ref as a prop in this React 19 component",
+   "Build a Preact component with signals and preact-iso routing"
   ],
   "negative": [
    {
     "prompt": "Write a Playwright test for the checkout flow",
     "owner": "browser-testing"
+   },
+   {
+    "prompt": "Make this Angular component standalone and zoneless",
+    "owner": "angular"
+   }
+  ]
+ },
+ {
+  "skill": "angular",
+  "positive": [
+   "Convert this Angular component to signals with input() and output()",
+   "Load user data with httpResource in Angular with loading and error states",
+   "Build a login form with Angular Signal Forms"
+  ],
+  "negative": [
+   {
+    "prompt": "Refactor this Vue component to script setup and Pinia",
+    "owner": "vue"
+   }
+  ]
+ },
+ {
+  "skill": "vue",
+  "positive": [
+   "Refactor this Vue component to script setup with defineModel",
+   "Add a Pinia store and typed Vue Router routes",
+   "Fetch data in Nuxt with useFetch during SSR"
+  ],
+  "negative": [
+   {
+    "prompt": "Add signal inputs and outputs to this Angular component",
+    "owner": "angular"
+   }
+  ]
+ },
+ {
+  "skill": "svelte",
+  "positive": [
+   "Migrate this Svelte component from export let to $props runes",
+   "Add a SvelteKit form action and load function with progressive enhancement",
+   "Use snippets instead of slots in Svelte 5"
+  ],
+  "negative": [
+   {
+    "prompt": "Load data with createAsync and query in SolidStart",
+    "owner": "solidjs"
+   }
+  ]
+ },
+ {
+  "skill": "solidjs",
+  "positive": [
+   "Fix props destructuring that breaks reactivity in this SolidJS component",
+   "Load data with createAsync and query in SolidStart",
+   "Add a SolidJS store and an action for the todo form"
+  ],
+  "negative": [
+   {
+    "prompt": "Convert these Svelte stores to runes",
+    "owner": "svelte"
+   }
+  ]
+ },
+ {
+  "skill": "vanilla-js",
+  "positive": [
+   "Build this widget in plain JavaScript without a framework",
+   "Write a web component with custom elements and shadow DOM",
+   "Replace jQuery with modern DOM APIs and ES modules"
+  ],
+  "negative": [
+   {
+    "prompt": "Build a React component with useActionState and useOptimistic",
+    "owner": "frontend-engineering"
    }
   ]
  },

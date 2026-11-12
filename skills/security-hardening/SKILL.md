@@ -1,6 +1,6 @@
 ---
 name: security-hardening
-description: "Use when reviewing code for vulnerabilities or when it handles login, input validation, auth, where to store secrets and tokens safely, uploads or dependencies, or before release: threat model, validate, authorize, scan."
+description: "Use when reviewing code for vulnerabilities or when it handles login, input validation, auth, secret and token storage, uploads or dependencies: threat model, validate, authorize, scan."
 ---
 # Security hardening
 

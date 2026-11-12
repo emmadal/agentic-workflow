@@ -1,6 +1,6 @@
 ---
 name: context-engineering
-description: "Use when an agent session degrades, a new task starts, or project context must be loaded: decide what to read, keep context small, delegate noisy work to sub-agents, reset or hand off cleanly."
+description: "Use when an agent session degrades, a new task starts, or project context must be loaded: decide what to read, keep context small, delegate noisy work to sub-agents, reset or hand off."
 ---
 # Context engineering
 

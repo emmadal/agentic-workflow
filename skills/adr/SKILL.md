@@ -1,6 +1,6 @@
 ---
 name: adr
-description: "Use when making a decision that is costly to reverse (framework, data model, API shape, architecture), or documenting why something was designed that way. Writes an ADR in docs/adr. Not for routine choices."
+description: "Use when making a decision that is costly to reverse (framework, data model, API shape, architecture), or documenting why something was designed that way. Not for routine choices."
 ---
 # ADR
 

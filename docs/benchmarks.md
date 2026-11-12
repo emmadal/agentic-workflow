@@ -4,13 +4,13 @@ Compared against [`addyosmani/agent-skills`](https://github.com/addyosmani/agent
 
 | Metric | this repo | agent-skills 0.6.15 |
 |---|---:|---:|
-| Skills | 46 | 25 |
-| Always-loaded tokens (descriptions + instructions) | 3129 | 3804 |
-| Always-loaded tokens per skill | 68 | 152 |
-| Tokens to load one average skill | 449 | 3314 |
+| Skills | 51 | 25 |
+| Always-loaded tokens (descriptions + instructions) | 3139 | 3804 |
+| Always-loaded tokens per skill | 61 | 152 |
+| Tokens to load one average skill | 440 | 3314 |
 | Tokens to load the largest skill | 747 (android-compose) | 5307 (constraint-driven-development) |
-| All skill bodies | 20690 | 82873 |
-| On-demand references (not loaded by default) | 33707 | 16222 |
+| All skill bodies | 22482 | 82873 |
+| On-demand references (not loaded by default) | 41683 | 16222 |
 
 Reproduce:
 
@@ -19,7 +19,7 @@ python -m scripts.token_report --compare <path to agent-skills checkout or plugi
 python -m scripts.route_eval --min-rank1 95
 ```
 
-Routing eval on this repo: 143 prompts across 46 skills, rank-1 97.9%, top-3 100%, 49/49 negative prompts routed away. Regenerated on 2026-11-12 after adding `figma-to-expo`; the agent-skills column is unchanged from 2026-11-09. The behavioral results below predate `flutter`, `qa`, `ios-qa`, `android-qa`, `make-pdf`, `make-docx` and `figma-to-expo`; they were not re-run.
+Routing eval on this repo: 160 prompts across 51 skills, rank-1 100%, top-3 100%, 55/55 negative prompts routed away. Regenerated on 2026-11-12 after adding `angular`, `vue`, `svelte`, `solidjs` and `vanilla-js` and tightening 22 existing descriptions to stay under the 9,000-character catalog budget; the agent-skills column is unchanged from 2026-11-09. The behavioral results below predate `flutter`, `qa`, `ios-qa`, `android-qa`, `make-pdf`, `make-docx`, `figma-to-expo` and the five web framework skills; they were not re-run.
 
 ## Behavioral eval (does the skill change the agent's output?)
 

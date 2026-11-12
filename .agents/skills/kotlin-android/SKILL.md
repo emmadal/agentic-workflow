@@ -1,6 +1,6 @@
 ---
 name: kotlin-android
-description: "Use when writing, reviewing or testing Android code in Kotlin outside pure UI: coroutines, Flow, ViewModel, Hilt, Room, DataStore, WorkManager, permissions, R8, JUnit, Espresso. For Compose UI also load android-compose."
+description: "Use when writing, reviewing or testing Android code in Kotlin outside pure UI: coroutines, Flow, ViewModel, Hilt, Room, DataStore, WorkManager, permissions, JUnit, Espresso. For Compose UI also load android-compose."
 ---
 # Kotlin and Android
 
