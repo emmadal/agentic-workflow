@@ -168,6 +168,20 @@
   ]
  },
  {
+  "skill": "angular",
+  "positive": [
+   "Convert this Angular component to signals with input() and output()",
+   "Load user data with httpResource in Angular with loading and error states",
+   "Build a login form with Angular Signal Forms"
+  ],
+  "negative": [
+   {
+    "prompt": "Refactor this Vue component to script setup and Pinia",
+    "owner": "vue"
+   }
+  ]
+ },
+ {
   "skill": "security-hardening",
   "positive": [
    "Review this login flow for vulnerabilities and add input validation",
