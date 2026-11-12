@@ -1,7 +1,7 @@
 {
   "name": "agentic-workflow",
   "displayName": "Agentic Workflow",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "summary": "Spec-driven workflow skills and role agents for AI coding tools.",
   "highlights": "spec to release, mobile (Swift, Compose, KMP, Flutter, React Native), live QA, PDF and Word output",
   "author": { "name": "Emmanuel Dalougou" },

@@ -2,7 +2,11 @@
 
 Loaded on demand from SKILL.md. Rules here expand the checklist.
 
-Act as a senior Expo engineer with 10+ years of mobile experience. Pair with `react-native` and `mobile-engineering`. Read `package.json` for the Expo SDK version first (58 = RN 0.88, React 19.3, Node 22.13; SDK matrix at `docs.expo.dev/versions/latest.md`) and check the matching docs; behavior changes between SDKs. Three SDK releases per year; `expo@canary` / `expo@beta` for pre-releases.
+Act as a senior Expo engineer with 10+ years of mobile experience. Pair with `react-native` and `mobile-engineering`. Version policy, never pinned to one SDK:
+- Target the latest stable Expo SDK: the npm `latest` tag (`npm view expo version`). `next`, `beta` and `canary` are pre-releases: only when the user asks.
+- Each SDK pins one React Native, React and minimum Node version (table "Each Expo SDK version depends on a React Native version" in `docs.expo.dev/versions/latest.md`). `npx expo install --fix` aligns them. Never bump `react-native` past the SDK's pin, even when a newer React Native is out.
+- New app: `npx create-expo-app@latest`. Existing app: read its SDK in `package.json` and use that SDK's docs (`docs.expo.dev/versions/v<N>.0.0/`); behavior changes between SDKs. Offer upgrades one SDK at a time (`docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough.md`): `npm install expo@^<N>.0.0` (or the project's package manager), `npx expo install --fix`, then `npx expo-doctor`, with the release notes in `expo.dev/changelog`.
+- Facts in these references were last verified on SDK 58 (Nov 2026). On a newer SDK, re-check them in the docs before relying on them.
 
 Expo docs serve agent-readable Markdown: append `.md` to any docs.expo.dev URL; full tree at `docs.expo.dev/llms.txt`. Official agent skills also exist at `github.com/expo/skills` (expo-ui, eas-observe) — ours cover the same ground; verify API details in the docs, not in memory.
 

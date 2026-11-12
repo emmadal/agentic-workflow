@@ -461,6 +461,24 @@
   ]
  },
  {
+  "skill": "figma-to-expo",
+  "positive": [
+   "Implement this Figma design in our Expo app: https://www.figma.com/design/AbC123/Shop?node-id=12-34",
+   "Turn this Figma frame into React Native screens with Expo UI",
+   "Convert the Figma mockup into Expo code that matches the design tokens"
+  ],
+  "negative": [
+   {
+    "prompt": "Upgrade the Expo SDK and fix the config plugins",
+    "owner": "expo"
+   },
+   {
+    "prompt": "Build a settings screen with @expo/ui controls",
+    "owner": "expo"
+   }
+  ]
+ },
+ {
   "skill": "mobile-device-testing",
   "positive": [
    "Boot the iOS simulator and run the app and capture a screenshot",

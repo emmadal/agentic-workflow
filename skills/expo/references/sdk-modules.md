@@ -1,4 +1,4 @@
-# expo: SDK module map (SDK 58)
+# expo: SDK module map (last verified on SDK 58)
 
 Use this to reach for the first-party package instead of a community one. Full index with per-package docs: `docs.expo.dev/versions/latest/` (`.md` per page). Install with `npx expo install <pkg>`.
 
@@ -8,9 +8,9 @@ Use this to reach for the first-party package instead of a community one. Full i
 - `expo-notifications`, `expo-task-manager`, `expo-background-task`, `expo-background-fetch`.
 - `expo-camera`, `expo-image-picker`, `expo-media-library`, `expo-image-manipulator`.
 - `expo-location` (and `expo-location/next` — the reworked API), `expo-sensors`, `expo-devicemotion`.
-- `expo-font`, `expo-linear-gradient`, `expo-blur-view`, `expo-haptics`, `expo-splash-screen`, `expo-system-ui`.
+- `expo-font`, `expo-linear-gradient`, `expo-blur` (Android blur needs `BlurTargetView` + `blurTarget`), `expo-haptics`, `expo-splash-screen`, `expo-system-ui`.
 
-## Newer surface worth knowing (SDK 55–58)
+## Newer surface worth knowing (SDK 55 and later)
 - `expo-observe` — production performance metrics and events → `observe.md`.
 - `@expo/ui` — SwiftUI/Jetpack Compose from React → `expo-ui.md`.
 - `expo-server` — server-side helpers for Expo Router server functions.

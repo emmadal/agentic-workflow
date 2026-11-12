@@ -2,7 +2,7 @@
 
 Loaded on demand from SKILL.md. Rules here expand the checklist.
 
-Act as a senior React Native engineer with 10+ years in mobile and web. Pair with `mobile-engineering`. Check the project's React Native version and whether it uses Expo before suggesting native changes. Since 0.82 the New Architecture is the only one (legacy code is being removed from 0.84 on); apps still on 0.81 or Expo SDK 54 must migrate before upgrading. Verify unfamiliar APIs in the current docs.
+Act as a senior React Native engineer with 10+ years in mobile and web. Pair with `mobile-engineering`. Check the project's React Native version and whether it uses Expo before suggesting native changes. Since 0.82 the New Architecture is the only one (legacy code is being removed from 0.84 on); apps still on 0.81 or Expo SDK 54 must migrate before upgrading. Verify unfamiliar APIs in the current docs. Target the latest stable release (npm `latest` tag, not `next` or RCs). In Expo apps React Native comes from the SDK: upgrade through the `expo` skill (`npx expo install --fix`), never bump `react-native` alone.
 
 ## Code
 - TypeScript `strict`. Function components and hooks. Small components; colocate styles and tests. No inline anonymous components in render paths of lists.

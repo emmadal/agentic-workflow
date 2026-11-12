@@ -1,6 +1,6 @@
 # expo: Expo Observe (`expo-observe`)
 
-Verified against SDK 58 docs: `docs.expo.dev/versions/latest/sdk/observe.md` and `docs.expo.dev/eas/observe/introduction.md`. Library = `expo-observe`; service = Expo Observe. Export to any OTEL-compliant backend is supported.
+Last verified on SDK 58 docs, Nov 2026; re-check on a newer SDK: `docs.expo.dev/versions/latest/sdk/observe.md` and `docs.expo.dev/eas/observe/introduction.md`. Library = `expo-observe`; service = Expo Observe. Export to any OTEL-compliant backend is supported.
 
 ## What it measures
 Production performance, not dev profiling (dev: React Native DevTools, Expo Atlas):

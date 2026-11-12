@@ -57,7 +57,7 @@ Descriptions are written as triggers, single line, 280 characters or fewer, so e
 
 - Skill folder name equals frontmatter `name` (lowercase, hyphens, max 64 chars).
 - Frontmatter has only `name` and `description` (optional `license`, `compatibility`, `metadata`). No tool-specific keys.
-- `description` is quoted, one line, contains "Use when", at most 280 characters. All descriptions together stay under 9,000 characters (about 200 per skill for 45 skills) because they are loaded every session.
+- `description` is quoted, one line, contains "Use when", at most 280 characters. All descriptions together stay under 9,000 characters (about 200 per skill for 46 skills) because they are loaded every session.
 - `SKILL.md` body at most 400 words. Put depth in `references/` (loaded on demand) and helpers in `scripts/`, linked as `references/x.md`.
 - Helper scripts are self-contained per skill (a skill can be installed alone). Python helpers run on Python 3.9+ with the standard library only; shared code is copied, and a test keeps the copies identical (`make-pdf` and `make-docx` share `mdlite.py`).
 - `AGENTS.md` at most 450 words. It is loaded every session.

@@ -1,6 +1,6 @@
 # expo: EAS — Build, Submit, Update, credentials
 
-Verified against SDK 58 docs (`docs.expo.dev/build/introduction.md`, `docs.expo.dev/eas-update/introduction.md`; append `.md`).
+Last verified on SDK 58 docs, Nov 2026; re-check on a newer SDK (`docs.expo.dev/build/introduction.md`, `docs.expo.dev/eas-update/introduction.md`; append `.md`).
 
 ## Profiles and commands
 - `eas.json` profiles: `development` (dev client, internal), `preview` (internal distribution, release mode), `production` (store).

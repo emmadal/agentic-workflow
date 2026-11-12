@@ -1,6 +1,6 @@
 ---
 name: android-compose
-description: "Use when building or reviewing Jetpack Compose or Compose Multiplatform UI: state hoisting, recomposition, stability, Material 3, Navigation 3, window size classes, side effects, accessibility, UI and screenshot tests."
+description: "Use when building or reviewing Jetpack Compose or Compose Multiplatform UI: state hoisting, recomposition, stability, Material 3, Navigation 3, window size classes, side effects, accessibility, UI/screenshot tests."
 ---
 # Jetpack Compose
 
