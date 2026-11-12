@@ -1,6 +1,8 @@
 # agentic-workflow
 
-agentic-workflow turns Claude Code (and Codex, Gemini CLI, OpenCode and Cursor) into a senior engineering team that works the way good teams do: a product thinker who asks the right questions, a spec writer, a planner, a test-first implementer, platform specialists for web, backend, iOS, Android, Kotlin Multiplatform, Flutter and React Native, a reviewer who never edits, a QA lead who tests the running app and fixes what breaks, and a release engineer who ships. 46 skills and 11 role agents, plain Markdown, written once and generated for every tool.
+agentic-workflow turns Claude Code (and Codex, Gemini CLI, OpenCode and Cursor) into a senior engineering team that works the way good teams do: a product thinker who asks the right questions, a spec writer, a planner, a test-first implementer, platform specialists for web, backend, iOS, Android, Kotlin Multiplatform, Flutter, React Native and Expo, a reviewer who never edits, a QA lead who tests the running app and fixes what breaks, and a release engineer who ships.
+
+46 skills and 11 role agents, plain Markdown, written once and generated for every tool.
 
 Built and maintained by [Emmanuel Dalougou](https://github.com/emmadal). It is the workflow I use every day to ship web and mobile products with AI agents, packaged so you can install it in a minute.
 
@@ -9,11 +11,12 @@ Built and maintained by [Emmanuel Dalougou](https://github.com/emmadal). It is t
 - **Mobile teams** shipping SwiftUI, Jetpack Compose, Kotlin Multiplatform, Flutter, React Native or Expo apps
 - **Tech leads** who want spec-first work, small reviewed slices and evidence on every change
 
-## What agentic-workflow is for
+## Why use it
 
 - **Spec before code.** Every change starts from written acceptance criteria and a small, ordered plan.
 - **Proof, not promises.** Tests fail first, bugs are reproduced before they are fixed, and "it works" means it ran.
-- **Current platform practices.** Each platform skill follows its vendor's guidance today: Apple for Swift, Google for Compose and Android, JetBrains for KMP, the Flutter team for Flutter.
+- **Evidence flows forward.** The spec feeds the plan, the plan feeds the tasks, review and QA findings become tests, and `/ship` refuses to open a pull request while a gate is red.
+- **Current platform practices.** Each platform skill follows its vendor's guidance today: Apple for Swift, Google for Compose and Android, JetBrains for KMP, the Flutter team for Flutter, Expo for the latest stable SDK.
 - **Cheap to keep loaded.** About 70 tokens per skill sit in context; the detail loads only when a task needs it.
 - **One source, every tool.** Claude Code, Codex, Gemini CLI, OpenCode and Cursor read the same skills.
 
@@ -28,11 +31,9 @@ Stop there. You will know if this is for you. When you want the whole loop, foll
 
 ## Install
 
-Requirements: one of the supported tools and Git. The repository tooling needs Python 3.11+; the scripts inside skills run on Python 3.9+ with no extra packages.
+Requirements: one of the supported tools, Git, and macOS or Linux (on Windows, use WSL). The repository tooling needs Python 3.11+; the scripts inside skills run on Python 3.9+ with no extra packages.
 
 ### Claude Code (recommended)
-
-Open Claude Code and run:
 
 ```
 /plugin marketplace add emmadal/agentic-workflow
@@ -41,11 +42,9 @@ Open Claude Code and run:
 
 Skills appear namespaced, for example `/agentic-workflow:spec`, and the 11 agents are available to delegate to. Update later with `/plugin marketplace update agentic-workflow`, then `/plugin update agentic-workflow`.
 
-Prefer plain files in one project instead of a plugin? From a clone, run `python -m scripts.install_skills /path/to/project --tool claude`. To try a local checkout without installing: `claude --plugin-dir /path/to/agentic-workflow`.
+Prefer plain files in one project? From a clone, run `python -m scripts.install_skills /path/to/project --tool claude`. To try a local checkout without installing: `claude --plugin-dir /path/to/agentic-workflow`.
 
 ### Codex
-
-The repository is a Codex plugin marketplace:
 
 ```bash
 codex plugin marketplace add emmadal/agentic-workflow
@@ -65,81 +64,19 @@ gemini extensions update agentic-workflow      # later
 
 Answer `y` when Gemini asks you to confirm. To install a single skill instead: `gemini skills install https://github.com/emmadal/agentic-workflow --path skills/make-pdf`.
 
-### OpenCode
+### OpenCode and Cursor
 
-OpenCode reads the shared `.agents/skills/` folder and its own `.opencode/agents/`:
+Both install from a clone with the project installer:
 
 ```bash
 git clone https://github.com/emmadal/agentic-workflow && cd agentic-workflow
-python -m scripts.install_skills /path/to/project --tool opencode
+python -m scripts.install_skills /path/to/project --tool opencode   # or --tool cursor
 ```
 
-Ask "use the spec skill" and OpenCode loads it through its `skill` tool.
+- **OpenCode** reads `.agents/skills/` and `.opencode/agents/`. Ask "use the spec skill" and it loads the skill through its `skill` tool.
+- **Cursor** reads `.agents/skills/` and `.cursor/agents/`. Type `/spec` in Agent chat.
 
-### Cursor
-
-```bash
-python -m scripts.install_skills /path/to/project --tool cursor
-```
-
-Skills go to `.agents/skills/`, agents to `.cursor/agents/`. Type `/spec` in Agent chat.
-
-### Every tool at once, and other agents
-
-```bash
-python -m scripts.install_skills /path/to/project --tool all     # Claude Code, Codex, Gemini CLI, OpenCode, Cursor
-python -m scripts.install_skills /path/to/project --dry-run      # preview without writing
-```
-
-Existing files are kept unless you pass `--force`; your `AGENTS.md`, `CLAUDE.md` and settings are never touched. Any other agent that follows the [Agent Skills](https://agentskills.io) standard can read the `skills/` folder directly, or use the community CLI: `npx skills add emmadal/agentic-workflow`.
-
-| Tool | How to install | Skills | Agents | First invocation | Install verified |
-|------|----------------|--------|--------|------------------|------------------|
-| Claude Code | plugin (recommended) or `--tool claude` | plugin `skills/`, or `.claude/skills/` | `.claude/agents/` | `/agentic-workflow:spec` | yes |
-| Codex | plugin marketplace; agents with `--tool codex` | plugin `skills/`, or `.agents/skills/` | `.codex/agents/*.toml` | ask for `agentic-workflow:spec` | yes, Codex CLI 0.167 |
-| Gemini CLI | extension or `--tool gemini` | extension `skills/`, or `.agents/skills/` | extension `agents/`, or `.gemini/agents/` | "use the spec skill" | yes, Gemini CLI 0.68 |
-| OpenCode | `--tool opencode` | `.agents/skills/` | `.opencode/agents/` | "use the spec skill" | yes |
-| Cursor | `--tool cursor` | `.agents/skills/` | `.cursor/agents/` | `/spec` | follows Cursor's docs |
-
-Check an install with `claude -p "list project skills"`, `gemini extensions list`, `codex plugin list` or `opencode debug agents`.
-
-## See it work
-
-An example session, abbreviated:
-
-```
-You:    I want users to export their invoices as PDF.
-You:    /spec
-Claude: [asks who exports, how many invoices, whether it must work offline]
-        Goals: export one or many invoices as PDF from the invoice list.
-        Non-goals: email delivery, custom templates.
-        7 acceptance criteria. Edge cases: empty list, 500 invoices,
-        unicode names, access revoked mid-export. Approve?
-
-You:    Approved. /plan
-Claude: 5 tasks, each with a test and a verification command.
-        Risk: large exports block the request; task 3 moves them to a job.
-
-You:    Build task 1.
-Claude: [writes the failing test, watches it fail, implements, test green]
-        [commits feat(export): render one invoice to PDF]
-
-You:    /code-review
-Claude: [reviewer agent, fresh context, no edits]
-        HIGH: the invoice id from the URL is not checked against the user (IDOR).
-        Verdict: fix before merge.
-
-You:    Fix it, then /qa http://localhost:3000
-Claude: QA found 3 issues, fixed 3, health 71 to 96.
-        ISSUE-002: the export button stays enabled while running (double export).
-        Regression test added, committed fix(qa): ISSUE-002.
-
-You:    /ship
-Claude: lint, types, tests, coverage and security scan green.
-        PR opened with Summary, Changes, Testing. Waiting for your review.
-```
-
-Every step leaves evidence the next one reads: the spec feeds the plan, the plan feeds the tasks, review and QA findings become tests, and `/ship` refuses to open a pull request while a gate is red.
+The installer keeps existing files unless you pass `--force`, previews with `--dry-run`, and never touches your `AGENTS.md`, `CLAUDE.md` or settings.
 
 ## The workflow
 
@@ -163,10 +100,9 @@ agentic-workflow is a process, not a pile of prompts. The skills run in the orde
 
 ### Mobile
 
-Start every mobile task with `/mobile-engineering`. It sets the cross-platform rules (offline first, old app versions, secrets, lifecycle, accessibility) and routes to the platform skill.
-
 | Skill | Your specialist | What it covers |
 |-------|-----------------|----------------|
+| `/mobile-engineering` | **Mobile Architect** | Start every mobile task here. Cross-platform rules (offline first, old app versions, secrets, lifecycle, accessibility), then routes to the platform skill. |
 | `/swift-ios` | **Apple Platform Engineer** | Swift 6 and 6.2 concurrency (default `MainActor` isolation, `@concurrent`), Observation, `NavigationStack`, SwiftData, Swift Testing, XCUITest accessibility audits, iOS 26 Liquid Glass. |
 | `/kotlin-android` | **Android Engineer** | Google's app architecture, coroutines and Flow, Hilt with KSP, Room, DataStore, Keystore and Tink, Credential Manager and passkeys, 16 KB pages, WorkManager. |
 | `/android-compose` | **Compose Engineer** | androidx Compose API guidelines, the Now in Android screen pattern, stability and strong skipping, Navigation 3, adaptive layouts, edge-to-edge, screenshot tests. |
@@ -176,8 +112,8 @@ Start every mobile task with `/mobile-engineering`. It sets the cross-platform r
 | `/expo` | **Expo Engineer** | The latest stable Expo SDK and the React Native it pins, Expo Router, Expo UI, EAS Build, Submit, Update and Observe, config plugins and development builds. |
 | `/figma-to-expo` | **Design Engineer** | Turns a Figma link into Expo Router screens through the Figma MCP server: design tokens, `@expo/ui` controls, React Native layout, a divergence list, and a side-by-side check against the Figma screenshot. |
 | `/mobile-device-testing` | **Device Lab** | Simulators, emulators and real devices: xcodebuild, Gradle Managed Devices, Maestro, screenshots, logs and crashes. |
-| `/ios-qa` | **iOS QA Lead** | Drives the running iPhone or iPad app screen by screen: Dynamic Type, dark mode, VoiceOver labels, permissions, deep links, push, crash logs. Fixes come with XCUITest regressions. |
-| `/android-qa` | **Android QA Lead** | Drives the running Android app over adb: tap by label, font scale, rotation, process death, TalkBack labels, ANRs, cold start and jank numbers. Fixes come with tests. |
+| `/ios-qa` | **iOS QA Lead** | Drives the running iPhone or iPad app screen by screen: Dynamic Type, dark mode, VoiceOver labels, permissions, deep links, push, crash logs. Fixes come with XCUITest regressions. Needs macOS and Xcode. |
+| `/android-qa` | **Android QA Lead** | Drives the running Android app over adb: tap by label, font scale, rotation, process death, TalkBack labels, ANRs, cold start and jank numbers. Fixes come with tests. Needs the Android SDK platform tools. |
 
 ### Web, backend and platform
 
@@ -201,7 +137,7 @@ Start every mobile task with `/mobile-engineering`. It sets the cross-platform r
 |-------|-----------------|--------------|
 | `/qa-testing` | **Test Strategist** | Test pyramid, flaky test fixes, coverage gaps and release readiness for any stack. |
 | `/test-plan` | **QA Planner** | A risk-based test plan before release: levels, cases, devices and OS versions, exit criteria. |
-| `/make-pdf` | **Publisher** | Markdown to a print-ready PDF through headless Chrome: cover, clickable contents, page numbers, running header, DRAFT watermark, offline by default. |
+| `/make-pdf` | **Publisher** | Markdown to a print-ready PDF through headless Chrome, Chromium, Edge or Brave: cover, clickable contents, page numbers, running header, DRAFT watermark, offline by default. |
 | `/make-docx` | **Document Editor** | Markdown to a native Word file with real styles, numbered lists, tables, images, contents and page numbers, using only the Python standard library. |
 | `/git-workflow` | **Repository Steward** | Short-lived branches, atomic conventional commits, safe undo, reviewable pull requests. |
 | `/code-simplification` | **Refactoring Partner** | Less nesting, duplication and indirection, with behavior pinned by tests. |
@@ -261,15 +197,6 @@ skills/  agents/                                       plugin and extension root
 - **The cost is measured.** All descriptions plus `AGENTS.md` come to about 3,100 tokens for 46 skills; loading one skill averages about 450 tokens. Method and comparison in [`docs/benchmarks.md`](docs/benchmarks.md).
 - **CI keeps it honest.** Lint, the skill validator, a drift check on every generated file, the routing eval, tests with a coverage floor, `pip-audit` and `bandit`.
 
-## Platform notes
-
-- **macOS and Linux** run everything the scripts need. On Windows, use WSL.
-- **`/make-pdf`** prints with Chrome, Chromium, Edge or Brave in headless mode. Install one, or set `CHROME_PATH`. In containers that run as root it adds `--no-sandbox` automatically. On Linux, install `fonts-liberation` and `fonts-noto-color-emoji` for good typography.
-- **`/qa`** uses the Playwright already in your project for its page probe (`npm i -D playwright`), and falls back to your installed Chrome when Playwright's own browser is missing.
-- **`/ios-qa`** needs macOS and Xcode. simctl handles app and device state; tapping and the accessibility tree need one of AXe (`brew install cameroncooke/axe/axe`), idb or Maestro.
-- **`/android-qa`** needs the Android SDK platform tools (`adb`) and, for emulators, the Android emulator.
-- **Other skill packs:** if you also install gstack as user-level skills, its `/qa`, `/ios-qa` and `/make-pdf` share names with these when both are plain files. Plugin installs are namespaced (`agentic-workflow:qa`) and never clash.
-
 ## Docs
 
 | Doc | What it covers |
@@ -312,6 +239,8 @@ ruff check . && ruff format --check .
 **Skills do not show up.** Restart the tool after installing. In Claude Code, plugin skills are namespaced (`/agentic-workflow:spec`); run `/plugin` to check the plugin is enabled. For Gemini CLI, `gemini extensions list` must show `agentic-workflow`; for Codex, `codex plugin list` must show it installed.
 
 **The wrong skill loads.** Name the skill in your request ("use the qa skill"). If a description misroutes, add the prompt to `evals/routing.json` and tighten the description; the routing eval tells you when it is fixed.
+
+**A skill name clashes with another pack.** Plain-file installs can collide with user-level skills of the same name, such as gstack's `/qa`, `/ios-qa` or `/make-pdf`. Use the plugin install: its skills are namespaced (`agentic-workflow:qa`) and never clash.
 
 **The Gemini install seems stuck.** It is waiting for confirmation: answer `y`.
 
