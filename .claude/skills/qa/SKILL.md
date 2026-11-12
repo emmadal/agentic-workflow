@@ -1,6 +1,6 @@
 ---
 name: qa
-description: "Use when asked to QA, test and fix, or find bugs in a running web app, site, API or CLI, or to check 'does this work?' before shipping: explore, reproduce, fix with a regression test, commit, health score."
+description: "Use when asked to QA, test and fix, or find bugs in a running web app, site, API or CLI, or to check 'does this work?' before shipping: explore, reproduce, fix with a regression test."
 ---
 # QA: test, fix, verify
 

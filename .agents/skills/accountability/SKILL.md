@@ -1,6 +1,6 @@
 ---
 name: accountability
-description: "Use when the user sets a goal, commitment, habit or deadline, asks for a check-in, weekly review or to be held accountable, or has slipped on a plan: turns it into measurable commitments in a ledger, reviewed honestly."
+description: "Use when the user sets a goal, commitment, habit or deadline, asks for a check-in, weekly review or to be held accountable, or has slipped on a plan: turns it into measurable commitments in a ledger."
 ---
 # Accountability
 

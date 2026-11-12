@@ -1,6 +1,6 @@
 ---
 name: make-docx
-description: "Use when asked for a Word document or .docx from Markdown or notes: report, proposal, spec, letter or handout to edit in Word or Google Docs. Real headings, lists, tables, images, TOC, page numbers."
+description: "Use when asked for a Word document or .docx from Markdown or notes: report, proposal, spec, letter or handout to edit in Word or Google Docs. Real headings, lists, tables, TOC, page numbers."
 ---
 # make-docx
 

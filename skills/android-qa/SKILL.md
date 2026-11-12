@@ -1,6 +1,6 @@
 ---
 name: android-qa
-description: "Use when asked to QA or find and fix bugs in a running Android app on an emulator or device: drive it over adb, check font scale, rotation, process death, TalkBack labels, ANRs and crashes, fix with tests."
+description: "Use when asked to QA or find and fix bugs in a running Android app on an emulator or device: drive it over adb, check font scale, rotation, process death, TalkBack labels, ANRs, crashes, fix with tests."
 ---
 # Android QA: explore, fix, verify
 

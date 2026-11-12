@@ -1,6 +1,6 @@
 ---
 name: swift-ios
-description: "Use when writing, reviewing or testing Swift, SwiftUI or UIKit code for iOS/iPadOS: Swift 6 concurrency, @Observable models, navigation, SwiftData or Core Data, Keychain, Swift Testing, XCTest, XCUITest."
+description: "Use when writing, reviewing or testing Swift, SwiftUI or UIKit code for iOS/iPadOS: Swift 6 concurrency, @Observable models, SwiftData or Core Data, Keychain, Swift Testing, XCTest, XCUITest."
 ---
 # Swift and iOS
 

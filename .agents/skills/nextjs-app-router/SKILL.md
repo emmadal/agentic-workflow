@@ -1,6 +1,6 @@
 ---
 name: nextjs-app-router
-description: "Use when building Next.js App Router apps (Next 16, server components, server actions, cache components, use cache): layouts, data fetching, streaming, metadata, forms, performance, testing, to Vercel or self-hosted deploy."
+description: "Use when building Next.js App Router apps (Next 16, server components, server actions, use cache): layouts, data fetching, streaming, metadata, forms, Vercel or self-hosted deploy."
 ---
 # Next.js App Router
 

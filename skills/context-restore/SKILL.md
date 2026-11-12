@@ -1,6 +1,6 @@
 ---
 name: context-restore
-description: "Use when starting a session, resuming earlier work, or after a context reset, to pick up where they stopped: loads the latest saved checkpoint, checks it against the repo and proposes the next step."
+description: "Use when starting a session, resuming earlier work, or after a context reset, to pick up where they stopped: loads the latest saved checkpoint, checks it against the repo."
 ---
 # Context restore
 

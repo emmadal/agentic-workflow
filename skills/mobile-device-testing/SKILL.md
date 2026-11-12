@@ -1,6 +1,6 @@
 ---
 name: mobile-device-testing
-description: "Use when you must run, test, debug or capture evidence for a mobile app on an iOS simulator, Android emulator or real device: boot, install, launch, xcodebuild, Gradle, Maestro, Detox, screenshots, logs, crashes."
+description: "Use when you must run, test, debug or capture evidence for a mobile app on an iOS simulator, Android emulator or real device: xcodebuild, Gradle, Maestro, Detox, screenshots, logs, crashes."
 ---
 # Mobile device testing
 

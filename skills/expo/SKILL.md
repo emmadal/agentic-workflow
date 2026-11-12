@@ -1,6 +1,6 @@
 ---
 name: expo
-description: "Use when working in an Expo project (expo dependency, app.config, Expo Router, EAS): Expo UI (@expo/ui), EAS Observe, npx expo install, config plugins, prebuild, dev builds, EAS Build, Submit, Update, SDK upgrades, device testing."
+description: "Use when working in an Expo project (expo dependency, app.config, Expo Router, EAS): Expo UI (@expo/ui), EAS Observe, npx expo install, config plugins, prebuild, dev builds, EAS Build, Submit, Update, SDK upgrades."
 ---
 # Expo
 
